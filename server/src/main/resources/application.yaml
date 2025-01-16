@@ -1,0 +1,13 @@
+ktor:
+  application:
+    modules:
+      - com.itami.workout_flow.app.ApplicationKt.module
+  deployment:
+    host: "$HOST:0.0.0.0"
+    port: "$PORT:8080"
+
+#storage:
+#  driverClassName: $JDBC_DRIVER
+#  jdbcURL: $DATABASE_URL
+#  user: $DB_USER
+#  password: $DB_PASSWORD
