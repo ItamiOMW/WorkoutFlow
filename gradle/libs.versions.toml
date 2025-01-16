@@ -62,11 +62,13 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+ktor-resources = { module = "io.ktor:ktor-resources", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-resources = { module = "io.ktor:ktor-client-resources", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
@@ -77,8 +79,8 @@ ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging-jvm", ve
 ktor-server-http-redirect = { module = "io.ktor:ktor-server-http-redirect-jvm", version.ref = "ktor" }
 ktor-server-host-common = { module = "io.ktor:ktor-server-host-common-jvm", version.ref = "ktor" }
 ktor-server-status-pages = { module = "io.ktor:ktor-server-status-pages-jvm", version.ref = "ktor" }
-ktor-server-sse = { module = "io.ktor:ktor-server-sse-jvm", version.ref = "ktor" }
 ktor-server-resources = { module = "io.ktor:ktor-server-resources-jvm", version.ref = "ktor" }
+ktor-server-sse = { module = "io.ktor:ktor-server-sse-jvm", version.ref = "ktor" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth-jvm", version.ref = "ktor" }
 ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt-jvm", version.ref = "ktor" }
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml", version.ref = "ktor" }
@@ -105,6 +107,7 @@ room = { id = "androidx.room", version.ref = "room" }
 ktor-client = [
     "ktor-client-core",
     "ktor-client-content-negotiation",
+    "ktor-client-resources",
     "ktor-client-auth",
     "ktor-client-logging",
 ]
@@ -116,8 +119,8 @@ ktor-server = [
     "ktor-server-http-redirect",
     "ktor-server-host-common",
     "ktor-server-status-pages",
-    "ktor-server-sse",
     "ktor-server-resources",
+    "ktor-server-sse",
     "ktor-server-auth",
     "ktor-server-auth-jwt",
     "ktor-server-config-yaml",

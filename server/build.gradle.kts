@@ -8,7 +8,7 @@ plugins {
 group = "com.itami.workout_flow"
 version = "1.0.0"
 application {
-    mainClass.set("com.itami.workout_flow.ApplicationKt")
+    mainClass.set("com.itami.workout_flow.app.ApplicationKt")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
 }
 
