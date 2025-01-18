@@ -8,9 +8,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 fun App() {
-    WorkoutFlowTheme(
-        theme = Theme.SYSTEM_THEME
-    ) {
+    WorkoutFlowTheme(theme = Theme.SYSTEM_THEME) {
 
     }
 }
