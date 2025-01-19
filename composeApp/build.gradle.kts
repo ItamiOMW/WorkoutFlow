@@ -64,6 +64,8 @@ kotlin {
             implementation(libs.bundles.ktor.client)
             implementation(libs.bundles.coil)
             implementation(libs.store)
+            api(libs.androidx.datastore)
+            api(libs.androidx.datastore.preferences)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
