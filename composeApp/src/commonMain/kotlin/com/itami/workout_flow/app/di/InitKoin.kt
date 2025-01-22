@@ -10,6 +10,7 @@ fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
         modules(
+            appModule,
             corePlatformModule,
             coreModule,
             onboardingModule,
