@@ -6,6 +6,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.itami.workout_flow.core.presentation.navigation.AppGraph
+import com.itami.workout_flow.home.presentation.homeGraph
+import com.itami.workout_flow.onboarding.presentation.onboardingGraph
+import com.itami.workout_flow.profile.presentation.profileGraph
+import com.itami.workout_flow.progress.presentation.progressGraph
+import com.itami.workout_flow.workouts.presentation.workoutsGraph
 
 @Composable
 fun AppNavHost(
@@ -22,6 +27,30 @@ fun AppNavHost(
         navController = navHostController,
         startDestination = startGraph
     ) {
-
+        onboardingGraph(
+            navController = navHostController,
+            onShowGlobalSnackbar = onShowGlobalSnackbar,
+            onShowLocalSnackbar = onShowLocalSnackbar
+        )
+        homeGraph(
+            navController = navHostController,
+            onShowGlobalSnackbar = onShowGlobalSnackbar,
+            onShowLocalSnackbar = onShowLocalSnackbar
+        )
+        workoutsGraph(
+            navController = navHostController,
+            onShowGlobalSnackbar = onShowGlobalSnackbar,
+            onShowLocalSnackbar = onShowLocalSnackbar
+        )
+        progressGraph(
+            navController = navHostController,
+            onShowGlobalSnackbar = onShowGlobalSnackbar,
+            onShowLocalSnackbar = onShowLocalSnackbar
+        )
+        profileGraph(
+            navController = navHostController,
+            onShowGlobalSnackbar = onShowGlobalSnackbar,
+            onShowLocalSnackbar = onShowLocalSnackbar
+        )
     }
 }

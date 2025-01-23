@@ -23,9 +23,9 @@ sealed interface AppGraph {
     data object Workouts : AppGraph {
         @Serializable
         data class WorkoutsScreen(
-            val launchMode: WorkoutsLaunchMode = WorkoutsLaunchMode.Default,
-            val workoutType: WorkoutType? = null,
-            val workoutSort: WorkoutsSort = WorkoutsSort.Newest,
+            val launchMode: String = WorkoutsLaunchMode.Default.name,
+            val workoutType: String? = null,
+            val workoutSort: String = WorkoutsSort.Newest.name,
         ) {
             enum class WorkoutsLaunchMode {
                 Default,
