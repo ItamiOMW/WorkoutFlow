@@ -7,7 +7,6 @@ sealed interface AppState {
     data object Initializing : AppState
 
     data class State(
-        val showOnboarding: Boolean = false,
         val theme: Theme = Theme.SYSTEM_THEME,
     ) : AppState
 

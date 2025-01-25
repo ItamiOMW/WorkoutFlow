@@ -14,12 +14,14 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.itami.workout_flow.app.utils.BottomBarNavItem
@@ -27,6 +29,7 @@ import com.itami.workout_flow.core.presentation.components.bottom_bar.AnimatedBo
 import com.itami.workout_flow.core.presentation.components.bottom_bar.BottomBarItem
 import com.itami.workout_flow.core.presentation.navigation.AppGraph
 import com.itami.workout_flow.core.presentation.theme.WorkoutFlowTheme
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -37,110 +40,114 @@ import org.koin.compose.viewmodel.koinViewModel
 fun App(
     appViewModel: AppViewModel = koinViewModel()
 ) {
-    val state by appViewModel.state.collectAsStateWithLifecycle()
+    val theme by appViewModel.theme.collectAsStateWithLifecycle()
 
-    when (val currentState = state) {
-        AppState.Initializing -> Unit
+    WorkoutFlowTheme(theme = theme) {
+        val navController = rememberNavController()
+        val coroutineScope = rememberCoroutineScope()
+        val snackbarHostState = remember { SnackbarHostState() }
 
-        is AppState.State -> {
-            WorkoutFlowTheme(theme = currentState.theme) {
-
-                val bottomNavItems = remember {
-                    listOf(
-                        BottomBarNavItem.Home,
-                        BottomBarNavItem.Workouts,
-                        BottomBarNavItem.Progress,
-                        BottomBarNavItem.Profile
+        Scaffold(
+            snackbarHost = {
+                SnackbarHost(
+                    modifier = Modifier,
+                    hostState = snackbarHostState,
+                ) { snackbarData ->
+                    Snackbar(
+                        modifier = Modifier,
+                        snackbarData = snackbarData,
+                        containerColor = WorkoutFlowTheme.colors.surfaceColors.surfaceHigh,
+                        contentColor = WorkoutFlowTheme.colors.surfaceColors.onSurface,
+                        dismissActionContentColor = WorkoutFlowTheme.colors.surfaceColors.onSurface,
+                        shape = WorkoutFlowTheme.shapes.small,
                     )
                 }
-
-                val navController = rememberNavController()
-
-                val backStackEntry by navController.currentBackStackEntryAsState()
-
-                val showBottomBar = bottomNavItems.any {
-                    backStackEntry?.destination?.hasRoute(it.screen::class) == true
+            },
+            bottomBar = {
+                AppBottomBar(navController = navController)
+            }
+        ) {
+            AppNavHost(
+                navHostController = navController,
+                startGraph = AppGraph.Home,
+                onShowLocalSnackbar = { message ->
+                    snackbarHostState.showSnackbar(
+                        message = message,
+                        withDismissAction = true,
+                    )
+                },
+                onShowGlobalSnackbar = { message ->
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = message,
+                            withDismissAction = true
+                        )
+                    }
                 }
+            )
+        }
+    }
+}
 
-                val selectedItemIndex = bottomNavItems.indexOfFirst { item ->
-                    navController.currentDestination
-                        ?.hierarchy
-                        ?.any { it.hasRoute(item.screen::class) } == true
-                }
+@Composable
+private fun AppBottomBar(
+    navController: NavHostController,
+) {
+    val bottomNavItems = remember {
+        listOf(
+            BottomBarNavItem.Home,
+            BottomBarNavItem.Workouts,
+            BottomBarNavItem.Progress,
+            BottomBarNavItem.Profile
+        )
+    }
 
-                val snackbarHostState = remember { SnackbarHostState() }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-                Scaffold(
-                    snackbarHost = {
-                        SnackbarHost(
-                            modifier = Modifier,
-                            hostState = snackbarHostState,
-                        ) { snackbarData ->
-                            Snackbar(
-                                modifier = Modifier,
-                                snackbarData = snackbarData,
-                                containerColor = WorkoutFlowTheme.colors.surfaceColors.surfaceHigh,
-                                contentColor = WorkoutFlowTheme.colors.surfaceColors.onSurface,
-                                dismissActionContentColor = WorkoutFlowTheme.colors.surfaceColors.onSurface,
-                                shape = WorkoutFlowTheme.shapes.small,
-                            )
-                        }
-                    },
-                    bottomBar = {
-                        AnimatedVisibility(
-                            visible = showBottomBar,
-                            enter = fadeIn() + expandIn(expandFrom = Alignment.BottomCenter),
-                            exit = shrinkOut(shrinkTowards = Alignment.BottomCenter) + fadeOut(),
-                        ) {
-                            AnimatedBottomBar(
-                                modifier = Modifier
-                                    .navigationBarsPadding()
-                                    .fillMaxWidth(),
-                                containerColor = WorkoutFlowTheme.colors.surfaceColors.surfaceHigh.copy(
-                                    alpha = if (WorkoutFlowTheme.isDarkTheme) 0.99f else 0.97f
-                                ),
-                                dividerColor = if (WorkoutFlowTheme.isDarkTheme) {
-                                    WorkoutFlowTheme.colors.outlineColors.outlineLow
-                                } else {
-                                    WorkoutFlowTheme.colors.outlineColors.outlineHigh
-                                },
-                                itemSize = bottomNavItems.size,
-                                selectedItem = selectedItemIndex,
-                            ) {
-                                bottomNavItems.forEachIndexed { index, item ->
-                                    val selected = selectedItemIndex == index
-                                    BottomBarItem(
-                                        iconPainter = painterResource(resource = item.iconRes),
-                                        title = stringResource(resource = item.titleRes),
-                                        selected = selected,
-                                        onClick = {
-                                            if (!selected) {
-                                                navController.navigate(item.screen) {
-                                                    popUpTo(navController.graph.findStartDestination().id) {
-                                                        saveState = true
-                                                    }
-                                                    launchSingleTop = true
-                                                    restoreState = true
-                                                }
-                                            }
-                                        },
-                                    )
+    val selectedItemIndex = bottomNavItems.indexOfFirst { item ->
+        navBackStackEntry?.destination
+            ?.hierarchy
+            ?.any { it.hasRoute(item.screen::class) } == true
+    }
+
+    AnimatedVisibility(
+        visible = selectedItemIndex != -1,
+        enter = fadeIn() + expandIn(expandFrom = Alignment.BottomCenter),
+        exit = shrinkOut(shrinkTowards = Alignment.BottomCenter) + fadeOut(),
+    ) {
+        AnimatedBottomBar(
+            modifier = Modifier
+                .navigationBarsPadding()
+                .fillMaxWidth(),
+            containerColor = WorkoutFlowTheme.colors.surfaceColors.surfaceHigh.copy(
+                alpha = if (WorkoutFlowTheme.isDarkTheme) 0.99f else 0.97f
+            ),
+            dividerColor = if (WorkoutFlowTheme.isDarkTheme) {
+                WorkoutFlowTheme.colors.outlineColors.outlineLow
+            } else {
+                WorkoutFlowTheme.colors.outlineColors.outlineHigh
+            },
+            itemSize = bottomNavItems.size,
+            selectedItem = selectedItemIndex,
+        ) {
+            bottomNavItems.forEachIndexed { index, item ->
+                val selected = selectedItemIndex == index
+                BottomBarItem(
+                    iconPainter = painterResource(resource = item.iconRes),
+                    title = stringResource(resource = item.titleRes),
+                    selected = selected,
+                    onClick = {
+                        if (!selected) {
+                            navController.navigate(item.screen) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
                                 }
+                                launchSingleTop = true
+                                restoreState = true
                             }
                         }
-                    }
-                ) {
-                    AppNavHost(
-                        navHostController = navController,
-                        startGraph = if (currentState.showOnboarding) AppGraph.Onboarding else AppGraph.Home,
-                        onShowLocalSnackbar = {
-
-                        },
-                        onShowGlobalSnackbar = {
-
-                        }
-                    )
-                }
+                    },
+                )
             }
         }
     }

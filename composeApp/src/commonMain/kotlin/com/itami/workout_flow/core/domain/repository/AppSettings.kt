@@ -12,8 +12,6 @@ interface AppSettings {
 
     val theme: Flow<Theme>
 
-    val showOnboarding: Flow<Boolean>
-
     val showSignInOnHomeScreen: Flow<Boolean>
 
     val distanceUnit: Flow<DistanceUnit>
@@ -21,8 +19,6 @@ interface AppSettings {
     val weightUnit: Flow<WeightUnit>
 
     suspend fun setTheme(theme: Theme)
-
-    suspend fun setShowOnboarding(showOnboarding: Boolean)
 
     suspend fun setShowSignInOnHomeScreen(showSignIn: Boolean)
 

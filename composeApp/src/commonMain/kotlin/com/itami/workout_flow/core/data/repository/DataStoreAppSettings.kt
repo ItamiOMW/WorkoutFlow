@@ -58,13 +58,6 @@ class DataStoreAppSettings(
                 preferences[THEME_KEY]?.let { str -> Theme.valueOf(str) } ?: Theme.SYSTEM_THEME
             }
 
-    override val showOnboarding: Flow<Boolean>
-        get() = dataStorePreferences.data
-            .handleDataStoreException()
-            .map { preferences ->
-                preferences[SHOW_ONBOARDING_KEY] ?: true
-            }
-
     override val showSignInOnHomeScreen: Flow<Boolean>
         get() = dataStorePreferences.data
             .handleDataStoreException()
@@ -93,12 +86,6 @@ class DataStoreAppSettings(
     override suspend fun setTheme(theme: Theme) {
         dataStorePreferences.edit { preferences ->
             preferences[THEME_KEY] = theme.name
-        }
-    }
-
-    override suspend fun setShowOnboarding(showOnboarding: Boolean) {
-        dataStorePreferences.edit { preferences ->
-            preferences[SHOW_ONBOARDING_KEY] = showOnboarding
         }
     }
 

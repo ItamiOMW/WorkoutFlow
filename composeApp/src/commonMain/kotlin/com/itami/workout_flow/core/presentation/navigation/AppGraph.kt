@@ -1,17 +1,10 @@
 package com.itami.workout_flow.core.presentation.navigation
 
-import com.itami.workout_flow.model.WorkoutType
 import com.itami.workout_flow.model.WorkoutsSort
 import kotlinx.serialization.Serializable
 
 @Serializable
 sealed interface AppGraph {
-
-    @Serializable
-    data object Onboarding : AppGraph {
-        @Serializable
-        data object OnboardingScreen
-    }
 
     @Serializable
     data object Home : AppGraph {
