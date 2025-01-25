@@ -43,12 +43,13 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.splashscreen)
         }
         commonMain.dependencies {
             implementation(projects.shared)
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -63,6 +64,8 @@ kotlin {
             implementation(libs.bundles.ktor.client)
             implementation(libs.bundles.coil)
             implementation(libs.store)
+            api(libs.androidx.datastore)
+            api(libs.androidx.datastore.preferences)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)

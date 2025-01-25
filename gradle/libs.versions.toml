@@ -1,9 +1,9 @@
 [versions]
-agp = "8.5.2"
-android-compileSdk = "34"
+agp = "8.8.0"
+android-compileSdk = "35"
 android-minSdk = "24"
 android-targetSdk = "34"
-androidx-activityCompose = "1.9.3"
+androidx-activityCompose = "1.10.0"
 androidx-appcompat = "1.7.0"
 androidx-constraintlayout = "2.2.0"
 androidx-core-ktx = "1.15.0"
@@ -17,12 +17,14 @@ kotlin = "2.1.0"
 kotlin-serialization = "1.7.3"
 kotlinx-coroutines = "1.9.0"
 navigation-compose = "2.8.0-alpha10"
+splash-screen = "1.0.1"
 koin = "4.0.0"
 coil3 = "3.0.4"
 store = "5.1.0-alpha05"
 ksp = "2.1.0-1.0.29"
 sqlite = "2.5.0-alpha12"
 room = "2.7.0-alpha12"
+datastore = "1.1.2"
 ktor = "3.0.2"
 logback = "1.5.12"
 postgres = "42.7.3"
@@ -44,6 +46,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref= "navigation-compose" }
+androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash-screen" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -61,6 +64,8 @@ store = { module = "org.mobilenativefoundation.store:store5", version.ref = "sto
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktor-resources = { module = "io.ktor:ktor-resources", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
