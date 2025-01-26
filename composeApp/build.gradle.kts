@@ -64,6 +64,7 @@ kotlin {
             implementation(libs.bundles.ktor.client)
             implementation(libs.bundles.coil)
             implementation(libs.store)
+            implementation(libs.kotlinx.datetime)
             api(libs.androidx.datastore)
             api(libs.androidx.datastore.preferences)
         }
