@@ -65,6 +65,7 @@ kotlin {
             implementation(libs.bundles.coil)
             implementation(libs.store)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.haze)
             api(libs.androidx.datastore)
             api(libs.androidx.datastore.preferences)
         }
