@@ -166,11 +166,7 @@ fun WorkoutFlowTheme(
     }
 
     SetPlatformColors(
-        statusBarColor = if (isDarkTheme) {
-            DarkColorScheme.surfaceColors.surfaceHigh
-        } else {
-            LightColorScheme.surfaceColors.surfaceHigh
-        },
+        statusBarColor = Color.Transparent,
         navBarColor = if (isDarkTheme) {
             DarkColorScheme.surfaceColors.surfaceHigh
         } else {
