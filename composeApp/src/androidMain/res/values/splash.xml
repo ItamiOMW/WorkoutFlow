@@ -4,5 +4,7 @@
         <item name="windowSplashScreenBackground">#F8F9FC</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
         <item name="postSplashScreenTheme">@android:style/Theme.Material.NoActionBar</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 </resources>
