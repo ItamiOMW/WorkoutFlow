@@ -41,14 +41,14 @@ private val LightColorScheme = WorkoutFlowColors(
     ),
     backgroundColors = BackgroundColors(
         background = Color(0XFFF8F9FC),
-        onBackground = Color(0XFF191A1F),
-        onBackgroundVariant = Color(0XFF444755)
+        onBackground = Color(0XFF010933),
+        onBackgroundVariant = Color(0XFF131E4D)
     ),
     surfaceColors = SurfaceColors(
         surfaceHigh = Color(0XFFFFFFFF),
         surfaceLow = Color(0XFFFAFAFA),
-        onSurface = Color(0XFF191A1F),
-        onSurfaceVariant = Color(0XFF444755),
+        onSurface = Color(0XFF010933),
+        onSurfaceVariant = Color(0XFF131E4D),
     ),
     outlineColors = OutlineColors(
         outlineHigh = Color(0XFFE6E6E6),
@@ -98,7 +98,7 @@ private val DarkColorScheme = WorkoutFlowColors(
     backgroundColors = BackgroundColors(
         background = Color(0XFF05060A),
         onBackground = Color(0XFFD9D9D9),
-        onBackgroundVariant = Color(0XFF8E92A4)
+        onBackgroundVariant = Color(0XFF9CA0AF)
     ),
     surfaceColors = SurfaceColors(
         surfaceHigh = Color(0XFF14171E),
