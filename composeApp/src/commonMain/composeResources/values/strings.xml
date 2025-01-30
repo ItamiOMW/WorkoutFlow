@@ -3,9 +3,55 @@
     <string name="app_name">WorkoutFlow</string>
     <string name="skip">Skip</string>
     <string name="back">Back</string>
-
     <string name="home">Home</string>
     <string name="workouts">Workouts</string>
     <string name="progress">Progress</string>
     <string name="profile">Profile</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="search_hint">Search..</string>
+    <string name="search_icon">Search icon</string>
+    <string name="user_greeting">Hello, %1$s</string>
+    <string name="hello">Hello!</string>
+    <string name="lets_workout">Let's workout!</string>
+    <string name="workout_types">Workout types</string>
+    <string name="workout_type">Workout type</string>
+    <string name="unknown_user">Unknown user</string>
+    <string name="you">You</string>
+    <string name="author_profile_picture">Author profile picture</string>
+    <string name="favorite">Favorite</string>
+    <string name="not_favorite">Not favorite</string>
+    <string name="favorites_count">Favorites count</string>
+    <string name="duration_min">%1$s min</string>
+    <string name="duration">Duration</string>
+    <string name="edit">Edit</string>
+    <string name="no_workout_for_this_day">No workout for this day</string>
+    <string name="click_edit_to_schedule_workout">Click %1$s to schedule workout</string>
+    <string name="my_routine">My routine</string>
+    <string name="hide">Hide</string>
+    <string name="sign_in">Sign In</string>
+    <string name="enable_automatic_backups">Enable automatic backups and enhance your personal experience</string>
+
+    <string name="hypertrophy">Hypertrophy</string>
+    <string name="strength">Strength</string>
+    <string name="cardio">Cardio</string>
+    <string name="endurance">Endurance</string>
+    <string name="flexibility">Flexibility</string>
+
+    <string name="chest">Chest</string>
+    <string name="front_delt">Front Delt</string>
+    <string name="middle_delt">Middle Delt</string>
+    <string name="rear_delt">Rear Delt</string>
+    <string name="lats">Lats</string>
+    <string name="upper_traps">Upper Traps</string>
+    <string name="lower_traps">Lower Traps</string>
+    <string name="triceps">Triceps</string>
+    <string name="biceps">Biceps</string>
+    <string name="forearms">Forearms</string>
+    <string name="quadriceps">Quadriceps</string>
+    <string name="hamstrings">Hamstrings</string>
+    <string name="glutes">Glutes</string>
+    <string name="calves">Calves</string>
+    <string name="neck">Neck</string>
+    <string name="core">Core</string>
+    <string name="fullbody">Fullbody</string>
 </resources>
