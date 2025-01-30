@@ -82,7 +82,9 @@ fun App(
             }
         ) {
             AppNavHost(
-                modifier = Modifier.hazeSource(hazeState),
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .hazeSource(hazeState),
                 navHostController = navController,
                 startGraph = AppGraph.Home,
                 onShowLocalSnackbar = { message ->
