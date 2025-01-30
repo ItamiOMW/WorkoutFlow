@@ -132,7 +132,7 @@ private fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
-                            top = WorkoutFlowTheme.padding.large,
+                            top = WorkoutFlowTheme.padding.extraLarge,
                             start = WorkoutFlowTheme.padding.default,
                             end = WorkoutFlowTheme.padding.default,
                         ),
