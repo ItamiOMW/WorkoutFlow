@@ -1,4 +1,4 @@
-package com.itami.workout_flow.core.presentation.utils
+package com.itami.workout_flow.core.utils
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
