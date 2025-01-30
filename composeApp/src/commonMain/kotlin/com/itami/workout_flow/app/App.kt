@@ -24,11 +24,16 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil3.compose.setSingletonImageLoaderFactory
 import com.itami.workout_flow.app.utils.BottomBarNavItem
+import com.itami.workout_flow.core.presentation.coil.ImageLoaderFactory
 import com.itami.workout_flow.core.presentation.components.bottom_bar.AnimatedBottomBar
 import com.itami.workout_flow.core.presentation.components.bottom_bar.BottomBarItem
 import com.itami.workout_flow.core.presentation.navigation.AppGraph
 import com.itami.workout_flow.core.presentation.theme.WorkoutFlowTheme
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.hazeSource
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -40,14 +45,20 @@ import org.koin.compose.viewmodel.koinViewModel
 fun App(
     appViewModel: AppViewModel = koinViewModel()
 ) {
-    val theme by appViewModel.theme.collectAsStateWithLifecycle()
+    setSingletonImageLoaderFactory { context ->
+        ImageLoaderFactory.getAsyncImageLoader(context)
+    }
 
+    val theme by appViewModel.theme.collectAsStateWithLifecycle()
     WorkoutFlowTheme(theme = theme) {
         val navController = rememberNavController()
         val coroutineScope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
+        val hazeState = remember { HazeState() }
 
         Scaffold(
+            containerColor = WorkoutFlowTheme.colors.backgroundColors.background,
+            contentColor = WorkoutFlowTheme.colors.backgroundColors.onBackground,
             snackbarHost = {
                 SnackbarHost(
                     modifier = Modifier,
@@ -64,10 +75,16 @@ fun App(
                 }
             },
             bottomBar = {
-                AppBottomBar(navController = navController)
+                AppBottomBar(
+                    navController = navController,
+                    hazeState = hazeState
+                )
             }
         ) {
             AppNavHost(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .hazeSource(hazeState),
                 navHostController = navController,
                 startGraph = AppGraph.Home,
                 onShowLocalSnackbar = { message ->
@@ -92,6 +109,7 @@ fun App(
 @Composable
 private fun AppBottomBar(
     navController: NavHostController,
+    hazeState: HazeState,
 ) {
     val bottomNavItems = remember {
         listOf(
@@ -115,8 +133,14 @@ private fun AppBottomBar(
         enter = fadeIn() + expandIn(expandFrom = Alignment.BottomCenter),
         exit = shrinkOut(shrinkTowards = Alignment.BottomCenter) + fadeOut(),
     ) {
+        val hazeBackgroundColor = WorkoutFlowTheme.colors.surfaceColors.surfaceHigh.copy(
+            alpha = if (WorkoutFlowTheme.isDarkTheme) 0.99f else 0.97f
+        )
         AnimatedBottomBar(
             modifier = Modifier
+                .hazeEffect(hazeState) {
+                    backgroundColor = hazeBackgroundColor
+                }
                 .navigationBarsPadding()
                 .fillMaxWidth(),
             containerColor = WorkoutFlowTheme.colors.surfaceColors.surfaceHigh.copy(
