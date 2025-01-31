@@ -40,4 +40,10 @@ sealed interface AppGraph {
         data object CurrentUserProfileScreen
     }
 
+    @Serializable
+    data object Auth : AppGraph {
+        @Serializable
+        data object SignInScreen
+    }
+
 }

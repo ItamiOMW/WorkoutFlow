@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.itami.workout_flow.auth.presentation.authGraph
 import com.itami.workout_flow.core.presentation.navigation.AppGraph
 import com.itami.workout_flow.home.presentation.homeGraph
 import com.itami.workout_flow.profile.presentation.profileGraph
@@ -42,6 +43,11 @@ fun AppNavHost(
             onShowLocalSnackbar = onShowLocalSnackbar
         )
         profileGraph(
+            navController = navHostController,
+            onShowGlobalSnackbar = onShowGlobalSnackbar,
+            onShowLocalSnackbar = onShowLocalSnackbar
+        )
+        authGraph(
             navController = navHostController,
             onShowGlobalSnackbar = onShowGlobalSnackbar,
             onShowLocalSnackbar = onShowLocalSnackbar
