@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -8,6 +10,20 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.buildKonfig)
+}
+
+buildkonfig {
+    packageName = "com.itami.workout_flow"
+
+    defaultConfigs {
+        val googleWebClientId = gradleLocalProperties(
+            projectRootDir = rootDir,
+            providers = providers
+        ).getProperty("GOOGLE_WEB_CLIENT_ID")
+
+        buildConfigField(FieldSpec.Type.STRING, "GOOGLE_WEB_CLIENT_ID", googleWebClientId)
+    }
 }
 
 kotlin {
@@ -33,7 +49,6 @@ kotlin {
     }
     
     sourceSets {
-
         dependencies {
             ksp(libs.androidx.room.compiler)
         }
@@ -66,6 +81,7 @@ kotlin {
             implementation(libs.store)
             implementation(libs.kotlinx.datetime)
             implementation(libs.haze)
+            implementation(libs.kmpauth.google)
             api(libs.androidx.datastore)
             api(libs.androidx.datastore.preferences)
         }
@@ -101,8 +117,3 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-
-dependencies {
-    debugImplementation(compose.uiTooling)
-}
-

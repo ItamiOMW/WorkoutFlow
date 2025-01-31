@@ -27,12 +27,14 @@ ksp = "2.1.0-1.0.29"
 sqlite = "2.5.0-alpha12"
 room = "2.7.0-alpha12"
 datastore = "1.1.2"
+kmp-auth = "2.3.1"
 ktor = "3.0.2"
 logback = "1.5.12"
 postgres = "42.7.3"
 hikari = "6.0.0"
 exposed = "0.53.0"
 jbcrypt = "0.4"
+build-konfig = "0.15.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -69,6 +71,7 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+kmpauth-google = { module = "io.github.mirzemehdi:kmpauth-google", version.ref = "kmp-auth" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktor-resources = { module = "io.ktor:ktor-resources", version.ref = "ktor" }
@@ -111,6 +114,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
+buildKonfig = { id  = "com.codingfeline.buildkonfig", version.ref = "build-konfig" }
 
 [bundles]
 ktor-client = [
