@@ -30,6 +30,12 @@
     <string name="hide">Hide</string>
     <string name="sign_in">Sign In</string>
     <string name="enable_automatic_backups">Enable automatic backups and enhance your personal experience</string>
+    <string name="close">Close</string>
+    <string name="sign_in_text">Sign in to save your progress and share your workouts with the community.</string>
+    <string name="google_icon">Google icon</string>
+    <string name="apple_icon">Apple icon</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="continue_with_apple">Continue with Apple ID</string>
 
     <string name="hypertrophy">Hypertrophy</string>
     <string name="strength">Strength</string>
