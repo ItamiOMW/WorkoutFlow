@@ -49,7 +49,13 @@ fun NavGraphBuilder.homeGraph(
 
                 },
                 onNavigateToSignIn = {
-
+                    navController.navigate(AppGraph.Auth.SignInScreen) {
+                        popUpTo(AppGraph.Home.HomeScreen) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 },
                 onNavigateToWorkoutDetails = { workoutId ->
 

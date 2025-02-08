@@ -18,6 +18,8 @@ fun NavGraphBuilder.authGraph(
                 onNavigateBack = {
                     navController.navigateUp()
                 },
+                onShowLocalSnackbar = onShowLocalSnackbar,
+                onShowGlobalSnackbar = onShowGlobalSnackbar,
             )
         }
     }

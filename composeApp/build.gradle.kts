@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     alias(libs.plugins.buildKonfig)
+    alias(libs.plugins.googleServices)
 }
 
 buildkonfig {
@@ -32,7 +33,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -82,6 +83,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.haze)
             implementation(libs.kmpauth.google)
+            implementation(libs.kmpauth.firebase)
             api(libs.androidx.datastore)
             api(libs.androidx.datastore.preferences)
         }
