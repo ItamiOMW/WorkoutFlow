@@ -23,7 +23,13 @@ buildkonfig {
             providers = providers
         ).getProperty("GOOGLE_WEB_CLIENT_ID")
 
+        val baseUrl = gradleLocalProperties(
+            projectRootDir = rootDir,
+            providers = providers
+        ).getProperty("BASE_URL")
+
         buildConfigField(FieldSpec.Type.STRING, "GOOGLE_WEB_CLIENT_ID", googleWebClientId)
+        buildConfigField(FieldSpec.Type.STRING, "BASE_URL", baseUrl)
     }
 }
 
