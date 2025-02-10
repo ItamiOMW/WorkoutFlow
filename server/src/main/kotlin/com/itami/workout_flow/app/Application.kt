@@ -6,7 +6,7 @@ import com.itami.workout_flow.app.plugins.configureRateLimit
 import com.itami.workout_flow.app.plugins.configureRouting
 import com.itami.workout_flow.app.plugins.configureSerialization
 import com.itami.workout_flow.app.plugins.configureStatusPages
-import com.itami.workout_flow.data.firebase.FirebaseAdmin
+import com.itami.workout_flow.data.firebase.FirebaseFactory
 import io.ktor.server.application.Application
 
 fun main(args: Array<String>) {
@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
 
 @Suppress("unused")
 fun Application.module() {
-    FirebaseAdmin.init()
+    FirebaseFactory.init()
     configureKoin()
     configureRouting()
     configureMonitoring()
