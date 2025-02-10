@@ -5,7 +5,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import java.io.InputStream
 
-object FirebaseAdmin {
+object FirebaseFactory {
 
     private val firebaseAdminSdk: InputStream = System.getenv("FIREBASE_ADMIN_KEY").byteInputStream()
 
