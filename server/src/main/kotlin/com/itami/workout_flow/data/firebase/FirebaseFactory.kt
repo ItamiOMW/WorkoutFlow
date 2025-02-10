@@ -13,6 +13,10 @@ object FirebaseFactory {
         .setCredentials(GoogleCredentials.fromStream(firebaseAdminSdk))
         .build()
 
-    fun init(): FirebaseApp = FirebaseApp.initializeApp(options)
+    fun init() {
+        if (FirebaseApp.getApps().isEmpty()) {
+            FirebaseApp.initializeApp(options)
+        }
+    }
 
 }
