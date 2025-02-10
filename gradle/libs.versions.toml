@@ -36,7 +36,7 @@ exposed = "0.53.0"
 jbcrypt = "0.4"
 build-konfig = "0.15.2"
 google-services = "4.4.2"
-firebase-admin = "9.2.0"
+firebase-admin = "9.4.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
