@@ -1,4 +1,4 @@
-package com.itami.workout_flow.core.data.network
+package com.itami.workout_flow.core.data.remote
 
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body

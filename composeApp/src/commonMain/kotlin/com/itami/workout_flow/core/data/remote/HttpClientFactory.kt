@@ -1,4 +1,4 @@
-package com.itami.workout_flow.core.data.network
+package com.itami.workout_flow.core.data.remote
 
 import com.itami.workout_flow.BuildKonfig
 import io.ktor.client.HttpClient
