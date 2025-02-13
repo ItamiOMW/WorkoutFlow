@@ -6,13 +6,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonClassDiscriminator
 
 @Serializable
-data class UserWithTokenResponse(
-    val user: UserResponse,
-    val accessToken: String,
-    val refreshToken: String,
-)
-
-@Serializable
 data class UserResponse(
     val id: Long,
     val email: String,

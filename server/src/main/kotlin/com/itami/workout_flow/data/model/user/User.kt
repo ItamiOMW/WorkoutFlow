@@ -4,13 +4,14 @@ import java.time.OffsetDateTime
 
 data class User(
     val id: Long,
-    val googleId: String?,
+    val firebaseUID: String?,
     val email: String,
-    val hashPassword: String?,
+    val passwordHash: String?,
     val name: String,
     val username: String,
     val profilePictureUrl: String?,
     val subscription: Subscription,
     val isActive: Boolean,
     val createdAt: OffsetDateTime,
+    val updatedAt: OffsetDateTime?,
 )
