@@ -1,6 +1,6 @@
 package com.itami.workout_flow.core.di
 
-import com.itami.workout_flow.core.data.network.HttpClientFactory
+import com.itami.workout_flow.core.data.remote.HttpClientFactory
 import com.itami.workout_flow.core.data.repository.DataStoreAppSettings
 import com.itami.workout_flow.core.data.repository.MockWorkoutRepository
 import com.itami.workout_flow.core.domain.repository.AppSettings
