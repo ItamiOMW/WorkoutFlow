@@ -6,12 +6,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.itami.workout_flow.core.presentation.navigation.AppGraph
 import com.itami.workout_flow.core.presentation.navigation.AppGraph.Workouts.WorkoutsScreen.WorkoutsLaunchMode
+import com.itami.workout_flow.core.presentation.utils.UiText
 import com.itami.workout_flow.home.presentation.home.HomeScreenRoute
 
 fun NavGraphBuilder.homeGraph(
     navController: NavHostController,
-    onShowGlobalSnackbar: (message: String) -> Unit,
-    onShowLocalSnackbar: suspend (message: String) -> Unit,
+    onShowGlobalSnackbar: (message: UiText) -> Unit,
+    onShowLocalSnackbar: suspend (message: UiText) -> Unit,
 ) {
     navigation<AppGraph.Home>(startDestination = AppGraph.Home.HomeScreen) {
         composable<AppGraph.Home.HomeScreen> {

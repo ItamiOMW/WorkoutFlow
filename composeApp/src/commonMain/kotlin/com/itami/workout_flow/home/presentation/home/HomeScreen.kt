@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.itami.workout_flow.core.presentation.components.SignInCard
 import com.itami.workout_flow.core.presentation.theme.WorkoutFlowTheme
+import com.itami.workout_flow.core.presentation.utils.UiText
 import com.itami.workout_flow.home.presentation.home.components.HomeBlurredCircle
 import com.itami.workout_flow.home.presentation.home.components.HomeRoutineSection
 import com.itami.workout_flow.home.presentation.home.components.HomeSearchBar
@@ -36,7 +37,7 @@ fun HomeScreenRoute(
     onNavigateToRoutine: () -> Unit,
     onNavigateToSignIn: () -> Unit,
     onNavigateToWorkoutDetails: (workoutId: String) -> Unit,
-    onShowLocalSnackbar: suspend (message: String) -> Unit,
+    onShowLocalSnackbar: suspend (message: UiText) -> Unit,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     LaunchedEffect(Unit) {

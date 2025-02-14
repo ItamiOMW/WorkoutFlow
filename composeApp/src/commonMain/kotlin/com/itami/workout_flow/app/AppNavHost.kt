@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.itami.workout_flow.auth.presentation.authGraph
 import com.itami.workout_flow.core.presentation.navigation.AppGraph
+import com.itami.workout_flow.core.presentation.utils.UiText
 import com.itami.workout_flow.home.presentation.homeGraph
 import com.itami.workout_flow.profile.presentation.profileGraph
 import com.itami.workout_flow.progress.presentation.progressGraph
@@ -18,9 +19,9 @@ fun AppNavHost(
     navHostController: NavHostController = rememberNavController(),
     startGraph: Any = AppGraph.Home,
     // Launched from root's scope and persists across different screen.
-    onShowGlobalSnackbar: (message: String) -> Unit,
+    onShowGlobalSnackbar: (message: UiText) -> Unit,
     // Launched from the screen's scope and will only live for the duration of that screen.
-    onShowLocalSnackbar: suspend (message: String) -> Unit,
+    onShowLocalSnackbar: suspend (message: UiText) -> Unit,
 ) {
     NavHost(
         modifier = modifier,
