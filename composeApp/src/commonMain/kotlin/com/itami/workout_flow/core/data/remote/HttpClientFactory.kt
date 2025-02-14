@@ -1,14 +1,24 @@
 package com.itami.workout_flow.core.data.remote
 
 import com.itami.workout_flow.BuildKonfig
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.app
+import dev.gitlive.firebase.auth.FirebaseAuth
+import dev.gitlive.firebase.auth.auth
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.basic
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.bearerAuth
+import io.ktor.client.request.headers
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
@@ -36,6 +46,9 @@ object HttpClientFactory {
                     }
                 }
                 level = LogLevel.ALL
+            }
+            install(FirebaseAuthPlugin) {
+                provider = FirebaseAuthProvider(Firebase.auth)
             }
             defaultRequest {
                 url(BuildKonfig.BASE_URL)
