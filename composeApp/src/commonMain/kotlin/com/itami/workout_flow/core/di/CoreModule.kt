@@ -11,8 +11,6 @@ import org.koin.dsl.module
 
 val coreModule = module {
     singleOf(::MockWorkoutRepository).bind<WorkoutRepository>()
-
     singleOf(::DataStoreAppSettings).bind<AppSettings>()
-
     single { HttpClientFactory.create(get()) }
 }
