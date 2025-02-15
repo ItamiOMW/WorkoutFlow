@@ -10,7 +10,6 @@ import com.itami.workout_flow.core.domain.model.settings.Settings
 import com.itami.workout_flow.core.domain.model.settings.Theme
 import com.itami.workout_flow.core.domain.model.workout.DistanceUnit
 import com.itami.workout_flow.core.domain.model.workout.WeightUnit
-import com.itami.workout_flow.core.domain.repository.AppSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
