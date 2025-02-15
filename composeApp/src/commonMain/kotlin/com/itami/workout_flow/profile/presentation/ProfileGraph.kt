@@ -10,12 +10,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.itami.workout_flow.core.presentation.navigation.AppGraph
-import com.itami.workout_flow.core.presentation.utils.UiText
 
 fun NavGraphBuilder.profileGraph(
     navController: NavHostController,
-    onShowGlobalSnackbar: (message: UiText) -> Unit,
-    onShowLocalSnackbar: suspend (message: UiText) -> Unit,
+    onShowGlobalSnackbar: (message: String) -> Unit,
+    onShowLocalSnackbar: suspend (message: String) -> Unit,
 ) {
     navigation<AppGraph.Profile>(startDestination = AppGraph.Profile.CurrentUserProfileScreen) {
         composable<AppGraph.Profile.CurrentUserProfileScreen> {
