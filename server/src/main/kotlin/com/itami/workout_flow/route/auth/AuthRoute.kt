@@ -18,7 +18,7 @@ import io.ktor.server.routing.Route
 fun Route.authRoute(authService: AuthService) {
     rateLimit(AUTH_RATE_LIMIT) {
         authenticate(FIREBASE_AUTH) {
-            get<AuthRoute> {
+            get<AuthRoute.Firebase> {
                 val firebasePrincipal = this.call
                     .principal<FirebasePrincipal>()
                     ?: throw AppError.UnauthorizedError()
