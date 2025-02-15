@@ -16,10 +16,13 @@ suspend inline fun <reified T> safeRequest(
     val response = try {
         execute()
     } catch(e: SocketTimeoutException) {
+        e.printStackTrace()
         return AppResult.Error(DataError.Remote.REQUEST_TIMEOUT)
     } catch(e: UnresolvedAddressException) {
+        e.printStackTrace()
         return AppResult.Error(DataError.Remote.NO_INTERNET)
     } catch (e: Exception) {
+        e.printStackTrace()
         coroutineContext.ensureActive()
         return AppResult.Error(DataError.Remote.UNKNOWN)
     }
