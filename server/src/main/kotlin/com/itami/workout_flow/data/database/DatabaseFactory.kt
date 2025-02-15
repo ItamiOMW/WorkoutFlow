@@ -28,9 +28,9 @@ object DatabaseFactory {
 
     private fun getHikariDataSource(): HikariDataSource {
         val config = HikariConfig().apply {
-            driverClassName = System.getenv("DRIVER_CLASS_NAME")
+            driverClassName = System.getenv("DB_DRIVER_NAME")
             jdbcUrl = System.getenv("JDBC_URL")
-            username = System.getenv("DB_USERNAME")
+            username = System.getenv("DB_USER")
             password = System.getenv("DB_PASSWORD")
             maximumPoolSize = 3
             isAutoCommit = false
