@@ -1,6 +1,5 @@
 package com.itami.workout_flow.auth.presentation
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -20,9 +19,7 @@ fun NavGraphBuilder.authGraph(
                     navController.navigateUp()
                 },
                 onShowLocalSnackbar = onShowLocalSnackbar,
-                onShowGlobalSnackbar = {
-
-                },
+                onShowGlobalSnackbar = onShowGlobalSnackbar,
             )
         }
     }
