@@ -23,9 +23,9 @@ fun Application.module() {
     FirebaseFactory.init()
     configureKoin()
     configureAuth()
+    configureRateLimit()
     configureRouting()
     configureMonitoring()
-    configureRateLimit()
     configureSerialization()
     configureStatusPages()
 }
