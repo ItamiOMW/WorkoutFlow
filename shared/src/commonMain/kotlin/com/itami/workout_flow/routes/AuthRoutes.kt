@@ -4,7 +4,7 @@ import com.itami.workout_flow.utils.RESTAPI_VERSION
 import io.ktor.resources.Resource
 
 @Resource("$RESTAPI_VERSION/auth")
-object AuthRoute {
+class AuthRoute() {
     @Resource("firebase")
-    data class Firebase(val parent: AuthRoute)
+    data class Firebase(val parent: AuthRoute = AuthRoute())
 }
