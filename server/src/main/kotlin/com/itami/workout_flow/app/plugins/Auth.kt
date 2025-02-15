@@ -1,5 +1,6 @@
 package com.itami.workout_flow.app.plugins
 
+import com.itami.workout_flow.auth.firebase.FirebasePrincipal
 import com.itami.workout_flow.auth.firebase.firebase
 import com.itami.workout_flow.service.auth.AuthService
 import io.ktor.server.application.Application
@@ -12,7 +13,11 @@ fun Application.configureAuth() {
     install(Authentication) {
         firebase {
             validate { firebaseToken ->
-                authService.getUserWithFirebase(firebaseToken)
+                val user = authService.getUserWithFirebase(firebaseToken)
+                FirebasePrincipal(
+                    firebaseToken = firebaseToken,
+                    user = user
+                )
             }
         }
     }
