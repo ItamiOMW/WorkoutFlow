@@ -14,7 +14,7 @@ class KtorAuthApiService(
 
     override suspend fun authenticateWithFirebase(): AppResult<UserResponse, DataError.Remote> {
         return safeRequest {
-            httpClient.get(AuthRoute.Firebase)
+            httpClient.get(AuthRoute.Firebase())
         }
     }
 
