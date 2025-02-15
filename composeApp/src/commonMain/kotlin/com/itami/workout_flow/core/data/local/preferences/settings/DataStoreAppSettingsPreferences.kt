@@ -1,4 +1,4 @@
-package com.itami.workout_flow.core.data.repository
+package com.itami.workout_flow.core.data.local.preferences.settings
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -10,13 +10,12 @@ import com.itami.workout_flow.core.domain.model.settings.Settings
 import com.itami.workout_flow.core.domain.model.settings.Theme
 import com.itami.workout_flow.core.domain.model.workout.DistanceUnit
 import com.itami.workout_flow.core.domain.model.workout.WeightUnit
-import com.itami.workout_flow.core.domain.repository.AppSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class DataStoreAppSettings(
+class DataStoreAppSettingsPreferences(
     private val dataStorePreferences: DataStore<Preferences>
-) : AppSettings {
+) : AppSettingsPreferences {
 
     companion object {
         val THEME_KEY = stringPreferencesKey("theme")

@@ -30,6 +30,22 @@
     <string name="hide">Hide</string>
     <string name="sign_in">Sign In</string>
     <string name="enable_automatic_backups">Enable automatic backups and enhance your personal experience</string>
+    <string name="close">Close</string>
+    <string name="sign_in_text">Sign in to save your progress and share your workouts with the community.</string>
+    <string name="google_icon">Google icon</string>
+    <string name="apple_icon">Apple icon</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="continue_with_apple">Continue with Apple ID</string>
+    <string name="sign_in_successful">Successfully signed in.</string>
+
+    <string name="error_disk_full">Oops, it seems like your disk is full.</string>
+    <string name="error_unknown">Oops, something went wrong.</string>
+    <string name="error_request_timeout">The request timed out.</string>
+    <string name="error_no_internet">Oops, couldn't reach server, please check your internet connection.</string>
+    <string name="error_too_many_requests">Too many requests, please wait a moment.</string>
+    <string name="error_serialization">Oops, we couldn't parse the data.</string>
+    <string name="error_unauthorized">Oops, it seems you are not authorized.</string>
+    <string name="error_not_found">Oops, we couldn't find what you were looking for.</string>
 
     <string name="hypertrophy">Hypertrophy</string>
     <string name="strength">Strength</string>

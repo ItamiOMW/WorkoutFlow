@@ -21,4 +21,5 @@ dependencies {
     implementation(libs.hikari)
     implementation(libs.bundles.exposed)
     implementation(libs.jbcrypt)
+    implementation(libs.firebase.admin)
 }

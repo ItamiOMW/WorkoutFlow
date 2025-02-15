@@ -48,5 +48,18 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>GIDClientID</key>
+	<string>$(GID_IOS_CLIENT)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(GOOGLE_URL_SCHEME)</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDServerClientID</key>
+	<string>$(GID_SERVER_CLIENT)</string>
 </dict>
 </plist>

@@ -1,5 +1,6 @@
 package com.itami.workout_flow.app.di
 
+import com.itami.workout_flow.auth.di.authModule
 import com.itami.workout_flow.core.di.coreModule
 import com.itami.workout_flow.core.di.corePlatformModule
 import com.itami.workout_flow.home.di.homeModule
@@ -14,6 +15,7 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             corePlatformModule,
             coreModule,
             homeModule,
+            authModule,
         )
     }
 }
