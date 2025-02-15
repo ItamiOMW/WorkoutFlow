@@ -43,7 +43,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Preview
 @Composable
 fun App(
-    appViewModel: AppViewModel = koinViewModel()
+    appViewModel: AppViewModel = koinViewModel(),
 ) {
     setSingletonImageLoaderFactory { context ->
         ImageLoaderFactory.getAsyncImageLoader(context)
@@ -100,7 +100,7 @@ fun App(
                             withDismissAction = true
                         )
                     }
-                }
+                },
             )
         }
     }

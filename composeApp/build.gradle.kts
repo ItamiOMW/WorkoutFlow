@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -8,6 +10,27 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.buildKonfig)
+    alias(libs.plugins.googleServices)
+}
+
+buildkonfig {
+    packageName = "com.itami.workout_flow"
+
+    defaultConfigs {
+        val googleWebClientId = gradleLocalProperties(
+            projectRootDir = rootDir,
+            providers = providers
+        ).getProperty("GOOGLE_WEB_CLIENT_ID")
+
+        val baseUrl = gradleLocalProperties(
+            projectRootDir = rootDir,
+            providers = providers
+        ).getProperty("BASE_URL")
+
+        buildConfigField(FieldSpec.Type.STRING, "GOOGLE_WEB_CLIENT_ID", googleWebClientId)
+        buildConfigField(FieldSpec.Type.STRING, "BASE_URL", baseUrl)
+    }
 }
 
 kotlin {
@@ -16,7 +39,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -25,6 +48,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            binaryOption("bundleId", "com.itami.workoutflow.WorkoutFlow")
         }
     }
 
@@ -33,7 +57,6 @@ kotlin {
     }
     
     sourceSets {
-
         dependencies {
             ksp(libs.androidx.room.compiler)
         }
@@ -66,6 +89,8 @@ kotlin {
             implementation(libs.store)
             implementation(libs.kotlinx.datetime)
             implementation(libs.haze)
+            implementation(libs.kmpauth.google)
+            implementation(libs.kmpauth.firebase)
             api(libs.androidx.datastore)
             api(libs.androidx.datastore.preferences)
         }
@@ -94,6 +119,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            manifestPlaceholders["usesCleartextTraffic"] = "false"
+        }
+        getByName("debug") {
+            manifestPlaceholders["usesCleartextTraffic"] = "true"
         }
     }
     compileOptions {
@@ -101,8 +130,3 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-
-dependencies {
-    debugImplementation(compose.uiTooling)
-}
-

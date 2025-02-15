@@ -3,6 +3,7 @@ package com.itami.workout_flow.home.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.itami.workout_flow.core.domain.repository.AppSettings
+import com.itami.workout_flow.core.domain.repository.UserRepository
 import com.itami.workout_flow.core.domain.repository.WorkoutRepository
 import com.itami.workout_flow.core.utils.DateTimeUtil
 import com.itami.workout_flow.home.presentation.home.components.RoutineDayUI
@@ -18,6 +19,7 @@ import kotlinx.datetime.isoDayNumber
 class HomeViewModel(
     private val workoutRepository: WorkoutRepository,
     private val appSettings: AppSettings,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val _events = Channel<HomeEvent>()
@@ -29,6 +31,7 @@ class HomeViewModel(
     private val currentWeek = DateTimeUtil.getCurrentWeekDates()
 
     init {
+        observeCurrentUser()
         observeScheduledWorkouts()
         observeShowSignIn()
     }
@@ -76,6 +79,14 @@ class HomeViewModel(
     private fun sendUiEvent(event: HomeEvent) {
         viewModelScope.launch {
             _events.send(event)
+        }
+    }
+
+    private fun observeCurrentUser() {
+        viewModelScope.launch {
+            userRepository.currentUser.collectLatest { currentUser ->
+                _state.update { it.copy(currentUser = currentUser) }
+            }
         }
     }
 
