@@ -10,7 +10,7 @@ import io.ktor.resources.Resource
 
 @Resource("$RESTAPI_VERSION/workouts")
 class WorkoutsRoute(
-    val page: Int? = 1,
+    val lastItemId: Long? = null,
     val pageSize: Int? = 10,
     val query: String? = "",
     val sort: WorkoutsSort? = WorkoutsSort.Newest,

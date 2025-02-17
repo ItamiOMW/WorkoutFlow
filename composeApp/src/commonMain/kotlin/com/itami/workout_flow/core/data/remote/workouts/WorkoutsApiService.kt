@@ -9,7 +9,7 @@ import com.itami.workout_flow.model.WorkoutsSort
 interface WorkoutsApiService {
 
     suspend fun getWorkouts(
-        page: Int,
+        lastItemId: Long?,
         pageSize: Int,
         query: String,
         workoutsFilter: WorkoutsFilter,

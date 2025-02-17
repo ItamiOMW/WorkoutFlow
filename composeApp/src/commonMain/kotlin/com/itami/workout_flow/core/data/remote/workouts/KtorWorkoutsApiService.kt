@@ -13,7 +13,7 @@ import io.ktor.client.plugins.resources.get
 class KtorWorkoutsApiService(private val httpClient: HttpClient) : WorkoutsApiService {
 
     override suspend fun getWorkouts(
-        page: Int,
+        lastItemId: Long?,
         pageSize: Int,
         query: String,
         workoutsFilter: WorkoutsFilter,
@@ -22,7 +22,7 @@ class KtorWorkoutsApiService(private val httpClient: HttpClient) : WorkoutsApiSe
         return safeRequest {
             httpClient.get(
                 WorkoutsRoute(
-                    page = page,
+                    lastItemId = lastItemId,
                     pageSize = pageSize,
                     query = query,
                     types = workoutsFilter.selectedWorkoutTypes,
