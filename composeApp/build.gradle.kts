@@ -87,6 +87,8 @@ kotlin {
             implementation(libs.bundles.ktor.client)
             implementation(libs.bundles.coil)
             implementation(libs.store)
+            implementation(libs.paging.common)
+            implementation(libs.paging.runtime)
             implementation(libs.kotlinx.datetime)
             implementation(libs.haze)
             implementation(libs.kmpauth.google)
