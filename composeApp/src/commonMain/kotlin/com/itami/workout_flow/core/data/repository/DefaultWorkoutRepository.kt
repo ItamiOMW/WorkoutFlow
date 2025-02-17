@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 class DefaultWorkoutRepository : WorkoutRepository {
 
     override fun getScheduledWorkouts(): Flow<List<ScheduledWorkout>> {
-        // Not implemented yet
+
         return flow {  }
     }
 

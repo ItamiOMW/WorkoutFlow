@@ -5,6 +5,8 @@ import com.itami.workout_flow.core.data.local.preferences.settings.DataStoreAppS
 import com.itami.workout_flow.core.data.local.preferences.user.CurrentUserPreferences
 import com.itami.workout_flow.core.data.local.preferences.user.DataStoreCurrentUserPreferences
 import com.itami.workout_flow.core.data.remote.HttpClientFactory
+import com.itami.workout_flow.core.data.remote.workouts.KtorWorkoutsApiService
+import com.itami.workout_flow.core.data.remote.workouts.WorkoutsApiService
 import com.itami.workout_flow.core.data.repository.DefaultAppSettings
 import com.itami.workout_flow.core.data.repository.DefaultUserRepository
 import com.itami.workout_flow.core.data.repository.MockWorkoutRepository
@@ -23,6 +25,7 @@ val coreModule = module {
     singleOf(::MockWorkoutRepository).bind<WorkoutRepository>()
     singleOf(::DefaultUserRepository).bind<UserRepository>()
     singleOf(::DefaultAppSettings).bind<AppSettings>()
+    singleOf(::KtorWorkoutsApiService).bind<WorkoutsApiService>()
 
     single {
         DataStoreAppSettingsPreferences(dataStorePreferences = get(qualifier = dataStorePreferencesQualifier))
