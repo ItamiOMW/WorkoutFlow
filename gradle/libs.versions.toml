@@ -25,8 +25,8 @@ haze = "1.2.2"
 store = "5.1.0-alpha05"
 paging = "3.3.0-alpha02-0.5.1"
 ksp = "2.1.0-1.0.29"
-sqlite = "2.5.0-alpha13"
-room = "2.7.0-alpha13"
+sqlite = "2.5.0-beta01"
+room = "2.7.0-beta01"
 datastore = "1.1.2"
 kmp-auth = "2.3.1"
 ktor = "3.0.2"
@@ -70,8 +70,8 @@ coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.r
 coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 store = { module = "org.mobilenativefoundation.store:store5", version.ref = "store" }
+paging-compose-common = { group = "app.cash.paging", name = "paging-compose-common", version.ref = "paging" }
 paging-common = { group = "app.cash.paging", name = "paging-common", version.ref = "paging" }
-paging-runtime = { group = "app.cash.paging", name = "paging-runtime", version.ref = "paging" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
