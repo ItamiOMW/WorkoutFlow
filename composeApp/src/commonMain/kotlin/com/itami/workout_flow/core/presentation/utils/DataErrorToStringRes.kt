@@ -14,15 +14,15 @@ import workoutflow.composeapp.generated.resources.error_unknown
 
 fun DataError.toStringRes(): StringResource {
     return when(this) {
-        DataError.Local.DISK_FULL -> Res.string.error_disk_full
-        DataError.Local.UNKNOWN -> Res.string.error_unknown
-        DataError.Remote.REQUEST_TIMEOUT -> Res.string.error_request_timeout
-        DataError.Remote.TOO_MANY_REQUESTS -> Res.string.error_too_many_requests
-        DataError.Remote.NO_INTERNET -> Res.string.error_no_internet
-        DataError.Remote.SERVER -> Res.string.error_unknown
-        DataError.Remote.SERIALIZATION -> Res.string.error_serialization
-        DataError.Remote.UNKNOWN -> Res.string.error_unknown
-        DataError.Remote.UNAUTHORIZED -> Res.string.error_unauthorized
-        DataError.Remote.NOT_FOUND -> Res.string.error_not_found
+        DataError.Local.DiskFull -> Res.string.error_disk_full
+        DataError.Local.Unknown -> Res.string.error_unknown
+        DataError.Remote.RequestTimeout -> Res.string.error_request_timeout
+        DataError.Remote.TooManyRequests -> Res.string.error_too_many_requests
+        DataError.Remote.NoInternet -> Res.string.error_no_internet
+        DataError.Remote.ServerError -> Res.string.error_unknown
+        DataError.Remote.Serialization -> Res.string.error_serialization
+        DataError.Remote.Unknown -> Res.string.error_unknown
+        DataError.Remote.Unauthorized -> Res.string.error_unauthorized
+        DataError.Remote.NotFound -> Res.string.error_not_found
     }
 }

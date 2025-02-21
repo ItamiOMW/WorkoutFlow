@@ -17,14 +17,14 @@ suspend inline fun <reified T> safeRequest(
         execute()
     } catch(e: SocketTimeoutException) {
         e.printStackTrace()
-        return AppResult.Error(DataError.Remote.REQUEST_TIMEOUT)
+        return AppResult.Error(DataError.Remote.RequestTimeout)
     } catch(e: UnresolvedAddressException) {
         e.printStackTrace()
-        return AppResult.Error(DataError.Remote.NO_INTERNET)
+        return AppResult.Error(DataError.Remote.NoInternet)
     } catch (e: Exception) {
         e.printStackTrace()
         coroutineContext.ensureActive()
-        return AppResult.Error(DataError.Remote.UNKNOWN)
+        return AppResult.Error(DataError.Remote.Unknown)
     }
 
     return responseToResult(response)
@@ -38,14 +38,14 @@ suspend inline fun <reified T> responseToResult(
             try {
                 AppResult.Success(response.body<T>())
             } catch(e: NoTransformationFoundException) {
-                AppResult.Error(DataError.Remote.SERIALIZATION)
+                AppResult.Error(DataError.Remote.Serialization)
             }
         }
-        401 -> AppResult.Error(DataError.Remote.UNAUTHORIZED)
-        404 -> AppResult.Error(DataError.Remote.NOT_FOUND)
-        408 -> AppResult.Error(DataError.Remote.REQUEST_TIMEOUT)
-        429 -> AppResult.Error(DataError.Remote.TOO_MANY_REQUESTS)
-        in 500..599 -> AppResult.Error(DataError.Remote.SERVER)
-        else -> AppResult.Error(DataError.Remote.UNKNOWN)
+        401 -> AppResult.Error(DataError.Remote.Unauthorized)
+        404 -> AppResult.Error(DataError.Remote.NotFound)
+        408 -> AppResult.Error(DataError.Remote.RequestTimeout)
+        429 -> AppResult.Error(DataError.Remote.TooManyRequests)
+        in 500..599 -> AppResult.Error(DataError.Remote.ServerError)
+        else -> AppResult.Error(DataError.Remote.Unknown)
     }
 }

@@ -61,10 +61,10 @@ class DataStoreCurrentUserPreferences(
             AppResult.Success(Unit)
         } catch (exception: IOException) {
             exception.printStackTrace()
-            AppResult.Error(DataError.Local.DISK_FULL)
+            AppResult.Error(DataError.Local.DiskFull)
         } catch (exception: Exception) {
             exception.printStackTrace()
-            AppResult.Error(DataError.Local.UNKNOWN)
+            AppResult.Error(DataError.Local.Unknown)
         }
     }
 }
