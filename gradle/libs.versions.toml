@@ -164,7 +164,6 @@ coil = [
 ]
 room = [
     "androidx-room-runtime",
-    "androidx-room-compiler",
     "androidx-room-paging",
     "sqlite-bundled"
 ]
