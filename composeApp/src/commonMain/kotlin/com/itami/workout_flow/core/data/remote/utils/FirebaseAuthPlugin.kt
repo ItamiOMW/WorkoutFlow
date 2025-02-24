@@ -1,4 +1,4 @@
-package com.itami.workout_flow.core.data.remote
+package com.itami.workout_flow.core.data.remote.utils
 
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseAuth

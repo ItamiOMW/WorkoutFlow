@@ -11,7 +11,7 @@ interface WorkoutsApiService {
     suspend fun getWorkouts(
         lastItemId: Long?,
         pageSize: Int,
-        query: String,
+        query: String?,
         workoutsFilter: WorkoutsFilter,
         workoutsSort: WorkoutsSort
     ): AppResult<WorkoutsResponse, DataError.Remote>

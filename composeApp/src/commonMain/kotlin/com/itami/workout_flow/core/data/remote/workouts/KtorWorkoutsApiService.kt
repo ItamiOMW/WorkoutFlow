@@ -1,6 +1,6 @@
 package com.itami.workout_flow.core.data.remote.workouts
 
-import com.itami.workout_flow.core.data.remote.safeRequest
+import com.itami.workout_flow.core.data.remote.utils.safeRequest
 import com.itami.workout_flow.core.domain.model.error.DataError
 import com.itami.workout_flow.core.domain.model.result.AppResult
 import com.itami.workout_flow.dto.response.WorkoutsResponse
@@ -15,7 +15,7 @@ class KtorWorkoutsApiService(private val httpClient: HttpClient) : WorkoutsApiSe
     override suspend fun getWorkouts(
         lastItemId: Long?,
         pageSize: Int,
-        query: String,
+        query: String?,
         workoutsFilter: WorkoutsFilter,
         workoutsSort: WorkoutsSort
     ): AppResult<WorkoutsResponse, DataError.Remote> {
