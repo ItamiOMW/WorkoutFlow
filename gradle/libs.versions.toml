@@ -74,6 +74,7 @@ paging-compose-common = { group = "app.cash.paging", name = "paging-compose-comm
 paging-common = { group = "app.cash.paging", name = "paging-common", version.ref = "paging" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
@@ -160,4 +161,10 @@ coil = [
     "coil-network-ktor2",
     "coil-network-ktor3",
     "coil-mp"
+]
+room = [
+    "androidx-room-runtime",
+    "androidx-room-compiler",
+    "androidx-room-paging",
+    "sqlite-bundled"
 ]
