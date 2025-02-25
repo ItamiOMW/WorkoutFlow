@@ -25,7 +25,6 @@ import com.itami.workout_flow.core.data.local.database.entity.exercise.*
         SupersetEntity::class,
         ExerciseEntity::class,
         ExerciseEquipmentEntity::class,
-        ExerciseStepEntity::class,
         ExerciseMuscleInvolvementEntity::class,
     ],
     views = [
