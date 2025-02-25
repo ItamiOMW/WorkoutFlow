@@ -10,18 +10,12 @@ import kotlinx.serialization.Serializable
 data class ExerciseResponse(
     val id: Long,
     val name: String,
+    val description: String?,
     val exerciseGifUrl: String?,
     val exerciseType: ExerciseType,
-    val steps: List<ExerciseStepResponse>,
+    val steps: List<String>,
     val muscleInvolvements: List<MuscleInvolvementResponse>,
     val equipments: List<Equipment>,
-)
-
-@Serializable
-data class ExerciseStepResponse(
-    val exerciseId: Long,
-    val stepText: String,
-    val order: Int,
 )
 
 @Serializable

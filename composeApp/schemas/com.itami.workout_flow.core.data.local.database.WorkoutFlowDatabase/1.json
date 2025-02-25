@@ -1,0 +1,759 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "518dc23f94514d35ed19972aed1db3ee",
+    "entities": [
+      {
+        "tableName": "user_profiles",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `username` TEXT NOT NULL, `profilePictureUrl` TEXT, `subscription` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profilePictureUrl",
+            "columnName": "profilePictureUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "subscription",
+            "columnName": "subscription",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "workouts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`clientUUID` TEXT NOT NULL, `serverId` INTEGER, `authorId` INTEGER, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `durationMin` INTEGER NOT NULL, `favoritesCount` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL, `isPublic` INTEGER NOT NULL, `isCreatedByCurrentUser` INTEGER NOT NULL, `createdAt` TEXT NOT NULL, `updatedAt` TEXT, `isFavoriteChangedAt` TEXT, `isSynced` INTEGER NOT NULL, PRIMARY KEY(`clientUUID`), FOREIGN KEY(`authorId`) REFERENCES `user_profiles`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "clientUUID",
+            "columnName": "clientUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverId",
+            "columnName": "serverId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "authorId",
+            "columnName": "authorId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "durationMin",
+            "columnName": "durationMin",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "favoritesCount",
+            "columnName": "favoritesCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isFavorite",
+            "columnName": "isFavorite",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isPublic",
+            "columnName": "isPublic",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isCreatedByCurrentUser",
+            "columnName": "isCreatedByCurrentUser",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isFavoriteChangedAt",
+            "columnName": "isFavoriteChangedAt",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isSynced",
+            "columnName": "isSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "clientUUID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_workouts_authorId",
+            "unique": false,
+            "columnNames": [
+              "authorId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_workouts_authorId` ON `${TABLE_NAME}` (`authorId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "user_profiles",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "authorId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "scheduled_workouts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `workoutUUID` TEXT NOT NULL, `dayOfWeek` TEXT NOT NULL, `isSynced` INTEGER NOT NULL, `updatedAt` TEXT, PRIMARY KEY(`uuid`), FOREIGN KEY(`workoutUUID`) REFERENCES `workouts`(`clientUUID`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "uuid",
+            "columnName": "uuid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "workoutUUID",
+            "columnName": "workoutUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayOfWeek",
+            "columnName": "dayOfWeek",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSynced",
+            "columnName": "isSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "uuid"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_scheduled_workouts_workoutUUID",
+            "unique": false,
+            "columnNames": [
+              "workoutUUID"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_scheduled_workouts_workoutUUID` ON `${TABLE_NAME}` (`workoutUUID`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "workouts",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "workoutUUID"
+            ],
+            "referencedColumns": [
+              "clientUUID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "workout_types",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutUUID` TEXT NOT NULL, `workoutType` TEXT NOT NULL, PRIMARY KEY(`workoutUUID`, `workoutType`), FOREIGN KEY(`workoutUUID`) REFERENCES `workouts`(`clientUUID`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "workoutUUID",
+            "columnName": "workoutUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "workoutType",
+            "columnName": "workoutType",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "workoutUUID",
+            "workoutType"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "workouts",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "workoutUUID"
+            ],
+            "referencedColumns": [
+              "clientUUID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "workout_muscles",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutUUID` TEXT NOT NULL, `muscle` TEXT NOT NULL, PRIMARY KEY(`workoutUUID`, `muscle`), FOREIGN KEY(`workoutUUID`) REFERENCES `workouts`(`clientUUID`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "workoutUUID",
+            "columnName": "workoutUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "muscle",
+            "columnName": "muscle",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "workoutUUID",
+            "muscle"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "workouts",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "workoutUUID"
+            ],
+            "referencedColumns": [
+              "clientUUID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "workout_equipments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutUUID` TEXT NOT NULL, `equipment` TEXT NOT NULL, PRIMARY KEY(`workoutUUID`, `equipment`), FOREIGN KEY(`workoutUUID`) REFERENCES `workouts`(`clientUUID`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "workoutUUID",
+            "columnName": "workoutUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipment",
+            "columnName": "equipment",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "workoutUUID",
+            "equipment"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "workouts",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "workoutUUID"
+            ],
+            "referencedColumns": [
+              "clientUUID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "workout_exercises",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`clientUUID` TEXT NOT NULL, `serverId` INTEGER, `workoutUUID` TEXT NOT NULL, `supersetUUID` TEXT, `exerciseId` INTEGER NOT NULL, `order` INTEGER NOT NULL, PRIMARY KEY(`clientUUID`), FOREIGN KEY(`workoutUUID`) REFERENCES `workouts`(`clientUUID`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`exerciseId`) REFERENCES `exercises`(`id`) ON UPDATE CASCADE ON DELETE NO ACTION , FOREIGN KEY(`supersetUUID`) REFERENCES `supersets`(`clientUUID`) ON UPDATE CASCADE ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "clientUUID",
+            "columnName": "clientUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverId",
+            "columnName": "serverId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "workoutUUID",
+            "columnName": "workoutUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "supersetUUID",
+            "columnName": "supersetUUID",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "exerciseId",
+            "columnName": "exerciseId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "clientUUID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_workout_exercises_workoutUUID",
+            "unique": false,
+            "columnNames": [
+              "workoutUUID"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_workout_exercises_workoutUUID` ON `${TABLE_NAME}` (`workoutUUID`)"
+          },
+          {
+            "name": "index_workout_exercises_supersetUUID",
+            "unique": false,
+            "columnNames": [
+              "supersetUUID"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_workout_exercises_supersetUUID` ON `${TABLE_NAME}` (`supersetUUID`)"
+          },
+          {
+            "name": "index_workout_exercises_exerciseId",
+            "unique": false,
+            "columnNames": [
+              "exerciseId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_workout_exercises_exerciseId` ON `${TABLE_NAME}` (`exerciseId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "workouts",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "workoutUUID"
+            ],
+            "referencedColumns": [
+              "clientUUID"
+            ]
+          },
+          {
+            "table": "exercises",
+            "onDelete": "NO ACTION",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "exerciseId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "supersets",
+            "onDelete": "SET NULL",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "supersetUUID"
+            ],
+            "referencedColumns": [
+              "clientUUID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "sets",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`clientUUID` TEXT NOT NULL, `serverId` INTEGER, `workoutExerciseUUID` TEXT NOT NULL, `reps` INTEGER, `weightGrams` REAL, `distanceMeters` REAL, `timeSeconds` INTEGER, `order` INTEGER NOT NULL, PRIMARY KEY(`clientUUID`), FOREIGN KEY(`workoutExerciseUUID`) REFERENCES `workout_exercises`(`clientUUID`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "clientUUID",
+            "columnName": "clientUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverId",
+            "columnName": "serverId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "workoutExerciseUUID",
+            "columnName": "workoutExerciseUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reps",
+            "columnName": "reps",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "weightGrams",
+            "columnName": "weightGrams",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "distanceMeters",
+            "columnName": "distanceMeters",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "timeSeconds",
+            "columnName": "timeSeconds",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "clientUUID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_sets_workoutExerciseUUID",
+            "unique": false,
+            "columnNames": [
+              "workoutExerciseUUID"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_sets_workoutExerciseUUID` ON `${TABLE_NAME}` (`workoutExerciseUUID`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "workout_exercises",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "workoutExerciseUUID"
+            ],
+            "referencedColumns": [
+              "clientUUID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "supersets",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`clientUUID` TEXT NOT NULL, `serverId` INTEGER, `workoutUUID` TEXT NOT NULL, PRIMARY KEY(`clientUUID`), FOREIGN KEY(`workoutUUID`) REFERENCES `workouts`(`clientUUID`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "clientUUID",
+            "columnName": "clientUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverId",
+            "columnName": "serverId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "workoutUUID",
+            "columnName": "workoutUUID",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "clientUUID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_supersets_workoutUUID",
+            "unique": false,
+            "columnNames": [
+              "workoutUUID"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_supersets_workoutUUID` ON `${TABLE_NAME}` (`workoutUUID`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "workouts",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "workoutUUID"
+            ],
+            "referencedColumns": [
+              "clientUUID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "exercises",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `exerciseGifUrl` TEXT, `exerciseType` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exerciseGifUrl",
+            "columnName": "exerciseGifUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "exerciseType",
+            "columnName": "exerciseType",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "exercise_equipments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`exerciseId` INTEGER NOT NULL, `equipment` TEXT NOT NULL, PRIMARY KEY(`exerciseId`, `equipment`), FOREIGN KEY(`exerciseId`) REFERENCES `exercises`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "exerciseId",
+            "columnName": "exerciseId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipment",
+            "columnName": "equipment",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "exerciseId",
+            "equipment"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "exercises",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "exerciseId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "exercise_steps",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`exerciseId` INTEGER NOT NULL, `stepText` TEXT NOT NULL, `order` INTEGER NOT NULL, PRIMARY KEY(`exerciseId`, `order`), FOREIGN KEY(`exerciseId`) REFERENCES `exercises`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "exerciseId",
+            "columnName": "exerciseId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stepText",
+            "columnName": "stepText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "exerciseId",
+            "order"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "exercises",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "exerciseId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "exercise_muscle_involvements",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`exerciseId` INTEGER NOT NULL, `muscle` TEXT NOT NULL, `muscleRole` TEXT NOT NULL, PRIMARY KEY(`exerciseId`, `muscle`, `muscleRole`), FOREIGN KEY(`exerciseId`) REFERENCES `exercises`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "exerciseId",
+            "columnName": "exerciseId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "muscle",
+            "columnName": "muscle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "muscleRole",
+            "columnName": "muscleRole",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "exerciseId",
+            "muscle",
+            "muscleRole"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "exercises",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "exerciseId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [
+      {
+        "viewName": "WorkoutPreviewDbView",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT \n        w.clientUUID,\n        w.name,\n        w.durationMin,\n        w.favoritesCount,\n        w.isFavorite,\n        w.isCreatedByCurrentUser\n    FROM workouts w\n    LEFT JOIN workout_muscles wm ON wm.workoutUUID = w.clientUUID\n    LEFT JOIN user_profiles up ON up.id = w.authorId"
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '518dc23f94514d35ed19972aed1db3ee')"
+    ]
+  }
+}

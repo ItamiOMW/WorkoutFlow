@@ -11,5 +11,5 @@ data class UserProfileEntity(
     val name: String,
     val username: String,
     val profilePictureUrl: String?,
-    val subscription: UserProfileSubscription,
+    val subscription: UserProfileSubscription
 )

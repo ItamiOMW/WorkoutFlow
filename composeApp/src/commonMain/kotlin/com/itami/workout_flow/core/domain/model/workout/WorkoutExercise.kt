@@ -1,5 +1,7 @@
 package com.itami.workout_flow.core.domain.model.workout
 
+import com.itami.workout_flow.model.Exercise
+
 data class WorkoutExercise(
     val id: String,
     val workoutId: String,
