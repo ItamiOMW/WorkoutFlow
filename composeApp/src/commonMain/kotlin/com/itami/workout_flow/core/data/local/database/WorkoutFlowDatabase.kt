@@ -24,6 +24,7 @@ import com.itami.workout_flow.core.data.local.database.entity.exercise.*
         SetEntity::class,
         SupersetEntity::class,
         ExerciseEntity::class,
+        ExerciseStepEntity::class,
         ExerciseEquipmentEntity::class,
         ExerciseMuscleInvolvementEntity::class,
     ],

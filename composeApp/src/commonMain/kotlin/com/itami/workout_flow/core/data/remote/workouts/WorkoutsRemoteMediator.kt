@@ -35,8 +35,7 @@ class WorkoutsRemoteMediator(
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
-                    lastItem?.serverId
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    lastItem?.serverId ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
             }
 
@@ -86,6 +85,7 @@ class WorkoutsRemoteMediator(
         exercisesWithDetails.forEach { exerciseWithDetails ->
             database.exerciseDao.insertExerciseWithDetails(
                 exercise = exerciseWithDetails.exercise,
+                exerciseSteps = exerciseWithDetails.steps,
                 exerciseEquipments = exerciseWithDetails.equipments,
                 exerciseMuscleInvolvements = exerciseWithDetails.muscleInvolvements
             )

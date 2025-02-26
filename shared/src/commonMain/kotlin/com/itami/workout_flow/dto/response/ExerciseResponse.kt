@@ -13,9 +13,16 @@ data class ExerciseResponse(
     val description: String?,
     val exerciseGifUrl: String?,
     val exerciseType: ExerciseType,
-    val steps: List<String>,
+    val steps: List<ExerciseStepResponse>,
     val muscleInvolvements: List<MuscleInvolvementResponse>,
     val equipments: List<Equipment>,
+)
+
+@Serializable
+data class ExerciseStepResponse(
+    val exerciseId: Long,
+    val text: String,
+    val order: Int,
 )
 
 @Serializable

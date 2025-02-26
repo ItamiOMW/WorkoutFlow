@@ -1,5 +1,6 @@
 package com.itami.workout_flow.core.data.local.database.dao
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -7,9 +8,11 @@ import androidx.room.Transaction
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseEntity
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseEquipmentEntity
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseMuscleInvolvementEntity
+import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseStepEntity
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseWithDetails
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface ExerciseDao {
 
     @Transaction
@@ -31,6 +34,9 @@ interface ExerciseDao {
     suspend fun insertAll(exercises: List<ExerciseEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertExerciseSteps(exerciseSteps: List<ExerciseStepEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertExerciseEquipments(exerciseEquipments: List<ExerciseEquipmentEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -45,10 +51,12 @@ interface ExerciseDao {
     @Transaction
     suspend fun insertExerciseWithDetails(
         exercise: ExerciseEntity,
+        exerciseSteps: List<ExerciseStepEntity>,
         exerciseEquipments: List<ExerciseEquipmentEntity>,
         exerciseMuscleInvolvements: List<ExerciseMuscleInvolvementEntity>
     ) {
         insert(exercise)
+        insertExerciseSteps(exerciseSteps)
         insertExerciseEquipments(exerciseEquipments)
         insertExerciseMuscleInvolvements(exerciseMuscleInvolvements)
     }

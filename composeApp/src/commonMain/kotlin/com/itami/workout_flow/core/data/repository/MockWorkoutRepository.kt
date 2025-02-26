@@ -6,6 +6,7 @@ import com.itami.workout_flow.core.domain.model.workout.WorkoutPreview
 import com.itami.workout_flow.core.domain.repository.WorkoutRepository
 import com.itami.workout_flow.model.DayOfWeek
 import com.itami.workout_flow.model.Muscle
+import com.itami.workout_flow.model.UserProfileSubscription
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -24,7 +25,7 @@ class MockWorkoutRepository : WorkoutRepository {
                                 name = "Itami",
                                 username = "itamiomw",
                                 profilePictureUrl = "https://i.pinimg.com/736x/6e/9e/dc/6e9edc603eabce0b383680797ca59b74.jpg",
-                                subscription = UserProfile.Subscription.PREMIUM,
+                                subscription = UserProfileSubscription.PREMIUM,
                             ),
                             name = "Fullbody Strength",
                             durationMin = 60,
@@ -44,7 +45,7 @@ class MockWorkoutRepository : WorkoutRepository {
                                 name = "Tackake",
                                 username = "tackakeomw",
                                 profilePictureUrl = "https://i.pinimg.com/736x/a7/51/f0/a751f0af67fbb8fe579f2ef52cfed693.jpg",
-                                subscription = UserProfile.Subscription.BASIC,
+                                subscription = UserProfileSubscription.BASIC,
                             ),
                             name = "Arms & Shoulders",
                             durationMin = 40,

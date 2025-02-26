@@ -10,7 +10,6 @@ data class ExerciseEntity(
     val id: Long,
     val name: String,
     val description: String?,
-    val steps: List<String>,
     val exerciseGifUrl: String?,
     val exerciseType: ExerciseType,
 )

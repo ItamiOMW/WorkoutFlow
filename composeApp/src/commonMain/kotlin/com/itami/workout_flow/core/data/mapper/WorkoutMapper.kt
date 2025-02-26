@@ -3,6 +3,7 @@ package com.itami.workout_flow.core.data.mapper
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseEntity
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseEquipmentEntity
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseMuscleInvolvementEntity
+import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseStepEntity
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseWithDetails
 import com.itami.workout_flow.core.data.local.database.entity.workout.SetEntity
 import com.itami.workout_flow.core.data.local.database.entity.workout.SupersetEntity
@@ -24,6 +25,7 @@ import com.itami.workout_flow.dto.response.ExerciseResponse
 import com.itami.workout_flow.dto.response.WorkoutExerciseResponse
 import com.itami.workout_flow.dto.response.WorkoutResponse
 import com.itami.workout_flow.model.Exercise
+import com.itami.workout_flow.model.ExerciseStep
 import com.itami.workout_flow.model.MuscleInvolvement
 import kotlinx.datetime.Instant
 
@@ -90,7 +92,13 @@ fun ExerciseWithDetails.toExercise() = Exercise(
     name = this.exercise.name,
     exerciseGifUrl = this.exercise.exerciseGifUrl,
     exerciseType = this.exercise.exerciseType,
-    steps = this.exercise.steps,
+    steps = this.steps.map { stepEntity ->
+        ExerciseStep(
+            exerciseId = stepEntity.exerciseId,
+            text = stepEntity.text,
+            order = stepEntity.order
+        )
+    },
     muscleInvolvements = this.muscleInvolvements.map {
         MuscleInvolvement(
             muscleRole = it.muscleRole,
@@ -180,10 +188,16 @@ fun ExerciseResponse.toExerciseWithDetails() = ExerciseWithDetails(
         id = this.id,
         name = this.name,
         description = this.description,
-        steps = this.steps,
         exerciseGifUrl = exerciseGifUrl,
         exerciseType = this.exerciseType,
     ),
+    steps = this.steps.map { step ->
+        ExerciseStepEntity(
+            exerciseId = step.exerciseId,
+            text = step.text,
+            order = step.order
+        )
+    },
     muscleInvolvements = this.muscleInvolvements.map { muscleInvolvement ->
         ExerciseMuscleInvolvementEntity(
             muscle = muscleInvolvement.muscle,
