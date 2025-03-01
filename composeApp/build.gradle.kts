@@ -88,7 +88,6 @@ kotlin {
             implementation(libs.store)
             implementation(libs.paging.compose.common)
             implementation(libs.paging.common)
-            implementation(libs.kotlinx.datetime)
             implementation(libs.haze)
             implementation(libs.kmpauth.google)
             implementation(libs.kmpauth.firebase)
