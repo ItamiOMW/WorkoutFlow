@@ -32,7 +32,6 @@ val coreModule = module {
     singleOf(::DefaultUserRepository).bind<UserRepository>()
     singleOf(::DefaultAppSettings).bind<AppSettings>()
     singleOf(::KtorWorkoutsApiService).bind<WorkoutsApiService>()
-    singleOf(::WorkoutsRemoteMediator)
 
     single<WorkoutDao> { get<WorkoutFlowDatabase>().workoutDao }
     single<ExerciseDao> { get<WorkoutFlowDatabase>().exerciseDao }
