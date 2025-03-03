@@ -100,7 +100,7 @@ class HomeViewModel(
 
     private fun observeScheduledWorkouts() {
         viewModelScope.launch {
-            workoutRepository.getScheduledWorkouts()
+            workoutRepository.observeScheduledWorkouts()
                 .collectLatest { scheduledWorkouts ->
                     val routineDays = currentWeek.map { date ->
                         RoutineDayUI(

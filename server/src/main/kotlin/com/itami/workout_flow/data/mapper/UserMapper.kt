@@ -5,7 +5,9 @@ import com.itami.workout_flow.data.model.user.Subscription
 import com.itami.workout_flow.data.model.user.UpsertUser
 import com.itami.workout_flow.data.model.user.User
 import com.itami.workout_flow.dto.response.SubscriptionResponse
+import com.itami.workout_flow.dto.response.UserProfileResponse
 import com.itami.workout_flow.dto.response.UserResponse
+import com.itami.workout_flow.model.UserProfileSubscription
 
 fun UserEntity.toUser() = User(
     id = this.id.value,
@@ -50,5 +52,20 @@ fun Subscription.toUserSubscriptionResponse(): SubscriptionResponse {
         is Subscription.Premium -> {
             SubscriptionResponse.Premium(subscription.expirationDateTime.toString())
         }
+    }
+}
+
+fun User.toUserProfileResponse() = UserProfileResponse(
+    id = this.id,
+    name = this.name,
+    username = this.username,
+    profilePictureUrl = this.profilePictureUrl,
+    subscription = this.subscription.toUserProfileSubscription(),
+)
+
+fun Subscription.toUserProfileSubscription(): UserProfileSubscription {
+    return when (val subscription = this) {
+        is Subscription.Basic -> UserProfileSubscription.BASIC
+        is Subscription.Premium -> UserProfileSubscription.PREMIUM
     }
 }
