@@ -3,8 +3,6 @@ package com.itami.workout_flow.route.workout
 import com.itami.workout_flow.app.plugins.DEFAULT_RATE_LIMIT
 import com.itami.workout_flow.auth.firebase.FIREBASE_AUTH
 import com.itami.workout_flow.auth.firebase.FirebasePrincipal
-import com.itami.workout_flow.data.database.table.Workouts
-import com.itami.workout_flow.model.WorkoutsSort
 import com.itami.workout_flow.routes.WorkoutsRoute
 import com.itami.workout_flow.service.workout.WorkoutService
 import io.ktor.http.HttpStatusCode
@@ -29,7 +27,7 @@ fun Route.workoutsRoute(workoutService: WorkoutService) {
             }
         }
         authenticate(FIREBASE_AUTH) {
-            post<Workouts> {
+            post<WorkoutsRoute> {
                 // Not implemented yet
                 call.respond(HttpStatusCode.NotImplemented)
             }

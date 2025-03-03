@@ -54,11 +54,11 @@ object DatabaseFactory {
 
     private fun getHikariDataSource(): HikariDataSource {
         val config = HikariConfig().apply {
-            driverClassName = System.getenv("DB_DRIVER_NAME")
             jdbcUrl = System.getenv("JDBC_URL")
+            driverClassName = System.getenv("DB_DRIVER_NAME")
             username = System.getenv("DB_USER")
             password = System.getenv("DB_PASSWORD")
-            maximumPoolSize = 3
+            maximumPoolSize = 10
             isAutoCommit = false
             transactionIsolation = "TRANSACTION_REPEATABLE_READ"
             validate()

@@ -5,7 +5,7 @@ import org.jetbrains.exposed.dao.id.LongIdTable
 
 object Exercises: LongIdTable("exercises") {
     val name = varchar("name", 100)
-    val description = varchar("name", 200).nullable()
+    val description = varchar("description", 200).nullable()
     val exerciseType = enumeration<ExerciseType>("exercise_type")
     val exerciseGifUrl = varchar("exercise_gif_url", 255).nullable()
 }
