@@ -7,6 +7,7 @@ import app.cash.paging.PagingConfig
 import app.cash.paging.PagingData
 import app.cash.paging.map
 import com.itami.workout_flow.core.data.local.database.WorkoutFlowDatabase
+import com.itami.workout_flow.core.data.mapper.toWorkout
 import com.itami.workout_flow.core.data.mapper.toWorkoutPreview
 import com.itami.workout_flow.core.data.remote.workouts.WorkoutsApiService
 import com.itami.workout_flow.core.data.remote.workouts.WorkoutsRemoteMediator
@@ -131,7 +132,8 @@ class DefaultWorkoutRepository(
     }
 
     override fun observeWorkout(id: String): Flow<Workout?> {
-        TODO("Not yet implemented")
+        return workoutDao.observeWorkoutWithDetailsByUUID(id)
+            .map { it?.toWorkout() }
     }
 
     private fun getWorkoutsRawQuery(
