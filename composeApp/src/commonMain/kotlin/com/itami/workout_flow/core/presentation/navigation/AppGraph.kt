@@ -26,6 +26,12 @@ sealed interface AppGraph {
                 Favorites
             }
         }
+
+        @Serializable
+        data class WorkoutDetailsScreen(val workoutId: String)
+
+        @Serializable
+        data class WorkoutEditorScreen(val workoutId: String? = null)
     }
 
     @Serializable
