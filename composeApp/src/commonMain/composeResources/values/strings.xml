@@ -37,6 +37,37 @@
     <string name="continue_with_google">Continue with Google</string>
     <string name="continue_with_apple">Continue with Apple ID</string>
     <string name="sign_in_successful">Successfully signed in.</string>
+    <string name="custom">Custom</string>
+    <string name="favorites">Favorites</string>
+    <string name="search">Search</string>
+    <string name="search_workouts_hint">Search workouts..</string>
+    <string name="close_search">Close search</string>
+    <string name="open_search">Open search</string>
+    <string name="open_sort">Open sort</string>
+    <string name="open_filters">Open filters</string>
+    <string name="create_workout">Create workout</string>
+    <string name="check_icon">Check icon</string>
+    <string name="sort_by">Sort by</string>
+    <string name="reset">Reset</string>
+    <string name="apply">Apply</string>
+    <string name="newest">Newest</string>
+    <string name="oldest">Oldest</string>
+    <string name="most_liked">Most liked</string>
+    <string name="least_liked">Least liked</string>
+    <string name="equipment">Equipment</string>
+    <string name="targeted_muscles">targeted_muscles</string>
+
+    <string name="less_than_30min">Less than 30 min</string>
+    <string name="between_30_and_60min">Between 30 and 60 min</string>
+    <string name="between_60_and_90min">Between 60 and 90 min</string>
+    <string name="more_than_90min">More than 90 min</string>
+
+    <string name="bodyweight">Bodyweight</string>
+    <string name="calisthenics">Calisthenics</string>
+    <string name="barbell">Barbell</string>
+    <string name="dumbbells">Dumbbells</string>
+    <string name="machines">Machines</string>
+    <string name="bands">Bands</string>
 
     <string name="error_disk_full">Oops, it seems like your disk is full.</string>
     <string name="error_unknown">Oops, something went wrong.</string>
