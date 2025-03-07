@@ -57,6 +57,7 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts WHERE serverId = :serverId LIMIT 1")
     suspend fun getWorkoutByServerId(serverId: Long): WorkoutEntity?
 
+    @Transaction
     @Query("SELECT * FROM workouts WHERE clientUUID = :uuid LIMIT 1")
     suspend fun getWorkoutWithDetailsByUUID(uuid: String): WorkoutWithDetails?
 
