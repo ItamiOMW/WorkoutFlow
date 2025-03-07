@@ -1,5 +1,6 @@
 package com.itami.workout_flow.core.data.local.database
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -37,6 +38,7 @@ import com.itami.workout_flow.core.data.local.database.entity.exercise.*
     EnumConverter::class,
     InstantConverter::class
 )
+@ConstructedBy(WorkoutFlowDbConstructor::class)
 abstract class WorkoutFlowDatabase : RoomDatabase() {
 
     abstract val workoutDao: WorkoutDao
