@@ -1,5 +1,6 @@
 package com.itami.workout_flow.workouts.presentation.screens.workouts.components
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -24,16 +25,13 @@ import com.itami.workout_flow.core.domain.model.workout.WorkoutPreview
 import com.itami.workout_flow.core.presentation.components.ShimmerWorkoutItem
 import com.itami.workout_flow.core.presentation.components.WorkoutPreviewItem
 import com.itami.workout_flow.core.presentation.theme.WorkoutFlowTheme
-import com.itami.workout_flow.core.presentation.utils.toStringRes
-import com.itami.workout_flow.core.presentation.utils.LazyPagingItems
+import com.itami.workout_flow.core.presentation.utils.collectAsLazyPagingItems
 import com.itami.workout_flow.core.presentation.utils.itemKey
+import com.itami.workout_flow.core.presentation.utils.toStringRes
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.getString
 import workoutflow.composeapp.generated.resources.Res
 import workoutflow.composeapp.generated.resources.error_unknown
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 @Composable
 internal fun WorkoutsSearchPagerScreenContent(
@@ -43,7 +41,7 @@ internal fun WorkoutsSearchPagerScreenContent(
     onWorkoutPreviewClick: (WorkoutPreview) -> Unit,
     onErrorOccurred: (m: String) -> Unit,
 ) {
-    val searchWorkoutsPagingItems = searchWorkoutsPreviewsPagingItemsFlow.collectAsLazyPagingItems1()
+    val searchWorkoutsPagingItems = searchWorkoutsPreviewsPagingItemsFlow.collectAsLazyPagingItems()
 
     // State to track the last displayed error and its handling status
     var lastDisplayedError by remember { mutableStateOf<String?>(null) }
@@ -64,7 +62,7 @@ internal fun WorkoutsSearchPagerScreenContent(
     }
 
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.animateContentSize(),
         state = lazyListState,
         verticalArrangement = Arrangement.spacedBy(WorkoutFlowTheme.padding.medium),
         contentPadding = PaddingValues(WorkoutFlowTheme.padding.default)
@@ -111,36 +109,6 @@ internal fun WorkoutsSearchPagerScreenContent(
             Spacer(modifier = Modifier.height(124.dp))
         }
     }
-}
-
-@Composable
-fun <T : Any> Flow<PagingData<T>>.collectAsLazyPagingItems1(
-    context: CoroutineContext = EmptyCoroutineContext
-): LazyPagingItems<T> {
-
-    val lazyPagingItems = remember(this) { LazyPagingItems(this) }
-
-    LaunchedEffect(lazyPagingItems) {
-        if (context == EmptyCoroutineContext) {
-            lazyPagingItems.collectPagingData()
-        } else {
-            withContext(context) {
-                lazyPagingItems.collectPagingData()
-            }
-        }
-    }
-
-    LaunchedEffect(lazyPagingItems) {
-        if (context == EmptyCoroutineContext) {
-            lazyPagingItems.collectLoadState()
-        } else {
-            withContext(context) {
-                lazyPagingItems.collectLoadState()
-            }
-        }
-    }
-
-    return lazyPagingItems
 }
 
 private suspend fun getCurrentErrorMessage(loadState: CombinedLoadStates): String? {
