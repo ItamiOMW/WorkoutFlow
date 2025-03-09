@@ -1,6 +1,7 @@
 package com.itami.workout_flow.data.model.workout
 
-import java.time.ZonedDateTime
+import com.itami.workout_flow.model.Exercise
+import java.time.OffsetDateTime
 
 data class WorkoutExerciseLog(
     val serverId: Long,
@@ -13,5 +14,5 @@ data class WorkoutExerciseLog(
     val exercise: Exercise,
     val setLogs: List<SetLog>,
     val order: Int,
-    val createdAt: ZonedDateTime,
+    val createdAt: OffsetDateTime,
 )

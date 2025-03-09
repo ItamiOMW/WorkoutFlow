@@ -1,8 +1,4 @@
-package com.itami.workout_flow.core.domain.model.workout
-
-import com.itami.workout_flow.model.Equipment
-import com.itami.workout_flow.model.ExerciseType
-import com.itami.workout_flow.model.MuscleInvolvement
+package com.itami.workout_flow.model
 
 data class Exercise(
     val id: Long,
@@ -10,7 +6,7 @@ data class Exercise(
     val description: String?,
     val exerciseGifUrl: String?,
     val exerciseType: ExerciseType,
-    val steps: List<String>,
+    val steps: List<ExerciseStep>,
     val muscleInvolvements: List<MuscleInvolvement>,
     val equipments: List<Equipment>,
 )

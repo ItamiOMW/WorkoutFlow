@@ -4,6 +4,7 @@ import com.itami.workout_flow.core.domain.model.user.UserProfile
 import com.itami.workout_flow.model.Equipment
 import com.itami.workout_flow.model.Muscle
 import com.itami.workout_flow.model.WorkoutType
+import kotlinx.datetime.Instant
 
 data class Workout(
     val id: String,
@@ -19,5 +20,5 @@ data class Workout(
     val isFavorite: Boolean,
     val isPublic: Boolean,
     val isCreatedByCurrentUser: Boolean,
-    val createdAt: String,
+    val createdAt: Instant,
 )

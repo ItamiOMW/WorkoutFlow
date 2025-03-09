@@ -24,6 +24,7 @@ kotlin {
             api(libs.ktor.serialization.kotlinx.json)
             api(libs.ktor.resources)
             api(libs.koin.core)
+            api(libs.kotlinx.datetime)
         }
     }
 }
