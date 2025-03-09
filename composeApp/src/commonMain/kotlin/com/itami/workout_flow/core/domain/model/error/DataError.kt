@@ -1,21 +1,21 @@
 package com.itami.workout_flow.core.domain.model.error
 
-sealed interface DataError : AppError {
+sealed class DataError : AppError() {
 
-    enum class Remote : DataError {
-        UNAUTHORIZED,
-        NOT_FOUND,
-        REQUEST_TIMEOUT,
-        TOO_MANY_REQUESTS,
-        NO_INTERNET,
-        SERVER,
-        SERIALIZATION,
-        UNKNOWN
+    sealed class Remote : DataError() {
+        data object Unauthorized : Remote()
+        data object NotFound : Remote()
+        data object RequestTimeout : Remote()
+        data object TooManyRequests : Remote()
+        data object NoInternet : Remote()
+        data object ServerError : Remote()
+        data object Serialization : Remote()
+        data object Unknown : Remote()
     }
 
-    enum class Local : DataError {
-        DISK_FULL,
-        UNKNOWN,
+    sealed class Local : DataError() {
+        data object DiskFull : Local()
+        data object Unknown : Local()
     }
 
 }

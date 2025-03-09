@@ -8,6 +8,7 @@ import com.itami.workout_flow.core.data.local.preferences.user.CurrentUserPrefer
 import com.itami.workout_flow.core.domain.model.error.DataError
 import com.itami.workout_flow.core.domain.model.result.AppResult
 import com.itami.workout_flow.core.domain.model.result.asEmptyDataResult
+import com.itami.workout_flow.core.domain.model.user.CurrentUser
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 
@@ -36,6 +37,8 @@ class DefaultAuthRepository(
 
     override suspend fun signOut(): AppResult<Unit, DataError> {
         Firebase.auth.signOut()
+        currentUserPreferences.setUser(CurrentUser.Guest)
+        // Clean db tables
         return AppResult.Success(Unit)
     }
 

@@ -7,7 +7,7 @@ import java.io.InputStream
 
 object FirebaseFactory {
 
-    private val firebaseAdminSdk: InputStream = System.getenv("FIREBASE_ADMIN_KEY").byteInputStream()
+    private val firebaseAdminSdk: InputStream = System.getenv("FIREBASE_ADMIN_SDK").byteInputStream()
 
     private val options: FirebaseOptions = FirebaseOptions.builder()
         .setCredentials(GoogleCredentials.fromStream(firebaseAdminSdk))
