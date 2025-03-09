@@ -40,7 +40,7 @@ class WorkoutsRemoteMediator(
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> {
                     createdBeforeCursor = Clock.System.now()
-                    page++
+                    page = 1
                     page
                 }
 
