@@ -22,8 +22,8 @@ sealed interface AppGraph {
         ) {
             enum class WorkoutsLaunchMode {
                 Default,
+                Favorites,
                 Search,
-                Favorites
             }
         }
 

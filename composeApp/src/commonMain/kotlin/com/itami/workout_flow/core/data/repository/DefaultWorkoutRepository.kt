@@ -184,15 +184,15 @@ class DefaultWorkoutRepository(
         }
 
         if (muscles.isNotEmpty()) {
-            appendCondition("wm.muscle IN (${muscles.joinToString(",") { it.name }})")
+            appendCondition("wm.muscle IN (${muscles.joinToString(",") { "'${it.name}'" }})")
         }
 
         if (equipments.isNotEmpty()) {
-            appendCondition("we.equipment IN (${equipments.joinToString(",") { it.name }})")
+            appendCondition("we.equipment IN (${equipments.joinToString(",") { "'${it.name}'" }})")
         }
 
         if (workoutTypes.isNotEmpty()) {
-            appendCondition("wt.workoutType IN (${workoutTypes.joinToString(",") { it.name }})")
+            appendCondition("wt.workoutType IN (${workoutTypes.joinToString(",") { "'${it.name}'" }})")
         }
 
         if (timeFilters.isNotEmpty()) {
