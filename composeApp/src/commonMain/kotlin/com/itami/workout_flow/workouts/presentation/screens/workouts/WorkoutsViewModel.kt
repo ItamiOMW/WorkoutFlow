@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import app.cash.paging.PagingData
 import app.cash.paging.cachedIn
 import com.itami.workout_flow.core.domain.repository.WorkoutRepository
-import com.itami.workout_flow.core.presentation.navigation.AppGraph.Workouts.WorkoutsScreen.WorkoutsLaunchMode
 import com.itami.workout_flow.model.WorkoutType
 import com.itami.workout_flow.model.WorkoutsFilter
 import com.itami.workout_flow.model.WorkoutsSort
@@ -36,7 +35,6 @@ class WorkoutsViewModel(
     private val _showSearchQuery = MutableStateFlow(false)
     private val _workoutsFilter = MutableStateFlow(WorkoutsFilter())
     private val _workoutSort = MutableStateFlow(WorkoutsSort.Newest)
-    private val _selectedPagerScreen = MutableStateFlow(WorkoutsState.WorkoutsPagerScreen.CUSTOM)
     private val _bottomSheetContent = MutableStateFlow<WorkoutsState.WorkoutsBottomSheetContent?>(null)
 
     val customWorkouts = combine(
@@ -82,21 +80,19 @@ class WorkoutsViewModel(
             initialValue = PagingData.empty()
         )
 
-    val state = com.itami.workout_flow.core.utils.combine(
+    val state = combine(
         _searchQuery,
         _showSearchQuery,
         _workoutsFilter,
         _workoutSort,
         _bottomSheetContent,
-        _selectedPagerScreen
-    ) { searchQuery, showSearchQuery, filter, sort, bottomSheetContent, pagerScreen ->
+    ) { searchQuery, showSearchQuery, filter, sort, bottomSheetContent ->
         WorkoutsState(
             searchQuery = searchQuery,
             showSearchQuery = showSearchQuery,
             workoutSort = sort,
             workoutsFilter = filter,
             workoutsBottomSheetContent = bottomSheetContent,
-            selectedPagerScreen = pagerScreen
         )
     }.stateIn(
         scope = viewModelScope,
@@ -105,16 +101,6 @@ class WorkoutsViewModel(
     )
 
     init {
-        savedStateHandle.get<String>("launchMode")?.let { launchModeStr ->
-            val launchMode = WorkoutsLaunchMode.valueOf(launchModeStr)
-            val selectedPagerScreen = when (launchMode) {
-                WorkoutsLaunchMode.Default -> WorkoutsState.WorkoutsPagerScreen.CUSTOM
-                WorkoutsLaunchMode.Favorites -> WorkoutsState.WorkoutsPagerScreen.FAVORITES
-                WorkoutsLaunchMode.Search -> WorkoutsState.WorkoutsPagerScreen.SEARCH
-            }
-            _selectedPagerScreen.update { selectedPagerScreen }
-        }
-
         savedStateHandle.get<String>("workoutType")?.let { workoutTypeStr ->
             val workoutType = WorkoutType.valueOf(workoutTypeStr)
             _workoutsFilter.update { it.copy(selectedWorkoutTypes = listOf(workoutType)) }
@@ -166,10 +152,6 @@ class WorkoutsViewModel(
 
             is WorkoutsAction.WorkoutClick -> {
                 sendEvent(WorkoutsEvent.NavigateToWorkoutDetails(action.workoutId))
-            }
-
-            is WorkoutsAction.SelectPagerScreen -> {
-                _selectedPagerScreen.update { action.pagerScreen }
             }
         }
     }
