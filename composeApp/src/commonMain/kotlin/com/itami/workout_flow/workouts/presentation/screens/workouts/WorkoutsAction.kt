@@ -11,8 +11,6 @@ sealed interface WorkoutsAction {
 
     data object CloseSearchClick : WorkoutsAction
 
-    data class SelectPagerScreen(val pagerScreen: WorkoutsState.WorkoutsPagerScreen) : WorkoutsAction
-
     data class ChangeWorkoutsSort(val workoutSort: WorkoutsSort) : WorkoutsAction
 
     data class ChangeWorkoutsFilter(val workoutsFilter: WorkoutsFilter) : WorkoutsAction

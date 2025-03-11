@@ -28,10 +28,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.cash.paging.PagingData
 import com.itami.workout_flow.core.domain.model.workout.WorkoutPreview
 import com.itami.workout_flow.core.presentation.components.GradientFloatingActionButton
-import com.itami.workout_flow.workouts.presentation.screens.workouts.components.WorkoutsScreenFilterBottomSheetContent
+import com.itami.workout_flow.core.presentation.navigation.AppGraph.Workouts.WorkoutsScreen.WorkoutsLaunchMode
 import com.itami.workout_flow.core.presentation.theme.WorkoutFlowTheme
 import com.itami.workout_flow.workouts.presentation.screens.workouts.components.WorkoutsCustomPagerScreenContent
 import com.itami.workout_flow.workouts.presentation.screens.workouts.components.WorkoutsFavoritesPagerScreenContent
+import com.itami.workout_flow.workouts.presentation.screens.workouts.components.WorkoutsScreenFilterBottomSheetContent
 import com.itami.workout_flow.workouts.presentation.screens.workouts.components.WorkoutsScreenSortBottomSheetContent
 import com.itami.workout_flow.workouts.presentation.screens.workouts.components.WorkoutsSearchPagerScreenContent
 import com.itami.workout_flow.workouts.presentation.screens.workouts.components.WorkoutsTopBar
@@ -49,6 +50,7 @@ fun WorkoutsScreenRoute(
     onNavigateToWorkoutDetails: (workoutId: String) -> Unit,
     onNavigateToWorkoutEditor: () -> Unit,
     onShowLocalSnackbar: suspend (message: String) -> Unit,
+    workoutsLaunchMode: WorkoutsLaunchMode = WorkoutsLaunchMode.Default,
     viewModel: WorkoutsViewModel = koinViewModel()
 ) {
     LaunchedEffect(Unit) {
@@ -66,6 +68,7 @@ fun WorkoutsScreenRoute(
     val favoriteWorkoutsFlow = viewModel.favoriteWorkouts
     val state by viewModel.state.collectAsStateWithLifecycle()
     WorkoutsScreenContent(
+        workoutsLaunchMode = workoutsLaunchMode,
         state = state,
         customWorkoutsFlow = customWorkoutsFlow,
         favoriteWorkoutsFlow = favoriteWorkoutsFlow,
@@ -78,6 +81,7 @@ fun WorkoutsScreenRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun WorkoutsScreenContent(
+    workoutsLaunchMode: WorkoutsLaunchMode,
     state: WorkoutsState,
     customWorkoutsFlow: Flow<List<WorkoutPreview>>,
     favoriteWorkoutsFlow: Flow<List<WorkoutPreview>>,
@@ -94,17 +98,12 @@ private fun WorkoutsScreenContent(
     val pagerScreens = WorkoutsState.WorkoutsPagerScreen.entries
 
     val pagerState = rememberPagerState(
-        initialPage = pagerScreens.indexOf(state.selectedPagerScreen)
+        initialPage = when (workoutsLaunchMode) {
+            WorkoutsLaunchMode.Default -> 0
+            WorkoutsLaunchMode.Favorites -> 1
+            WorkoutsLaunchMode.Search -> 2
+        }
     ) { pagerScreens.size }
-
-    LaunchedEffect(state.selectedPagerScreen) {
-        pagerState.animateScrollToPage(pagerScreens.indexOf(state.selectedPagerScreen))
-    }
-
-    LaunchedEffect(pagerState.currentPage) {
-        onAction(WorkoutsAction.SelectPagerScreen(pagerScreens[pagerState.currentPage]))
-    }
-
 
     val customWorkoutsLazyListState = rememberLazyListState()
     val favoriteWorkoutsLazyListState = rememberLazyListState()

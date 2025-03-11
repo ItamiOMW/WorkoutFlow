@@ -11,7 +11,6 @@ import workoutflow.composeapp.generated.resources.search
 data class WorkoutsState(
     val searchQuery: String = "",
     val showSearchQuery: Boolean = false,
-    val selectedPagerScreen: WorkoutsPagerScreen = WorkoutsPagerScreen.CUSTOM,
     val workoutSort: WorkoutsSort = WorkoutsSort.Newest,
     val workoutsFilter: WorkoutsFilter = WorkoutsFilter(),
     val workoutsBottomSheetContent: WorkoutsBottomSheetContent? = null,
