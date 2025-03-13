@@ -26,6 +26,7 @@ data class WorkoutUI(
 )
 
 sealed class WorkoutExerciseComponentUI(
+    val exerciseId: String,
     val order: Int,
     val totalSetsCount: Int,
     open val expanded: Boolean,
@@ -35,6 +36,7 @@ sealed class WorkoutExerciseComponentUI(
         val workoutExercise: WorkoutExerciseUI,
         override val expanded: Boolean,
     ) : WorkoutExerciseComponentUI(
+        exerciseId = workoutExercise.id,
         order = workoutExercise.order,
         totalSetsCount = workoutExercise.sets.size,
         expanded = expanded,
@@ -45,10 +47,21 @@ sealed class WorkoutExerciseComponentUI(
         val workoutExercises: List<WorkoutExerciseUI>,
         override val expanded: Boolean,
     ) : WorkoutExerciseComponentUI(
+        exerciseId = workoutExercises.first().id,
         order = workoutExercises.first().order,
         totalSetsCount = workoutExercises.flatMap { it.sets }.size,
         expanded = expanded,
     )
+
+    fun copy(
+        order: Int = this.order,
+        expanded: Boolean = this.expanded
+    ): WorkoutExerciseComponentUI {
+        return when(this) {
+            is Single -> copy(expanded = expanded, order = order)
+            is Superset -> copy(expanded = expanded, order = order)
+        }
+    }
 
 }
 
