@@ -3,6 +3,7 @@ package com.itami.workout_flow.workouts.presentation.model
 import com.itami.workout_flow.core.domain.model.user.UserProfile
 import com.itami.workout_flow.core.domain.model.workout.WorkoutExercise
 import com.itami.workout_flow.model.Equipment
+import com.itami.workout_flow.model.Exercise
 import com.itami.workout_flow.model.Muscle
 import com.itami.workout_flow.model.WorkoutType
 import kotlinx.datetime.Instant
@@ -24,24 +25,44 @@ data class WorkoutUI(
     val createdAt: Instant,
 )
 
-sealed class WorkoutExerciseComponentUI(val order: Int) {
+sealed class WorkoutExerciseComponentUI(
+    val order: Int,
+    val totalSetsCount: Int,
+    open val expanded: Boolean,
+) {
 
     data class Single(
-        val workoutExercise: WorkoutExercise,
-        val expanded: Boolean,
-    ) : WorkoutExerciseComponentUI(order = workoutExercise.order)
+        val workoutExercise: WorkoutExerciseUI,
+        override val expanded: Boolean,
+    ) : WorkoutExerciseComponentUI(
+        order = workoutExercise.order,
+        totalSetsCount = workoutExercise.sets.size,
+        expanded = expanded,
+    )
 
     data class Superset(
         val supersetId: String,
-        val workoutExercises: List<WorkoutExercise>,
-        val expanded: Boolean,
-    ) : WorkoutExerciseComponentUI(order = workoutExercises.first().order)
+        val workoutExercises: List<WorkoutExerciseUI>,
+        override val expanded: Boolean,
+    ) : WorkoutExerciseComponentUI(
+        order = workoutExercises.first().order,
+        totalSetsCount = workoutExercises.flatMap { it.sets }.size,
+        expanded = expanded,
+    )
 
 }
 
+data class WorkoutExerciseUI(
+    val id: String,
+    val supersetId: String?,
+    val exercise: Exercise,
+    val sets: List<SetUI>,
+    val order: Int,
+)
+
 data class SetUI(
     val id: String,
-    val workoutExerciseUUID: String,
+    val workoutExerciseId: String,
     val reps: Int?,
     val weightGrams: Float?,
     val distanceMeters: Float?,
