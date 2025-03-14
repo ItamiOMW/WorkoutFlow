@@ -7,6 +7,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.itami.workout_flow.core.presentation.navigation.AppGraph
 import com.itami.workout_flow.core.presentation.navigation.AppGraph.Workouts.WorkoutsScreen.WorkoutsLaunchMode
+import com.itami.workout_flow.workouts.presentation.screens.workout_details.WorkoutDetailsScreenRoute
 import com.itami.workout_flow.workouts.presentation.screens.workouts.WorkoutsScreenRoute
 
 fun NavGraphBuilder.workoutsGraph(
@@ -37,6 +38,17 @@ fun NavGraphBuilder.workoutsGraph(
                 },
                 workoutsLaunchMode = WorkoutsLaunchMode.valueOf(workoutsScreen.launchMode),
                 onShowLocalSnackbar = onShowLocalSnackbar
+            )
+        }
+        composable<AppGraph.Workouts.WorkoutDetailsScreen> { _ ->
+            WorkoutDetailsScreenRoute(
+                onNavigateToEditWorkout = {
+
+                },
+                onNavigateToUserProfile = {
+
+                },
+                onNavigateBack = navController::navigateUp,
             )
         }
     }

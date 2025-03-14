@@ -56,6 +56,40 @@
     <string name="least_liked">Least liked</string>
     <string name="equipment">Equipment</string>
     <string name="targeted_muscles">Targeted muscles</string>
+    <string name="add_to_favorite">Add to favorite</string>
+    <string name="remove_from_favorite">Remove from favorite</string>
+    <string name="start_workout">Start workout</string>
+    <string name="edit_workout">Edit workout</string>
+    <string name="open_dropdown">Open dropdown menu</string>
+    <string name="author_profile">Author profile</string>
+    <string name="clock_icon">Clock icon</string>
+    <string name="exercise_icon">Exercise icon</string>
+    <string name="category_icon">Exercise icon</string>
+    <string name="muscles_icon">Muscles icon</string>
+    <string name="superset_uppercase">SUPERSET</string>
+    <string name="link_icon">Link icon</string>
+    <string name="exercise_execution_gif">Exercise execution gif</string>
+
+
+    <string name="kilometers_short">Km</string>
+    <string name="kilometers">Kilometers</string>
+    <string name="miles_short">Ml</string>
+    <string name="miles">Miles</string>
+    <string name="kilograms_short">Kg</string>
+    <string name="kilograms">Kilograms</string>
+    <string name="pounds_short">Lbs</string>
+    <string name="pounds">Pounds</string>
+    <string name="reps">Reps</string>
+    <string name="hours_short">H</string>
+    <string name="minutes_short">M</string>
+    <string name="seconds_short">S</string>
+    <string name="expand">Expand</string>
+    <string name="collapse">Collapse</string>
+    <string name="workout_not_found">Oops! It seems this workout is not available.</string>
+    <plurals name="sets_count">
+        <item quantity="one">%1$d set</item>
+        <item quantity="other">%1$d sets</item>
+    </plurals>
 
     <string name="less_than_30min">Less than 30 min</string>
     <string name="between_30_and_60min">Between 30 and 60 min</string>
