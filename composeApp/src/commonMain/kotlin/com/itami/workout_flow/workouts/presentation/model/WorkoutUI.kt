@@ -1,7 +1,6 @@
 package com.itami.workout_flow.workouts.presentation.model
 
 import com.itami.workout_flow.core.domain.model.user.UserProfile
-import com.itami.workout_flow.core.domain.model.workout.WorkoutExercise
 import com.itami.workout_flow.model.Equipment
 import com.itami.workout_flow.model.Exercise
 import com.itami.workout_flow.model.Muscle
@@ -27,39 +26,41 @@ data class WorkoutUI(
 
 sealed class WorkoutExerciseComponentUI(
     val exerciseId: String,
-    val order: Int,
     val totalSetsCount: Int,
+    open val order: Int,
     open val expanded: Boolean,
 ) {
 
     data class Single(
         val workoutExercise: WorkoutExerciseUI,
-        override val expanded: Boolean,
+        override val order: Int = workoutExercise.order,
+        override val expanded: Boolean = false,
     ) : WorkoutExerciseComponentUI(
         exerciseId = workoutExercise.id,
-        order = workoutExercise.order,
         totalSetsCount = workoutExercise.sets.size,
+        order = order,
         expanded = expanded,
     )
 
     data class Superset(
         val supersetId: String,
         val workoutExercises: List<WorkoutExerciseUI>,
-        override val expanded: Boolean,
+        override val order: Int = workoutExercises.first().order,
+        override val expanded: Boolean = false,
     ) : WorkoutExerciseComponentUI(
         exerciseId = workoutExercises.first().id,
-        order = workoutExercises.first().order,
         totalSetsCount = workoutExercises.flatMap { it.sets }.size,
+        order = order,
         expanded = expanded,
     )
 
-    fun copy(
+    fun copyComponent(
         order: Int = this.order,
         expanded: Boolean = this.expanded
     ): WorkoutExerciseComponentUI {
         return when(this) {
-            is Single -> copy(expanded = expanded, order = order)
-            is Superset -> copy(expanded = expanded, order = order)
+            is Single -> this.copy(expanded = expanded, order = order)
+            is Superset -> this.copy(expanded = expanded, order = order)
         }
     }
 
