@@ -11,6 +11,9 @@ import com.itami.workout_flow.core.data.mapper.toWorkout
 import com.itami.workout_flow.core.data.mapper.toWorkoutPreview
 import com.itami.workout_flow.core.data.remote.workouts.WorkoutsApiService
 import com.itami.workout_flow.core.data.remote.workouts.WorkoutsRemoteMediator
+import com.itami.workout_flow.core.domain.model.error.DataError
+import com.itami.workout_flow.core.domain.model.result.AppResult
+import com.itami.workout_flow.core.domain.model.result.EmptyResult
 import com.itami.workout_flow.core.domain.model.workout.ScheduledWorkout
 import com.itami.workout_flow.core.domain.model.workout.Workout
 import com.itami.workout_flow.core.domain.model.workout.WorkoutPreview
@@ -23,6 +26,7 @@ import com.itami.workout_flow.model.WorkoutsFilter
 import com.itami.workout_flow.model.WorkoutsSort
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.Clock
 
 class DefaultWorkoutRepository(
     private val database: WorkoutFlowDatabase,
@@ -134,6 +138,19 @@ class DefaultWorkoutRepository(
     override fun observeWorkout(id: String): Flow<Workout?> {
         return workoutDao.observeWorkoutWithDetailsByUUID(id)
             .map { it?.toWorkout() }
+    }
+
+    override suspend fun setFavorite(
+        workoutId: String,
+        isFavorite: Boolean
+    ): EmptyResult<DataError> {
+        workoutDao.setFavorite(
+            workoutUUID = workoutId,
+            isFavorite = isFavorite,
+            isFavoriteChangedAt = Clock.System.now()
+        )
+        // TODO make a network request to set favorite later
+        return AppResult.Success(Unit)
     }
 
     private fun getWorkoutsRawQuery(

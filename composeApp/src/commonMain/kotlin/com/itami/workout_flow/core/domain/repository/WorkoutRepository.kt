@@ -1,6 +1,8 @@
 package com.itami.workout_flow.core.domain.repository
 
 import app.cash.paging.PagingData
+import com.itami.workout_flow.core.domain.model.error.DataError
+import com.itami.workout_flow.core.domain.model.result.EmptyResult
 import com.itami.workout_flow.core.domain.model.workout.ScheduledWorkout
 import com.itami.workout_flow.core.domain.model.workout.Workout
 import com.itami.workout_flow.core.domain.model.workout.WorkoutPreview
@@ -31,5 +33,10 @@ interface WorkoutRepository {
     ): Flow<List<WorkoutPreview>>
 
     fun observeWorkout(id: String): Flow<Workout?>
+
+    suspend fun setFavorite(
+        workoutId: String,
+        isFavorite: Boolean
+    ): EmptyResult<DataError>
 
 }
