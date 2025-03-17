@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
 }
 
 kotlin {
@@ -20,10 +21,14 @@ kotlin {
     jvm()
     
     sourceSets {
+        dependencies {
+            ksp(libs.koin.ksp.compiler)
+        }
         commonMain.dependencies {
             api(libs.ktor.serialization.kotlinx.json)
             api(libs.ktor.resources)
             api(libs.koin.core)
+            api(libs.koin.annotations)
             api(libs.kotlinx.datetime)
         }
     }
