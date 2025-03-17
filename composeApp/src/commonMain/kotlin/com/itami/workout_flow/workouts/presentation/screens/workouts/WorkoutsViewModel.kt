@@ -1,3 +1,5 @@
+@file:OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+
 package com.itami.workout_flow.workouts.presentation.screens.workouts
 
 import androidx.lifecycle.SavedStateHandle
@@ -22,7 +24,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 class WorkoutsViewModel(
     private val workoutRepository: WorkoutRepository,
     private val savedStateHandle: SavedStateHandle,
