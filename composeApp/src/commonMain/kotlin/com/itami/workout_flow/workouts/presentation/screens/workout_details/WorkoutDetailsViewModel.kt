@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.math.exp
 
 class WorkoutDetailsViewModel(
     private val workoutRepository: WorkoutRepository,
@@ -57,25 +58,22 @@ class WorkoutDetailsViewModel(
             }
 
             WorkoutDetailsAction.DismissDropdownRequest -> {
-                _state.update { currentState ->
-                    if (currentState is WorkoutDetailsState.Workout) {
-                        currentState.copy(dropdownExpanded = false)
-                    } else {
-                        currentState
-                    }
-                }
+                toggleDropdown(expanded = false)
             }
 
             WorkoutDetailsAction.AuthorProfileDropdownItemClick -> {
                 navigateToAuthorProfile()
+                toggleDropdown(expanded = false)
             }
 
             WorkoutDetailsAction.EditWorkoutDropdownItemClick -> {
+                toggleDropdown(expanded = false)
                 sendUiEvent(WorkoutDetailsEvent.NavigateToEditWorkout(workoutId = workoutId))
             }
 
             WorkoutDetailsAction.StartWorkoutDropdownItemClick -> {
                 // Navigate to start workout
+                toggleDropdown(expanded = false)
             }
 
             WorkoutDetailsAction.StartWorkoutFABClick -> {
