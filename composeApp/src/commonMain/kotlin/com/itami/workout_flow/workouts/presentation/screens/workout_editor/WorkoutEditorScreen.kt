@@ -57,8 +57,8 @@ import workoutflow.composeapp.generated.resources.unsaved_changes_desc
 
 @Composable
 fun WorkoutEditorScreenRoute(
-    onNavigateBack: () -> Unit,
     onNavigateToSearchExercise: (NavResultCallback<Exercise?>) -> Unit,
+    onNavigateBack: () -> Unit,
     onShowLocalSnackbar: suspend (message: String) -> Unit,
     viewModel: WorkoutEditorViewModel = koinViewModel(),
 ) {
