@@ -115,7 +115,7 @@ class WorkoutDetailsViewModel(
                 val workoutUI = currentState.workoutUI
                 val updatedWorkoutExercises = workoutUI.workoutExercises
                     .map { workoutExercise ->
-                        if (exerciseId == workoutExercise.exerciseId) {
+                        if (exerciseId == workoutExercise.workoutExerciseId) {
                             workoutExercise.copyComponent(expanded = expanded)
                         } else {
                             workoutExercise

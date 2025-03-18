@@ -34,7 +34,7 @@ fun WorkoutDetailsExerciseList(
         verticalArrangement = Arrangement.spacedBy(WorkoutFlowTheme.padding.medium),
         state = lazyListState
     ) {
-        items(workout.workoutExercises) { workoutExerciseComponent ->
+        items(workout.workoutExercises, key = { it.workoutExerciseId }) { workoutExerciseComponent ->
             WorkoutExerciseItem(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -44,7 +44,7 @@ fun WorkoutDetailsExerciseList(
                 distanceUnit = distanceUnit,
                 onClick = { },
                 onExpandedStateChange = { expanded ->
-                    onExpandedStateChange(workoutExerciseComponent.exerciseId, expanded)
+                    onExpandedStateChange(workoutExerciseComponent.workoutExerciseId, expanded)
                 },
                 onExerciseGifClick = onExerciseGifClick,
             )

@@ -54,6 +54,14 @@ sealed interface WorkoutEditorAction {
         val exercise: Exercise
     ) : WorkoutEditorAction
 
+    data class TurnIntoSuperset(
+        val workoutExerciseId: String
+    ) : WorkoutEditorAction
+
+    data class DetachFromSuperset(
+        val workoutExerciseId: String
+    ) : WorkoutEditorAction
+
     data object SaveWorkout : WorkoutEditorAction
     data object OpenEditDurationSheet : WorkoutEditorAction
     data object OpenEditEquipmentSheet : WorkoutEditorAction

@@ -25,7 +25,7 @@ data class WorkoutUI(
 )
 
 sealed class WorkoutExerciseComponentUI(
-    val exerciseId: String,
+    val workoutExerciseId: String,
     val totalSetsCount: Int,
     open val order: Int,
     open val expanded: Boolean,
@@ -36,7 +36,7 @@ sealed class WorkoutExerciseComponentUI(
         override val order: Int = workoutExercise.order,
         override val expanded: Boolean = false,
     ) : WorkoutExerciseComponentUI(
-        exerciseId = workoutExercise.id,
+        workoutExerciseId = workoutExercise.id,
         totalSetsCount = workoutExercise.sets.size,
         order = order,
         expanded = expanded,
@@ -48,7 +48,7 @@ sealed class WorkoutExerciseComponentUI(
         override val order: Int = workoutExercises.first().order,
         override val expanded: Boolean = false,
     ) : WorkoutExerciseComponentUI(
-        exerciseId = workoutExercises.first().id,
+        workoutExerciseId = workoutExercises.first().id,
         totalSetsCount = workoutExercises.flatMap { it.sets }.size,
         order = order,
         expanded = expanded,

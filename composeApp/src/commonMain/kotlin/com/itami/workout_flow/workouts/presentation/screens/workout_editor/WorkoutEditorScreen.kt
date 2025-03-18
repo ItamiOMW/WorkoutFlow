@@ -285,7 +285,9 @@ private fun WorkoutEditorScreen(
                 .padding(scaffoldPadding)
                 .padding(horizontal = WorkoutFlowTheme.padding.default),
         ) {
-            items(items = state.workoutExercises, key = { it.exerciseId }) { workoutExercise ->
+            items(
+                items = state.workoutExerciseComponents,
+                key = { it.workoutExerciseId }) { workoutExercise ->
                 EditorWorkoutExerciseItem(
                     modifier = Modifier.fillMaxWidth(),
                     workoutExerciseComponent = workoutExercise,
@@ -311,21 +313,21 @@ private fun WorkoutEditorScreen(
                         )
                     },
                     onTurnIntoSuperset = { workoutExerciseId ->
-
+                        onAction(WorkoutEditorAction.TurnIntoSuperset(workoutExerciseId))
                     },
-                    onRemoveFromSuperset = { workoutExerciseId ->
-
+                    onDetachFromSuperset = { workoutExerciseId ->
+                        onAction(WorkoutEditorAction.DetachFromSuperset(workoutExerciseId))
                     },
                     onRemoveSet = { workoutExerciseId, setId ->
                         onAction(WorkoutEditorAction.RemoveSet(workoutExerciseId, setId))
                     },
                     onRemoveWorkoutExercise = { workoutExerciseId ->
-
+                        onAction(WorkoutEditorAction.RemoveWorkoutExercise(workoutExerciseId))
                     },
                     onExpandedStateChange = { expanded ->
                         onAction(
                             WorkoutEditorAction.ChangeWorkoutExerciseExpandedState(
-                                workoutExerciseId = workoutExercise.exerciseId,
+                                workoutExerciseId = workoutExercise.workoutExerciseId,
                                 expanded = expanded
                             )
                         )

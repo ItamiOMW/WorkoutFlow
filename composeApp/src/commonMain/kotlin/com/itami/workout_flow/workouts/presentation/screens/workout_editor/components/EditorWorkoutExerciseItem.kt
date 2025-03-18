@@ -97,7 +97,7 @@ fun EditorWorkoutExerciseItem(
     onAddSet: (workoutExerciseId: String) -> Unit,
     onAddSupersetExercise: (supersetId: String) -> Unit,
     onTurnIntoSuperset: (workoutExerciseId: String) -> Unit,
-    onRemoveFromSuperset: (workoutExerciseId: String) -> Unit,
+    onDetachFromSuperset: (workoutExerciseId: String) -> Unit,
     onRemoveSet: (workoutExerciseId: String, setId: String) -> Unit,
     onRemoveWorkoutExercise: (id: String) -> Unit,
 ) {
@@ -128,22 +128,22 @@ fun EditorWorkoutExerciseItem(
                         weightUnit = weightUnit,
                         expanded = expanded,
                         onSetChange = { setUI ->
-                            onSetValuesChange(workoutExerciseComponent.exerciseId, setUI)
+                            onSetValuesChange(workoutExerciseComponent.workoutExerciseId, setUI)
                         },
                         onAddSet = {
-                            onAddSet(workoutExerciseComponent.exerciseId)
+                            onAddSet(workoutExerciseComponent.workoutExerciseId)
                         },
                         onRemoveSet = { setId ->
-                            onRemoveSet(workoutExerciseComponent.exerciseId, setId)
+                            onRemoveSet(workoutExerciseComponent.workoutExerciseId, setId)
                         },
                         onTurnIntoSuperset = {
-                            onTurnIntoSuperset(workoutExerciseComponent.exerciseId)
+                            onTurnIntoSuperset(workoutExerciseComponent.workoutExerciseId)
                         },
                         onRemoveFromSuperset = {
-                            onRemoveFromSuperset(workoutExerciseComponent.exerciseId)
+                            onDetachFromSuperset(workoutExerciseComponent.workoutExerciseId)
                         },
                         onRemoveWorkoutExercise = {
-                            onRemoveWorkoutExercise(workoutExerciseComponent.exerciseId)
+                            onRemoveWorkoutExercise(workoutExerciseComponent.workoutExerciseId)
                         }
                     )
                 }
@@ -200,7 +200,7 @@ fun EditorWorkoutExerciseItem(
                             },
                             onTurnIntoSuperset = {},
                             onRemoveFromSuperset = {
-                                onRemoveFromSuperset(supersetWorkoutExercise.id)
+                                onDetachFromSuperset(supersetWorkoutExercise.id)
                             },
                             onRemoveWorkoutExercise = {
                                 onRemoveWorkoutExercise(supersetWorkoutExercise.id)

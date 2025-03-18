@@ -8,6 +8,7 @@ import com.itami.workout_flow.core.domain.repository.WorkoutRepository
 import com.itami.workout_flow.workouts.presentation.mapper.toWorkoutExerciseComponentsUI
 import com.itami.workout_flow.workouts.presentation.model.SetUI
 import com.itami.workout_flow.workouts.presentation.model.WorkoutExerciseComponentUI
+import com.itami.workout_flow.workouts.presentation.model.WorkoutExerciseUI
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,6 +16,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class WorkoutEditorViewModel(
     private val savedStateHandle: SavedStateHandle,
@@ -95,9 +98,7 @@ class WorkoutEditorViewModel(
             }
 
             is WorkoutEditorAction.AddSet -> {
-                addSet(
-                    targetedWorkoutExerciseId = action.workoutExerciseId
-                )
+                addSet(targetedWorkoutExerciseId = action.workoutExerciseId)
             }
 
             is WorkoutEditorAction.SupersetWorkoutExerciseNavResult -> {
@@ -200,6 +201,14 @@ class WorkoutEditorViewModel(
                     it.copy(bottomSheetContent = null)
                 }
             }
+
+            is WorkoutEditorAction.DetachFromSuperset -> {
+                detachFromSuperset(workoutExerciseId = action.workoutExerciseId)
+            }
+
+            is WorkoutEditorAction.TurnIntoSuperset -> {
+                turnIntoSuperset(workoutExerciseId = action.workoutExerciseId)
+            }
         }
     }
 
@@ -217,7 +226,7 @@ class WorkoutEditorViewModel(
             workoutExercises: List<WorkoutExerciseComponentUI>,
         ): List<WorkoutExerciseComponentUI> {
             return workoutExercises.map { workoutExercise ->
-                if (workoutExercise.exerciseId == targetExerciseId) {
+                if (workoutExercise.workoutExerciseId == targetExerciseId) {
                     workoutExercise.copyComponent(expanded = expanded)
                 } else {
                     workoutExercise
@@ -226,9 +235,9 @@ class WorkoutEditorViewModel(
         }
 
         _state.update { currentState ->
-            val workoutExercises = currentState.workoutExercises
+            val workoutExercises = currentState.workoutExerciseComponents
             val updatedWorkoutExercises = changeExpandedInList(workoutExercises)
-            currentState.copy(workoutExercises = updatedWorkoutExercises)
+            currentState.copy(workoutExerciseComponents = updatedWorkoutExercises)
         }
     }
 
@@ -236,22 +245,233 @@ class WorkoutEditorViewModel(
         targetedWorkoutExerciseId: String,
         updatedSetUI: SetUI,
     ) {
+        fun List<SetUI>.updateSet(updatedSet: SetUI): List<SetUI> {
+            return map { if (it.id == updatedSet.id) updatedSet else it }
+        }
 
+        fun updateWorkoutExerciseSets(workoutExercise: WorkoutExerciseUI): WorkoutExerciseUI {
+            return workoutExercise.copy(sets = workoutExercise.sets.updateSet(updatedSetUI))
+        }
+
+        _state.update { currentState ->
+            val updatedWorkoutExerciseComponents =
+                currentState.workoutExerciseComponents.map { component ->
+                    when (component) {
+                        is WorkoutExerciseComponentUI.Single -> {
+                            if (component.workoutExerciseId == targetedWorkoutExerciseId) {
+                                component.copy(workoutExercise = updateWorkoutExerciseSets(component.workoutExercise))
+                            } else {
+                                component
+                            }
+                        }
+
+                        is WorkoutExerciseComponentUI.Superset -> {
+                            val workoutExercises =
+                                component.workoutExercises.map { workoutExercise ->
+                                    if (workoutExercise.id == targetedWorkoutExerciseId) {
+                                        updateWorkoutExerciseSets(workoutExercise)
+                                    } else {
+                                        workoutExercise
+                                    }
+                                }
+                            component.copy(workoutExercises = workoutExercises)
+                        }
+
+                    }
+                }
+
+            currentState.copy(workoutExerciseComponents = updatedWorkoutExerciseComponents)
+        }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     private fun addSet(targetedWorkoutExerciseId: String) {
 
+        fun createNewSet(order: Int): SetUI = SetUI(
+            id = Uuid.random().toString(),
+            workoutExerciseId = targetedWorkoutExerciseId,
+            weightGrams = 0f,
+            reps = 0,
+            distanceMeters = 0f,
+            hours = 0,
+            minutes = 0,
+            seconds = 0,
+            order = order
+        )
+
+        _state.update { currentState ->
+            val updatedWorkoutExerciseComponents =
+                currentState.workoutExerciseComponents.map { component ->
+                    when (component) {
+                        is WorkoutExerciseComponentUI.Single ->
+                            if (component.workoutExerciseId == targetedWorkoutExerciseId)
+                                component.copy(
+                                    workoutExercise = component.workoutExercise.copy(
+                                        sets = component.workoutExercise.sets
+                                            .let { sets ->
+                                                val newSet = createNewSet(order = sets.size + 1)
+                                                sets + newSet
+                                            }
+                                    )
+                                )
+                            else component
+
+                        is WorkoutExerciseComponentUI.Superset ->
+                            component.copy(
+                                workoutExercises = component.workoutExercises.map { workoutExercise ->
+                                    if (workoutExercise.id == targetedWorkoutExerciseId)
+                                        workoutExercise.copy(
+                                            sets = workoutExercise.sets
+                                                .let { sets ->
+                                                    val newSet = createNewSet(order = sets.size + 1)
+                                                    sets + newSet
+                                                }
+                                        )
+                                    else workoutExercise
+                                }
+                            )
+                    }
+                }
+            currentState.copy(workoutExerciseComponents = updatedWorkoutExerciseComponents)
+        }
     }
 
-    private fun removeSet(
-        targetedWorkoutExerciseId: String,
-        setId: String,
-    ) {
+    private fun removeSet(targetedWorkoutExerciseId: String, setId: String) {
 
+        fun List<SetUI>.reassignOrder(): List<SetUI> {
+            return mapIndexed { index, set -> set.copy(order = index + 1) }
+        }
+
+        _state.update { currentState ->
+            val updatedWorkoutExerciseComponents =
+                currentState.workoutExerciseComponents.map { component ->
+                    when (component) {
+                        is WorkoutExerciseComponentUI.Single ->
+                            if (component.workoutExerciseId == targetedWorkoutExerciseId)
+                                component.copy(
+                                    workoutExercise = component.workoutExercise.copy(
+                                        sets = component.workoutExercise.sets
+                                            .filterNot { it.id == setId }  // Remove target set
+                                            .reassignOrder()  // Update order
+                                    )
+                                )
+                            else component
+
+                        is WorkoutExerciseComponentUI.Superset ->
+                            component.copy(
+                                workoutExercises = component.workoutExercises.map { workoutExercise ->
+                                    if (workoutExercise.id == targetedWorkoutExerciseId)
+                                        workoutExercise.copy(
+                                            sets = workoutExercise.sets
+                                                .filterNot { it.id == setId }
+                                                .reassignOrder()
+                                        )
+                                    else workoutExercise
+                                }
+                            )
+                    }
+                }
+            currentState.copy(workoutExerciseComponents = updatedWorkoutExerciseComponents)
+        }
     }
 
     private fun removeWorkoutExercise(targetWorkoutExerciseId: String) {
 
+        fun List<WorkoutExerciseUI>.reassignOrder(): List<WorkoutExerciseUI> =
+            mapIndexed { index, workoutExercise -> workoutExercise.copy(order = index + 1) }
+
+        fun List<WorkoutExerciseComponentUI>.reassignOrder(): List<WorkoutExerciseComponentUI> =
+            mapIndexed { index, component -> component.copyComponent(order = index + 1) }
+
+        _state.update { currentState ->
+            val updatedWorkoutExerciseComponents = currentState.workoutExerciseComponents
+                .mapNotNull { component ->
+                    when (component) {
+                        is WorkoutExerciseComponentUI.Single ->
+                            if (component.workoutExerciseId == targetWorkoutExerciseId) null
+                            else component
+
+                        is WorkoutExerciseComponentUI.Superset -> {
+                            val filteredExercises = component.workoutExercises
+                                .filterNot { it.id == targetWorkoutExerciseId }
+                                .reassignOrder()
+
+                            if (filteredExercises.isEmpty()) null
+                            else component.copy(workoutExercises = filteredExercises)
+                        }
+                    }
+                }.reassignOrder()
+
+            currentState.copy(workoutExerciseComponents = updatedWorkoutExerciseComponents)
+        }
+    }
+
+    private fun detachFromSuperset(workoutExerciseId: String) {
+
+        fun List<WorkoutExerciseComponentUI>.reassignOrder(): List<WorkoutExerciseComponentUI> =
+            mapIndexed { index, component ->
+                component.copyComponent(order = index + 1)
+            }
+
+        _state.update { currentState ->
+            val updatedComponents = mutableListOf<WorkoutExerciseComponentUI>()
+
+            currentState.workoutExerciseComponents.forEach { component ->
+                when (component) {
+                    is WorkoutExerciseComponentUI.Single -> {
+                        updatedComponents.add(component)
+                    }
+
+                    is WorkoutExerciseComponentUI.Superset -> {
+                        val remainingExercises =
+                            component.workoutExercises.filterNot { it.id == workoutExerciseId }
+
+                        if (remainingExercises.isNotEmpty()) {
+                            updatedComponents.add(
+                                component.copy(
+                                    workoutExercises = remainingExercises,
+                                    order = remainingExercises.first().order
+                                )
+                            )
+                        }
+
+                        component.workoutExercises.firstOrNull { it.id == workoutExerciseId }
+                            ?.let { detachedExercise ->
+                                updatedComponents.add(
+                                    WorkoutExerciseComponentUI.Single(
+                                        workoutExercise = detachedExercise.copy(supersetId = null),
+                                        order = detachedExercise.order,
+                                    )
+                                )
+                            }
+                    }
+                }
+            }
+
+            currentState.copy(workoutExerciseComponents = updatedComponents.reassignOrder())
+        }
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private fun turnIntoSuperset(workoutExerciseId: String) {
+        _state.update { currentState ->
+            val workoutExerciseComponents = currentState.workoutExerciseComponents
+            val updatedWorkoutExerciseComponents = workoutExerciseComponents.map { component ->
+                if (component is WorkoutExerciseComponentUI.Single && component.workoutExerciseId == workoutExerciseId) {
+                    val workoutExercise = component.workoutExercise
+                    val supersetId = Uuid.random().toString()
+                    WorkoutExerciseComponentUI.Superset(
+                        supersetId = supersetId,
+                        workoutExercises = listOf(workoutExercise.copy(supersetId = supersetId)),
+                    )
+                } else {
+                    component
+                }
+            }
+            currentState.copy(
+                workoutExerciseComponents = updatedWorkoutExerciseComponents
+            )
+        }
     }
 
     private fun saveWorkout() {
@@ -272,7 +492,7 @@ class WorkoutEditorViewModel(
                             equipment = workout.equipments,
                             durationMin = workout.durationMin,
                             isVisibleToOthers = workout.isPublic,
-                            workoutExercises = workout.workoutExercises.toWorkoutExerciseComponentsUI()
+                            workoutExerciseComponents = workout.workoutExercises.toWorkoutExerciseComponentsUI()
                         )
                     }
                 }

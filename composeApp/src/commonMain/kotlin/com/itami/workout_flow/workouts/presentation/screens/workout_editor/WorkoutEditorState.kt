@@ -15,7 +15,7 @@ data class WorkoutEditorState(
     val equipment: List<Equipment> = emptyList(),
     val durationMin: Int? = null,
     val isVisibleToOthers: Boolean = false,
-    val workoutExercises: List<WorkoutExerciseComponentUI> = emptyList(),
+    val workoutExerciseComponents: List<WorkoutExerciseComponentUI> = emptyList(),
     val isEditMode: Boolean = false,
     val isSavingWorkout: Boolean = false,
     val showExitDialog: Boolean = false,
