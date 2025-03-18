@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.itami.workout_flow.workouts.presentation.screens.workout_editor
 
 import androidx.lifecycle.SavedStateHandle
@@ -284,7 +286,6 @@ class WorkoutEditorViewModel(
         }
     }
 
-    @OptIn(ExperimentalUuidApi::class)
     private fun addSet(targetedWorkoutExerciseId: String) {
 
         fun createNewSet(order: Int): SetUI = SetUI(
@@ -452,7 +453,6 @@ class WorkoutEditorViewModel(
         }
     }
 
-    @OptIn(ExperimentalUuidApi::class)
     private fun turnIntoSuperset(workoutExerciseId: String) {
         _state.update { currentState ->
             val workoutExerciseComponents = currentState.workoutExerciseComponents
