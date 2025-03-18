@@ -58,7 +58,7 @@ fun NavGraphBuilder.workoutsGraph(
                 onNavigateBack = navController::navigateUp,
             )
         }
-        composable<AppGraph.Workouts.WorkoutDetailsScreen> { _ ->
+        composable<AppGraph.Workouts.WorkoutEditorScreen> { _ ->
             WorkoutEditorScreenRoute(
                 onNavigateToSearchExercise = { navResultCallback ->
                     // TODO navigate to search exercise
