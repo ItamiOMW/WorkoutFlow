@@ -50,15 +50,12 @@ interface ExerciseDao {
 
     @Transaction
     suspend fun insertExerciseWithDetails(
-        exercise: ExerciseEntity,
-        exerciseSteps: List<ExerciseStepEntity>,
-        exerciseEquipments: List<ExerciseEquipmentEntity>,
-        exerciseMuscleInvolvements: List<ExerciseMuscleInvolvementEntity>
+        exerciseWithDetails: ExerciseWithDetails,
     ) {
-        insert(exercise)
-        insertExerciseSteps(exerciseSteps)
-        insertExerciseEquipments(exerciseEquipments)
-        insertExerciseMuscleInvolvements(exerciseMuscleInvolvements)
+        insert(exerciseWithDetails.exercise)
+        insertExerciseSteps(exerciseWithDetails.steps)
+        insertExerciseEquipments(exerciseWithDetails.equipments)
+        insertExerciseMuscleInvolvements(exerciseWithDetails.muscleInvolvements)
     }
 
 }

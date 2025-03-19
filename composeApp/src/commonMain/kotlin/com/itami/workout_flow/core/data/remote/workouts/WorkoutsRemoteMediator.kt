@@ -100,10 +100,7 @@ class WorkoutsRemoteMediator(
 
         exercisesWithDetails.forEach { exerciseWithDetails ->
             database.exerciseDao.insertExerciseWithDetails(
-                exercise = exerciseWithDetails.exercise,
-                exerciseSteps = exerciseWithDetails.steps,
-                exerciseEquipments = exerciseWithDetails.equipments,
-                exerciseMuscleInvolvements = exerciseWithDetails.muscleInvolvements
+               exerciseWithDetails
             )
         }
 
