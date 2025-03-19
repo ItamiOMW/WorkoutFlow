@@ -34,6 +34,8 @@ interface WorkoutRepository {
 
     fun observeWorkout(id: String): Flow<Workout?>
 
+    suspend fun getWorkout(id: String): Workout?
+
     suspend fun setFavorite(
         workoutId: String,
         isFavorite: Boolean

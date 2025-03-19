@@ -140,6 +140,10 @@ class DefaultWorkoutRepository(
             .map { it?.toWorkout() }
     }
 
+    override suspend fun getWorkout(id: String): Workout? {
+        return workoutDao.getWorkoutWithDetailsByUUID(uuid = id)?.toWorkout()
+    }
+
     override suspend fun setFavorite(
         workoutId: String,
         isFavorite: Boolean

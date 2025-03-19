@@ -91,6 +91,33 @@
         <item quantity="other">%1$d sets</item>
     </plurals>
 
+
+    <string name="decrease_duration">Decrease duration</string>
+    <string name="increase_duration">Increase duration</string>
+    <string name="visible_to_others">Visible to others</string>
+    <string name="visibility_icon">Visibility icon</string>
+    <string name="edit_duration">Edit duration</string>
+    <string name="description">Description</string>
+    <string name="delete_workout">Description</string>
+    <string name="edit_muscles">Edit muscles</string>
+    <string name="edit_workout_types">Edit workout types</string>
+    <string name="edit_equipment">Edit equipment</string>
+    <string name="show_more_options">Show more options</string>
+    <string name="save_workout">Save workout</string>
+    <string name="go_back">Go back</string>
+    <string name="workout_name">Workout name</string>
+    <string name="add_exercise">Add exercise</string>
+    <string name="unsaved_changes">Unsaved changes</string>
+    <string name="unsaved_changes_desc">You have unsaved changes. Exiting now will discard all your changes.</string>
+    <string name="cancel">Cancel</string>
+    <string name="exit_and_discard">Exit and Discard</string>
+    <string name="are_you_sure_you_want_to_delete_workout">Are you sure you want to delete workout? You won\'t be able to restore it.</string>
+    <string name="delete">Delete</string>
+    <string name="turn_into_superset">Turn into Superset</string>
+    <string name="detach_from_superset">Detach from Superset</string>
+    <string name="add_set">Add set</string>
+    <string name="delete_icon">Delete icon</string>
+
     <string name="less_than_30min">Less than 30 min</string>
     <string name="between_30_and_60min">Between 30 and 60 min</string>
     <string name="between_60_and_90min">Between 60 and 90 min</string>
