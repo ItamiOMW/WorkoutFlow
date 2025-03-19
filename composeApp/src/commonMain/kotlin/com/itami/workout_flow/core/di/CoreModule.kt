@@ -8,13 +8,17 @@ import com.itami.workout_flow.core.data.local.preferences.settings.AppSettingsPr
 import com.itami.workout_flow.core.data.local.preferences.settings.DataStoreAppSettingsPreferences
 import com.itami.workout_flow.core.data.local.preferences.user.CurrentUserPreferences
 import com.itami.workout_flow.core.data.local.preferences.user.DataStoreCurrentUserPreferences
+import com.itami.workout_flow.core.data.remote.exercises.ExercisesApiService
 import com.itami.workout_flow.core.data.remote.utils.HttpClientFactory
 import com.itami.workout_flow.core.data.remote.workouts.KtorWorkoutsApiService
 import com.itami.workout_flow.core.data.remote.workouts.WorkoutsApiService
+import com.itami.workout_flow.core.data.remote.exercises.KtorExerciseApiService
 import com.itami.workout_flow.core.data.repository.DefaultAppSettings
+import com.itami.workout_flow.core.data.repository.DefaultExerciseRepository
 import com.itami.workout_flow.core.data.repository.DefaultUserRepository
 import com.itami.workout_flow.core.data.repository.DefaultWorkoutRepository
 import com.itami.workout_flow.core.domain.repository.AppSettings
+import com.itami.workout_flow.core.domain.repository.ExerciseRepository
 import com.itami.workout_flow.core.domain.repository.UserRepository
 import com.itami.workout_flow.core.domain.repository.WorkoutRepository
 import io.ktor.client.HttpClient
@@ -28,9 +32,11 @@ val dataStoreCurrentUserQualifier = named("ds_current_user")
 
 val coreModule = module {
     singleOf(::DefaultWorkoutRepository).bind<WorkoutRepository>()
+    singleOf(::DefaultExerciseRepository).bind<ExerciseRepository>()
     singleOf(::DefaultUserRepository).bind<UserRepository>()
     singleOf(::DefaultAppSettings).bind<AppSettings>()
     singleOf(::KtorWorkoutsApiService).bind<WorkoutsApiService>()
+    singleOf(::KtorExerciseApiService).bind<ExercisesApiService>()
 
     single<WorkoutDao> { get<WorkoutFlowDatabase>().workoutDao }
     single<ExerciseDao> { get<WorkoutFlowDatabase>().exerciseDao }
