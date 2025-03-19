@@ -13,7 +13,9 @@ import com.itami.workout_flow.workouts.presentation.model.SetUI
 import com.itami.workout_flow.workouts.presentation.model.WorkoutExerciseComponentUI
 import com.itami.workout_flow.workouts.presentation.model.WorkoutExerciseUI
 import com.itami.workout_flow.workouts.presentation.utils.getTotalWorkoutExercisesSize
-import com.itami.workout_flow.workouts.presentation.utils.reassignOrder
+import com.itami.workout_flow.workouts.presentation.utils.reassignComponentOrder
+import com.itami.workout_flow.workouts.presentation.utils.reassignExerciseOrder
+import com.itami.workout_flow.workouts.presentation.utils.reassignSetOrder
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -354,7 +356,7 @@ class WorkoutEditorViewModel(
                                     workoutExercise = component.workoutExercise.copy(
                                         sets = component.workoutExercise.sets
                                             .filterNot { it.id == setId }
-                                            .reassignOrder()
+                                            .reassignSetOrder()
                                     )
                                 )
                             else component
@@ -366,7 +368,7 @@ class WorkoutEditorViewModel(
                                         workoutExercise.copy(
                                             sets = workoutExercise.sets
                                                 .filterNot { it.id == setId }
-                                                .reassignOrder()
+                                                .reassignSetOrder()
                                         )
                                     else workoutExercise
                                 }
@@ -389,13 +391,13 @@ class WorkoutEditorViewModel(
                         is WorkoutExerciseComponentUI.Superset -> {
                             val filteredExercises = component.workoutExercises
                                 .filterNot { it.id == targetWorkoutExerciseId }
-                                .reassignOrder()
+                                .reassignExerciseOrder()
 
                             if (filteredExercises.isEmpty()) null
                             else component.copy(workoutExercises = filteredExercises)
                         }
                     }
-                }.reassignOrder()
+                }.reassignComponentOrder()
 
             currentState.copy(workoutExerciseComponents = updatedWorkoutExerciseComponents)
         }
@@ -437,7 +439,7 @@ class WorkoutEditorViewModel(
                 }
             }
 
-            currentState.copy(workoutExerciseComponents = updatedComponents.reassignOrder())
+            currentState.copy(workoutExerciseComponents = updatedComponents.reassignComponentOrder())
         }
     }
 
@@ -505,11 +507,12 @@ class WorkoutEditorViewModel(
                     } else {
                         component
                     }
-                }.reassignOrder()
+                }.reassignComponentOrder()
 
             currentState.copy(workoutExerciseComponents = workoutExerciseComponents)
         }
     }
+
     private fun saveWorkout() {
 
     }

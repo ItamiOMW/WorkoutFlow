@@ -19,14 +19,16 @@ fun List<WorkoutExerciseComponentUI>.getTotalWorkoutExercisesSize(): Int {
     return workoutExercises.size
 }
 
-fun List<WorkoutExerciseComponentUI>.reassignOrder(): List<WorkoutExerciseComponentUI> =
-    mapIndexed { index, component ->
+fun List<WorkoutExerciseComponentUI>.reassignComponentOrder(): List<WorkoutExerciseComponentUI> {
+    return mapIndexed { index, component ->
         component.copyComponent(order = index + 1)
     }
+}
 
-fun List<WorkoutExerciseUI>.reassignOrder(): List<WorkoutExerciseUI> =
-    mapIndexed { index, workoutExercise -> workoutExercise.copy(order = index + 1) }
-
-fun List<SetUI>.reassignOrder(): List<SetUI> {
+fun List<SetUI>.reassignSetOrder(): List<SetUI> {
     return mapIndexed { index, set -> set.copy(order = index + 1) }
+}
+
+fun List<WorkoutExerciseUI>.reassignExerciseOrder(): List<WorkoutExerciseUI> {
+    return mapIndexed { index, workoutExercise -> workoutExercise.copy(order = index + 1) }
 }
