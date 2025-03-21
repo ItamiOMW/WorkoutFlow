@@ -52,6 +52,7 @@ class ExerciseRemoteMediator(
                 query = query,
                 muscles = muscles,
                 exerciseTypes = exerciseTypes,
+                equipments = equipments,
             )
 
             return when (response) {
