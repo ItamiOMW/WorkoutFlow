@@ -1,5 +1,6 @@
 package com.itami.workout_flow.routes
 
+import com.itami.workout_flow.model.Equipment
 import com.itami.workout_flow.model.ExerciseType
 import com.itami.workout_flow.model.Muscle
 import com.itami.workout_flow.utils.RESTAPI_VERSION
@@ -11,5 +12,6 @@ class ExercisesRoute(
     val pageSize: Int? = 10,
     val query: String? = "",
     val muscles: List<Muscle>? = null,
-    val exerciseTypes: List<ExerciseType>? = null
+    val exerciseTypes: List<ExerciseType>? = null,
+    val equipments: List<Equipment>? = null
 )
