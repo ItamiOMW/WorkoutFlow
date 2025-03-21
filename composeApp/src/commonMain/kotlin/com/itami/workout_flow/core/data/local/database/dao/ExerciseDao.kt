@@ -4,7 +4,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RawQuery
+import androidx.room.RoomRawQuery
 import androidx.room.Transaction
+import app.cash.paging.PagingSource
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseEntity
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseEquipmentEntity
 import com.itami.workout_flow.core.data.local.database.entity.exercise.ExerciseMuscleInvolvementEntity
@@ -22,6 +25,16 @@ interface ExerciseDao {
     @Transaction
     @Query("SELECT * FROM exercises WHERE id = :exerciseId LIMIT 1")
     fun getExerciseWithDetailsByIdFlow(exerciseId: Long): Flow<ExerciseWithDetails>
+
+    @Transaction
+    @RawQuery(
+        observedEntities = [
+            ExerciseEntity::class,
+            ExerciseStepEntity::class,
+            ExerciseMuscleInvolvementEntity::class,
+        ]
+    )
+    fun getExercisesWithDetailsPagingSource(sqlQuery: RoomRawQuery): PagingSource<Int, ExerciseWithDetails>
 
     @Transaction
     @Query("SELECT * FROM exercises WHERE id = :exerciseId LIMIT 1")
