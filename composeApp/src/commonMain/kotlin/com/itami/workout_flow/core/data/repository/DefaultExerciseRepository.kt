@@ -14,6 +14,7 @@ import com.itami.workout_flow.core.domain.repository.ExerciseRepository
 import com.itami.workout_flow.model.Equipment
 import com.itami.workout_flow.model.Exercise
 import com.itami.workout_flow.model.ExerciseType
+import com.itami.workout_flow.model.ExercisesFilter
 import com.itami.workout_flow.model.Muscle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -28,9 +29,7 @@ class DefaultExerciseRepository(
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun searchExercise(
         query: String,
-        muscles: List<Muscle>,
-        exerciseTypes: List<ExerciseType>,
-        equipments: List<Equipment>,
+        exercisesFilter: ExercisesFilter
     ): Flow<PagingData<Exercise>> {
         return Pager(
             config = PagingConfig(
@@ -42,9 +41,9 @@ class DefaultExerciseRepository(
                 exerciseDao.getExercisesWithDetailsPagingSource(
                     sqlQuery = getExercisesRawQuery(
                         query = query,
-                        exerciseTypes = exerciseTypes,
-                        equipments = equipments,
-                        muscles = muscles,
+                        exerciseTypes = exercisesFilter.selectedExerciseTypes,
+                        equipments = exercisesFilter.selectedEquipments,
+                        muscles = exercisesFilter.selectedMuscles,
                         limit = null
                     )
                 )
@@ -54,9 +53,7 @@ class DefaultExerciseRepository(
                 exercisesApiService = exercisesApiService,
                 pageSize = 20,
                 query = query,
-                muscles = muscles,
-                exerciseTypes = exerciseTypes,
-                equipments = equipments
+                exercisesFilter = exercisesFilter
             )
         ).flow.map { pagingData ->
             pagingData.map { it.toExercise() }
