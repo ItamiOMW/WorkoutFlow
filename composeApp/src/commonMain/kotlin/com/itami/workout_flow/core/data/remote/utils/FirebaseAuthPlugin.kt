@@ -68,7 +68,7 @@ class FirebaseAuthPlugin(config: FirebaseAuthConfig) {
 
         override fun install(plugin: FirebaseAuthPlugin, scope: HttpClient) {
             scope.requestPipeline.intercept(HttpRequestPipeline.State) {
-                plugin.provider.getIdToken().let { token ->
+                plugin.provider.getIdToken()?.let { token ->
                     context.headers.append(HttpHeaders.Authorization, "Bearer $token")
                 }
             }
