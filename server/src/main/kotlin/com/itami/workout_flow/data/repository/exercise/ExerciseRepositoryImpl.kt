@@ -7,7 +7,6 @@ import com.itami.workout_flow.data.database.table.ExerciseFavorites
 import com.itami.workout_flow.data.database.table.ExerciseMuscleInvolvements
 import com.itami.workout_flow.data.database.table.ExerciseSteps
 import com.itami.workout_flow.data.database.table.Exercises
-import com.itami.workout_flow.data.database.table.Workouts
 import com.itami.workout_flow.data.mapper.toExercise
 import com.itami.workout_flow.model.Equipment
 import com.itami.workout_flow.model.Exercise
@@ -20,7 +19,7 @@ import org.jetbrains.exposed.sql.trim
 
 class ExerciseRepositoryImpl : ExerciseRepository {
 
-    override suspend fun getWorkouts(
+    override suspend fun getExercises(
         userId: Long?,
         query: String,
         page: Int,

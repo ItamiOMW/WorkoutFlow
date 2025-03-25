@@ -7,7 +7,7 @@ import com.itami.workout_flow.model.Muscle
 
 interface ExerciseRepository {
 
-    suspend fun getWorkouts(
+    suspend fun getExercises(
         userId: Long?,
         query: String,
         page: Int,
