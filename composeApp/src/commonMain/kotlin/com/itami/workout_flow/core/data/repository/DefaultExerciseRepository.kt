@@ -69,7 +69,7 @@ class DefaultExerciseRepository(
     ): RoomRawQuery {
         val baseQuery = StringBuilder(
             """
-            SELECT e.* FROM exercises e
+            SELECT DISTINCT e.* FROM exercises e
             LEFT JOIN exercise_steps es ON es.exerciseId = e.id
             LEFT JOIN exercise_equipments ee ON ee.exerciseId = e.id
         """.trimIndent()
