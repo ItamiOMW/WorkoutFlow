@@ -6,7 +6,7 @@ import com.itami.workout_flow.model.Muscle
 import com.itami.workout_flow.utils.RESTAPI_VERSION
 import io.ktor.resources.Resource
 
-@Resource("$RESTAPI_VERSION/workouts")
+@Resource("$RESTAPI_VERSION/exercises")
 class ExercisesRoute(
     val page: Int? = 1,
     val pageSize: Int? = 10,
