@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.map
 class DefaultExerciseRepository(
     private val database: WorkoutFlowDatabase,
     private val exercisesApiService: ExercisesApiService,
-): ExerciseRepository {
+) : ExerciseRepository {
 
     private val exerciseDao = database.exerciseDao
 
@@ -72,7 +72,6 @@ class DefaultExerciseRepository(
             SELECT e.* FROM exercises e
             LEFT JOIN exercise_steps es ON es.exerciseId = e.id
             LEFT JOIN exercise_equipments ee ON ee.exerciseId = e.id
-            LEFT JOIN exercise_types et ON et.exerciseId = e.id
         """.trimIndent()
         )
 
@@ -93,12 +92,12 @@ class DefaultExerciseRepository(
         }
 
         if (exerciseTypes.isNotEmpty()) {
-            appendCondition("et.workoutType IN (${exerciseTypes.joinToString(",") { "'${it.name}'" }})")
+            appendCondition("e.exerciseType IN (${exerciseTypes.joinToString(",") { "'${it.name}'" }})")
         }
 
         appendCondition(
             """
-            (LOWER(e.name) LIKE '%' || LOWER('$query') || '%'
+            LOWER(e.name) LIKE '%' || LOWER('$query') || '%'
             """.trimIndent()
         )
 
