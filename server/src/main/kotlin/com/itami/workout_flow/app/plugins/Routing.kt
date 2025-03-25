@@ -3,8 +3,8 @@ package com.itami.workout_flow.app.plugins
 import com.itami.workout_flow.route.auth.authRoute
 import com.itami.workout_flow.route.workout.workoutsRoute
 import com.itami.workout_flow.routes.HomeRoute
-import com.itami.workout_flow.service.auth.AuthService
-import com.itami.workout_flow.service.workout.WorkoutService
+import com.itami.workout_flow.service.AuthService
+import com.itami.workout_flow.service.WorkoutService
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.resources.Resources

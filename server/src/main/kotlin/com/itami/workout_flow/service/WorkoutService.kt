@@ -1,4 +1,4 @@
-package com.itami.workout_flow.service.workout
+package com.itami.workout_flow.service
 
 import com.itami.workout_flow.data.mapper.toExerciseResponse
 import com.itami.workout_flow.data.mapper.toUserProfileResponse
