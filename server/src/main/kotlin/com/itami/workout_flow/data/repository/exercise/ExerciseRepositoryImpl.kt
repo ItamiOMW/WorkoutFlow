@@ -50,7 +50,6 @@ class ExerciseRepositoryImpl : ExerciseRepository {
                         andWhere { ExerciseMuscleInvolvements.muscle inList muscles }
                     }
                 }
-                .groupBy(Exercises.id)
                 .limit(n = pageSize, offset = ((page - 1) * pageSize).toLong())
                 .map { resultRow ->
                     ExerciseEntity.wrapRow(resultRow).toExercise()
