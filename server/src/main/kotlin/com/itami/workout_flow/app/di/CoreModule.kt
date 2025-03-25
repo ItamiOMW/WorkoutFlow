@@ -1,5 +1,7 @@
 package com.itami.workout_flow.app.di
 
+import com.itami.workout_flow.data.repository.exercise.ExerciseRepository
+import com.itami.workout_flow.data.repository.exercise.ExerciseRepositoryImpl
 import com.itami.workout_flow.data.repository.user.UserRepository
 import com.itami.workout_flow.data.repository.user.UserRepositoryImpl
 import com.itami.workout_flow.data.repository.workout.WorkoutRepository
@@ -18,4 +20,5 @@ val coreModule = module {
     // Repositories
     singleOf(::UserRepositoryImpl).bind<UserRepository>()
     singleOf(::WorkoutRepositoryImpl).bind<WorkoutRepository>()
+    singleOf(::ExerciseRepositoryImpl).bind<ExerciseRepository>()
 }
