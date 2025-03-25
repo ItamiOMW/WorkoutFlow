@@ -16,16 +16,16 @@ import io.ktor.server.routing.Route
 fun Route.exercisesRoute(exerciseService: ExerciseService) {
     rateLimit(DEFAULT_RATE_LIMIT) {
         authenticate(FIREBASE_AUTH, optional = true) {
-            get<ExercisesRoute> { workoutsRoute ->
+            get<ExercisesRoute> { exercisesRoute ->
                 val firebasePrincipal = call.principal<FirebasePrincipal>()
                 val exercisesResponse = exerciseService.getExercises(
                     userId = firebasePrincipal?.user?.id,
-                    page = workoutsRoute.page,
-                    pageSize = workoutsRoute.pageSize,
-                    query = workoutsRoute.query,
-                    muscles = workoutsRoute.muscles,
-                    equipments = workoutsRoute.equipments,
-                    exerciseTypes = workoutsRoute.exerciseTypes
+                    page = exercisesRoute.page,
+                    pageSize = exercisesRoute.pageSize,
+                    query = exercisesRoute.query,
+                    muscles = exercisesRoute.muscles,
+                    equipments = exercisesRoute.equipments,
+                    exerciseTypes = exercisesRoute.exerciseTypes
                 )
                 call.respond(HttpStatusCode.OK, exercisesResponse)
             }
