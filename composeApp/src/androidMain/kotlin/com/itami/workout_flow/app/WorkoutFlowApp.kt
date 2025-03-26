@@ -7,9 +7,9 @@ import org.koin.android.ext.koin.androidContext
 class WorkoutFlowApp : Application() {
 
     override fun onCreate() {
+        super.onCreate()
         initKoin {
             androidContext(this@WorkoutFlowApp)
         }
-        super.onCreate()
     }
 }
