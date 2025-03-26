@@ -30,7 +30,6 @@ import kotlin.uuid.Uuid
 class WorkoutEditorViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val workoutRepository: WorkoutRepository,
-    private val exerciseRepository: ExerciseRepository,
     private val appSettings: AppSettings,
 ) : ViewModel() {
 
@@ -52,45 +51,31 @@ class WorkoutEditorViewModel(
     fun onAction(action: WorkoutEditorAction) {
         when (action) {
             is WorkoutEditorAction.ChangeVisibleToOthers -> {
-                _state.update {
-                    it.copy(isVisibleToOthers = action.isVisible)
-                }
+                _state.update { it.copy(isVisibleToOthers = action.isVisible) }
             }
 
             is WorkoutEditorAction.ChangeWorkoutDesc -> {
-                _state.update {
-                    it.copy(workoutDesc = action.newValue)
-                }
+                _state.update { it.copy(workoutDesc = action.newValue) }
             }
 
             is WorkoutEditorAction.ChangeWorkoutName -> {
-                _state.update {
-                    it.copy(workoutName = action.newValue)
-                }
+                _state.update { it.copy(workoutName = action.newValue) }
             }
 
             is WorkoutEditorAction.ChangeDuration -> {
-                _state.update {
-                    it.copy(durationMin = action.durationMin)
-                }
+                _state.update { it.copy(durationMin = action.durationMin) }
             }
 
             is WorkoutEditorAction.ChangeEquipment -> {
-                _state.update {
-                    it.copy(equipment = action.equipments)
-                }
+                _state.update { it.copy(equipment = action.equipments) }
             }
 
             is WorkoutEditorAction.ChangeMuscles -> {
-                _state.update {
-                    it.copy(muscles = action.muscles)
-                }
+                _state.update { it.copy(muscles = action.muscles) }
             }
 
             is WorkoutEditorAction.ChangeWorkoutTypes -> {
-                _state.update {
-                    it.copy(workoutTypes = action.types)
-                }
+                _state.update { it.copy(workoutTypes = action.types) }
             }
 
             is WorkoutEditorAction.ChangeWorkoutExerciseExpandedState -> {
@@ -119,9 +104,7 @@ class WorkoutEditorViewModel(
             }
 
             is WorkoutEditorAction.RemoveWorkoutExercise -> {
-                removeWorkoutExercise(
-                    targetWorkoutExerciseId = action.workoutExerciseId
-                )
+                removeWorkoutExercise(targetWorkoutExerciseId = action.workoutExerciseId)
             }
 
             is WorkoutEditorAction.SaveWorkout -> {
@@ -129,15 +112,11 @@ class WorkoutEditorViewModel(
             }
 
             is WorkoutEditorAction.DeleteWorkout -> {
-                _state.update {
-                    it.copy(showDeleteWorkoutDialog = true)
-                }
+                _state.update { it.copy(showDeleteWorkoutDialog = true) }
             }
 
             is WorkoutEditorAction.ConfirmDeleteWorkout -> {
-                _state.update {
-                    it.copy(showDeleteWorkoutDialog = false)
-                }
+                _state.update { it.copy(showDeleteWorkoutDialog = false) }
                 // TODO DELETE WORKOUT
             }
 
@@ -165,58 +144,40 @@ class WorkoutEditorViewModel(
             }
 
             is WorkoutEditorAction.NavigateBack -> {
-                _state.update {
-                    it.copy(showExitDialog = true)
-                }
+                _state.update { it.copy(showExitDialog = true) }
             }
 
             is WorkoutEditorAction.ConfirmNavigateBack -> {
-                _state.update {
-                    it.copy(showExitDialog = false)
-                }
+                _state.update { it.copy(showExitDialog = false) }
                 sendUiEvent(WorkoutEditorEvent.NavigateBack)
             }
 
             is WorkoutEditorAction.OpenEditDurationSheet -> {
-                _state.update {
-                    it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.DURATION)
-                }
+                _state.update { it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.DURATION) }
             }
 
             is WorkoutEditorAction.OpenEditEquipmentSheet -> {
-                _state.update {
-                    it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.EQUIPMENT)
-                }
+                _state.update { it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.EQUIPMENT) }
             }
 
             is WorkoutEditorAction.OpenEditMusclesSheet -> {
-                _state.update {
-                    it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.MUSCLES)
-                }
+                _state.update { it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.MUSCLES) }
             }
 
             is WorkoutEditorAction.OpenEditWorkoutTypesSheet -> {
-                _state.update {
-                    it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.WORKOUT_TYPE)
-                }
+                _state.update { it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.WORKOUT_TYPE) }
             }
 
             is WorkoutEditorAction.DismissNavigateBackDialog -> {
-                _state.update {
-                    it.copy(showExitDialog = false)
-                }
+                _state.update { it.copy(showExitDialog = false) }
             }
 
             is WorkoutEditorAction.DismissDeleteWorkoutDialog -> {
-                _state.update {
-                    it.copy(showDeleteWorkoutDialog = false)
-                }
+                _state.update { it.copy(showDeleteWorkoutDialog = false) }
             }
 
             is WorkoutEditorAction.DismissBottomSheet -> {
-                _state.update {
-                    it.copy(bottomSheetContent = null)
-                }
+                _state.update { it.copy(bottomSheetContent = null) }
             }
 
             is WorkoutEditorAction.DetachFromSuperset -> {
@@ -349,6 +310,7 @@ class WorkoutEditorViewModel(
                             )
                     }
                 }
+
             currentState.copy(workoutExerciseComponents = updatedWorkoutExerciseComponents)
         }
     }
@@ -383,6 +345,7 @@ class WorkoutEditorViewModel(
                             )
                     }
                 }
+
             currentState.copy(workoutExerciseComponents = updatedWorkoutExerciseComponents)
         }
     }
@@ -422,8 +385,8 @@ class WorkoutEditorViewModel(
                     }
 
                     is WorkoutExerciseComponentUI.Superset -> {
-                        val remainingExercises =
-                            component.workoutExercises.filterNot { it.id == workoutExerciseId }
+                        val remainingExercises = component.workoutExercises
+                            .filterNot { it.id == workoutExerciseId }
 
                         if (remainingExercises.isNotEmpty()) {
                             updatedComponents.add(
@@ -516,10 +479,6 @@ class WorkoutEditorViewModel(
         }
     }
 
-    private suspend fun getExerciseById(exerciseId: Long): Exercise? {
-        return exerciseRepository.getExerciseById(exerciseId)
-    }
-
     private fun initializeWorkout() {
         viewModelScope.launch {
             savedStateHandle.get<String>("workoutId")?.let { passedWorkoutId ->
@@ -545,9 +504,7 @@ class WorkoutEditorViewModel(
     private fun observeDistanceUnit() {
         viewModelScope.launch {
             appSettings.distanceUnit.collectLatest { distanceUnit ->
-                _state.update {
-                    it.copy(distanceUnit = distanceUnit)
-                }
+                _state.update { it.copy(distanceUnit = distanceUnit) }
             }
         }
     }
@@ -555,9 +512,7 @@ class WorkoutEditorViewModel(
     private fun observeWeightUnit() {
         viewModelScope.launch {
             appSettings.weightUnit.collectLatest { weightUnit ->
-                _state.update {
-                    it.copy(weightUnit = weightUnit)
-                }
+                _state.update { it.copy(weightUnit = weightUnit) }
             }
         }
     }
