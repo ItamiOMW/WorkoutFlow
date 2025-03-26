@@ -4,6 +4,7 @@ import com.itami.workout_flow.workouts.presentation.screens.search_exercise.Sear
 import com.itami.workout_flow.workouts.presentation.screens.workout_details.WorkoutDetailsViewModel
 import com.itami.workout_flow.workouts.presentation.screens.workout_editor.WorkoutEditorViewModel
 import com.itami.workout_flow.workouts.presentation.screens.workouts.WorkoutsViewModel
+import com.itami.workout_flow.workouts.presentation.view_model.SharedExerciseViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -12,4 +13,5 @@ val workoutsModule = module {
     viewModelOf(::WorkoutDetailsViewModel)
     viewModelOf(::WorkoutEditorViewModel)
     viewModelOf(::SearchExerciseViewModel)
+    viewModelOf(::SharedExerciseViewModel)
 }
