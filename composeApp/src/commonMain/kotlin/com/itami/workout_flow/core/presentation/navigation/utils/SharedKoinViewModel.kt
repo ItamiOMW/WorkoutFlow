@@ -1,4 +1,4 @@
-package com.itami.workout_flow.core.presentation.utils
+package com.itami.workout_flow.core.presentation.navigation.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -8,7 +8,7 @@ import androidx.navigation.NavController
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-private inline fun <reified T : ViewModel> NavBackStackEntry.sharedKoinViewModel(
+inline fun <reified T : ViewModel> NavBackStackEntry.sharedKoinViewModel(
     navController: NavController
 ): T {
     val navGraphRoute = destination.parent?.route ?: return koinViewModel<T>()
