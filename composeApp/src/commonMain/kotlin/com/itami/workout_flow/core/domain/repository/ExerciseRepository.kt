@@ -12,4 +12,6 @@ interface ExerciseRepository {
         exercisesFilter: ExercisesFilter,
     ): Flow<PagingData<Exercise>>
 
+    suspend fun getExerciseById(exerciseId: Long): Exercise?
+
 }

@@ -38,7 +38,7 @@ interface ExerciseDao {
 
     @Transaction
     @Query("SELECT * FROM exercises WHERE id = :exerciseId LIMIT 1")
-    suspend fun getExerciseWithDetailsById(exerciseId: Long): ExerciseWithDetails
+    suspend fun getExerciseWithDetailsById(exerciseId: Long): ExerciseWithDetails?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(exercise: ExerciseEntity)

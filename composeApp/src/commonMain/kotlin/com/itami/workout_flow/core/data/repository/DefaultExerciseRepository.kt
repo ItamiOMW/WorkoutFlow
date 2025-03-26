@@ -60,6 +60,10 @@ class DefaultExerciseRepository(
         }
     }
 
+    override suspend fun getExerciseById(exerciseId: Long): Exercise? {
+        return exerciseDao.getExerciseWithDetailsById(exerciseId)?.toExercise()
+    }
+
     private fun getExercisesRawQuery(
         query: String,
         exerciseTypes: List<ExerciseType>,
