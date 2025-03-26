@@ -40,11 +40,7 @@ class WorkoutEditorViewModel(
     private val _state = MutableStateFlow(WorkoutEditorState())
     val state = _state.asStateFlow()
 
-    // Used when receiving exercise from SearchExerciseScreen with SharedExerciseViewModel.
-    // If this supersetId is not null, find the superset by this id and attach exercise to that superset
-    // Otherwise add exercise at the end of exercise list
-    private val _addExerciseToSupersetId = MutableStateFlow<String?>(null)
-
+    private var addExerciseToSupersetId: String? = null
     private var workoutId: String? = null
 
     init {
@@ -146,28 +142,26 @@ class WorkoutEditorViewModel(
             }
 
             is WorkoutEditorAction.AddExercise -> {
-                _addExerciseToSupersetId.update { null }
+                addExerciseToSupersetId = null
                 sendUiEvent(WorkoutEditorEvent.NavigateToSearchExercise)
             }
 
             is WorkoutEditorAction.AddSupersetExercise -> {
-                _addExerciseToSupersetId.update { action.supersetId }
+                addExerciseToSupersetId = action.supersetId
                 sendUiEvent(WorkoutEditorEvent.NavigateToSearchExercise)
             }
 
             is WorkoutEditorAction.AddExerciseNavResult -> {
-                val addExerciseToSupersetId = _addExerciseToSupersetId.value
-
-                if (addExerciseToSupersetId == null) {
+                val supersetId = addExerciseToSupersetId
+                if (supersetId == null) {
                     addExercise(action.exercise)
                 } else {
                     addExerciseToSuperset(
-                        supersetId = addExerciseToSupersetId,
+                        supersetId = supersetId,
                         exercise = action.exercise
                     )
+                    addExerciseToSupersetId = null
                 }
-
-                _addExerciseToSupersetId.update { null }
             }
 
             is WorkoutEditorAction.NavigateBack -> {
@@ -289,7 +283,8 @@ class WorkoutEditorViewModel(
                         }
 
                         is WorkoutExerciseComponentUI.Superset -> {
-                            val workoutExercises = component.workoutExercises.map { workoutExercise ->
+                            val workoutExercises =
+                                component.workoutExercises.map { workoutExercise ->
                                     if (workoutExercise.id == targetedWorkoutExerciseId) {
                                         updateWorkoutExerciseSets(workoutExercise)
                                     } else {
