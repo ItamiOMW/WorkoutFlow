@@ -39,7 +39,7 @@ fun <T : Any> NavController.navigateForResult(
 fun <T> NavController.navigateForResult(
     route: Any,
     navResultCallback: NavResultCallback<T>,
-    builder: NavOptionsBuilder.() -> Unit,
+    builder: NavOptionsBuilder.() -> Unit = {},
 ) {
     setNavResultCallback(navResultCallback)
     navigate(route, builder)
