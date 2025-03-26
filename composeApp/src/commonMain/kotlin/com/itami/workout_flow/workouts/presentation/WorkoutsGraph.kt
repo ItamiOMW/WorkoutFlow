@@ -69,8 +69,7 @@ fun NavGraphBuilder.workoutsGraph(
             )
         }
         composable<AppGraph.Workouts.WorkoutEditorScreen> { backstackEntry ->
-            val sharedExerciseViewModel =
-                backstackEntry.sharedKoinViewModel<SharedExerciseViewModel>(navController)
+            val sharedExerciseViewModel = backstackEntry.sharedKoinViewModel<SharedExerciseViewModel>(navController)
             val workoutEditorViewModel = koinViewModel<WorkoutEditorViewModel>()
 
             val selectedExercise by sharedExerciseViewModel.selectedExercise.collectAsStateWithLifecycle()
