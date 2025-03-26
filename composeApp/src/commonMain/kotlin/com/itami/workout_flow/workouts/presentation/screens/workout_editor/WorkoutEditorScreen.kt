@@ -31,9 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.itami.workout_flow.core.presentation.components.DialogComponent
 import com.itami.workout_flow.core.presentation.components.GradientFloatingActionButton
 import com.itami.workout_flow.core.presentation.components.collapsing_top_bar.rememberCollapsingTopAppBarScrollBehavior
-import com.itami.workout_flow.core.presentation.navigation.utils.NavResultCallback
 import com.itami.workout_flow.core.presentation.theme.WorkoutFlowTheme
-import com.itami.workout_flow.model.Exercise
 import com.itami.workout_flow.workouts.presentation.screens.workout_editor.components.EditorWorkoutExerciseItem
 import com.itami.workout_flow.workouts.presentation.screens.workout_editor.components.WorkoutEditorDurationSheetContent
 import com.itami.workout_flow.workouts.presentation.screens.workout_editor.components.WorkoutEditorEquipmentSheetContent
@@ -57,7 +55,7 @@ import workoutflow.composeapp.generated.resources.unsaved_changes_desc
 
 @Composable
 fun WorkoutEditorScreenRoute(
-    onNavigateToSearchExercise: (NavResultCallback<Exercise?>) -> Unit,
+    onNavigateToSearchExercise: () -> Unit,
     onNavigateBack: () -> Unit,
     onShowLocalSnackbar: suspend (message: String) -> Unit,
     viewModel: WorkoutEditorViewModel = koinViewModel(),
@@ -67,27 +65,7 @@ fun WorkoutEditorScreenRoute(
             when (event) {
                 is WorkoutEditorEvent.NavigateBack -> onNavigateBack()
                 is WorkoutEditorEvent.ShowSnackbar -> onShowLocalSnackbar(event.message)
-
-                is WorkoutEditorEvent.NavigateToSearchExercise -> {
-                    onNavigateToSearchExercise { exercise ->
-                        exercise?.let {
-                            viewModel.onAction(WorkoutEditorAction.WorkoutExerciseNavResult(it))
-                        }
-                    }
-                }
-
-                is WorkoutEditorEvent.NavigateToSearchExerciseForSuperset -> {
-                    onNavigateToSearchExercise { exercise ->
-                        exercise?.let {
-                            viewModel.onAction(
-                                WorkoutEditorAction.SupersetWorkoutExerciseNavResult(
-                                    supersetId = event.supersetId,
-                                    exercise = it
-                                )
-                            )
-                        }
-                    }
-                }
+                is WorkoutEditorEvent.NavigateToSearchExercise ->  onNavigateToSearchExercise()
             }
         }
     }

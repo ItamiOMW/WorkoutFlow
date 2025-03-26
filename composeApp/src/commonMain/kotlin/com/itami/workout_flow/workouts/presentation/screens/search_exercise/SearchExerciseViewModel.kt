@@ -89,11 +89,11 @@ class SearchExerciseViewModel(
             is SearchExerciseAction.ExerciseClick -> {
                 when (state.value.launchMode) {
                     SearchExerciseLaunchMode.Search -> {
-                        sendUiEvent(SearchExerciseEvent.NavigateToExerciseDetails(exerciseId = action.exercise.id))
+                        sendUiEvent(SearchExerciseEvent.NavigateToExerciseDetails(action.exercise.id))
                     }
 
                     SearchExerciseLaunchMode.Select -> {
-                        sendUiEvent(SearchExerciseEvent.NavigateBackWithResult(exercise = action.exercise))
+                        sendUiEvent(SearchExerciseEvent.NavigateBackWithResult(action.exercise))
                     }
                 }
             }

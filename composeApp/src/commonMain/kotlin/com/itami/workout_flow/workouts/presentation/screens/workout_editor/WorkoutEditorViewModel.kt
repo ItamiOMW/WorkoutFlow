@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.itami.workout_flow.core.domain.repository.AppSettings
+import com.itami.workout_flow.core.domain.repository.ExerciseRepository
 import com.itami.workout_flow.core.domain.repository.WorkoutRepository
 import com.itami.workout_flow.model.Exercise
 import com.itami.workout_flow.workouts.presentation.mapper.toWorkoutExerciseComponentsUI
@@ -29,6 +30,7 @@ import kotlin.uuid.Uuid
 class WorkoutEditorViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val workoutRepository: WorkoutRepository,
+    private val exerciseRepository: ExerciseRepository,
     private val appSettings: AppSettings,
 ) : ViewModel() {
 
@@ -37,6 +39,11 @@ class WorkoutEditorViewModel(
 
     private val _state = MutableStateFlow(WorkoutEditorState())
     val state = _state.asStateFlow()
+
+    // Used when receiving exercise from SearchExerciseScreen with SharedExerciseViewModel.
+    // If this supersetId is not null, find the superset by this id and attach exercise to that superset
+    // Otherwise add exercise at the end of exercise list
+    private val _addExerciseToSupersetId = MutableStateFlow<String?>(null)
 
     private var workoutId: String? = null
 
@@ -108,13 +115,6 @@ class WorkoutEditorViewModel(
                 addSet(targetedWorkoutExerciseId = action.workoutExerciseId)
             }
 
-            is WorkoutEditorAction.SupersetWorkoutExerciseNavResult -> {
-                addExerciseToSuperset(
-                    supersetId = action.supersetId,
-                    exercise = action.exercise
-                )
-            }
-
             is WorkoutEditorAction.RemoveSet -> {
                 removeSet(
                     targetedWorkoutExerciseId = action.workoutExerciseId,
@@ -129,7 +129,7 @@ class WorkoutEditorViewModel(
             }
 
             is WorkoutEditorAction.SaveWorkout -> {
-                // SAVE WORKOUT
+                // TODO SAVE WORKOUT
             }
 
             is WorkoutEditorAction.DeleteWorkout -> {
@@ -142,19 +142,32 @@ class WorkoutEditorViewModel(
                 _state.update {
                     it.copy(showDeleteWorkoutDialog = false)
                 }
-                // DELETE WORKOUT
+                // TODO DELETE WORKOUT
             }
 
             is WorkoutEditorAction.AddExercise -> {
+                _addExerciseToSupersetId.update { null }
                 sendUiEvent(WorkoutEditorEvent.NavigateToSearchExercise)
-            }
-
-            is WorkoutEditorAction.WorkoutExerciseNavResult -> {
-                addExercise(action.exercise)
             }
 
             is WorkoutEditorAction.AddSupersetExercise -> {
+                _addExerciseToSupersetId.update { action.supersetId }
                 sendUiEvent(WorkoutEditorEvent.NavigateToSearchExercise)
+            }
+
+            is WorkoutEditorAction.AddExerciseNavResult -> {
+                val addExerciseToSupersetId = _addExerciseToSupersetId.value
+
+                if (addExerciseToSupersetId == null) {
+                    addExercise(action.exercise)
+                } else {
+                    addExerciseToSuperset(
+                        supersetId = addExerciseToSupersetId,
+                        exercise = action.exercise
+                    )
+                }
+
+                _addExerciseToSupersetId.update { null }
             }
 
             is WorkoutEditorAction.NavigateBack -> {
@@ -276,14 +289,14 @@ class WorkoutEditorViewModel(
                         }
 
                         is WorkoutExerciseComponentUI.Superset -> {
-                            val workoutExercises =
-                                component.workoutExercises.map { workoutExercise ->
+                            val workoutExercises = component.workoutExercises.map { workoutExercise ->
                                     if (workoutExercise.id == targetedWorkoutExerciseId) {
                                         updateWorkoutExerciseSets(workoutExercise)
                                     } else {
                                         workoutExercise
                                     }
                                 }
+
                             component.copy(workoutExercises = workoutExercises)
                         }
 
@@ -464,9 +477,7 @@ class WorkoutEditorViewModel(
         }
     }
 
-    private fun addExercise(
-        exercise: Exercise,
-    ) {
+    private fun addExercise(exercise: Exercise) {
         _state.update { currentState ->
             val workoutExerciseComponents = currentState.workoutExerciseComponents
             val newWorkoutExerciseComponent = WorkoutExerciseComponentUI.Single(
@@ -484,10 +495,7 @@ class WorkoutEditorViewModel(
         }
     }
 
-    private fun addExerciseToSuperset(
-        supersetId: String,
-        exercise: Exercise,
-    ) {
+    private fun addExerciseToSuperset(supersetId: String, exercise: Exercise) {
         _state.update { currentState ->
             val workoutExerciseComponents = currentState.workoutExerciseComponents
                 .map { component ->
@@ -513,8 +521,8 @@ class WorkoutEditorViewModel(
         }
     }
 
-    private fun saveWorkout() {
-
+    private suspend fun getExerciseById(exerciseId: Long): Exercise? {
+        return exerciseRepository.getExerciseById(exerciseId)
     }
 
     private fun initializeWorkout() {
