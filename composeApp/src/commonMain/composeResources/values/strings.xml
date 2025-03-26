@@ -118,10 +118,19 @@
     <string name="add_set">Add set</string>
     <string name="delete_icon">Delete icon</string>
 
+    <string name="search_exercise_hint">Search exercise..</string>
+    <string name="search_exercise">Search exercise</string>
+    <string name="select_exercise">Select exercise</string>
+
     <string name="less_than_30min">Less than 30 min</string>
     <string name="between_30_and_60min">Between 30 and 60 min</string>
     <string name="between_60_and_90min">Between 60 and 90 min</string>
     <string name="more_than_90min">More than 90 min</string>
+
+    <string name="exercise_type_reps">Reps</string>
+    <string name="exercise_type_weight_and_reps">Weight and reps</string>
+    <string name="exercise_type_time">Time</string>
+    <string name="exercise_type_distance_and_time">Distance and time</string>
 
     <string name="bodyweight">Bodyweight</string>
     <string name="calisthenics">Calisthenics</string>
