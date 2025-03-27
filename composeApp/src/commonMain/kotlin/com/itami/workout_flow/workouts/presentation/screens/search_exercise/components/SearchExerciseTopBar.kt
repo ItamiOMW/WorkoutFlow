@@ -27,6 +27,8 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import workoutflow.composeapp.generated.resources.Res
 import workoutflow.composeapp.generated.resources.close_search
+import workoutflow.composeapp.generated.resources.go_back
+import workoutflow.composeapp.generated.resources.icon_arrow_back
 import workoutflow.composeapp.generated.resources.icon_close
 import workoutflow.composeapp.generated.resources.icon_filter_list
 import workoutflow.composeapp.generated.resources.icon_search
@@ -44,6 +46,7 @@ fun SearchExerciseTopBar(
     showSearchQuery: Boolean,
     scrollBehavior: TopAppBarScrollBehavior,
     onSearchQueryChange: (newValue: String) -> Unit,
+    onNavigateBackClick: () -> Unit,
     onCloseSearchClick: () -> Unit,
     onOpenSearchClick: () -> Unit,
     onFilterClick: () -> Unit,
@@ -109,6 +112,17 @@ fun SearchExerciseTopBar(
                                 }
                             },
                             style = WorkoutFlowTheme.typography.titleSmall,
+                        )
+                    }
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onNavigateBackClick
+                    ) {
+                        Icon(
+                            painter = painterResource(Res.drawable.icon_arrow_back),
+                            contentDescription = stringResource(Res.string.go_back),
+                            modifier = Modifier.size(24.dp)
                         )
                     }
                 },

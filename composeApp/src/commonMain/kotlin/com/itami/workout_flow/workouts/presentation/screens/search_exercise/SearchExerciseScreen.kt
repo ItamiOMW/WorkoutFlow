@@ -72,6 +72,9 @@ private fun SearchExerciseScreen(
                 onSearchQueryChange = { newValue ->
                     onAction(SearchExerciseAction.SearchQueryChange(newValue))
                 },
+                onNavigateBackClick = {
+                    onAction(SearchExerciseAction.NavigateBack)
+                },
                 onOpenSearchClick = {
                     onAction(SearchExerciseAction.OpenSearch)
                 },
