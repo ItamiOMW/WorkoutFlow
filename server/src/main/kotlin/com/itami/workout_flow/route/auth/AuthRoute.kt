@@ -5,7 +5,7 @@ import com.itami.workout_flow.data.mapper.toUserResponse
 import com.itami.workout_flow.auth.firebase.FIREBASE_AUTH
 import com.itami.workout_flow.auth.firebase.FirebasePrincipal
 import com.itami.workout_flow.routes.AuthRoute
-import com.itami.workout_flow.service.auth.AuthService
+import com.itami.workout_flow.service.AuthService
 import com.itami.workout_flow.utils.AppError
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.auth.authenticate

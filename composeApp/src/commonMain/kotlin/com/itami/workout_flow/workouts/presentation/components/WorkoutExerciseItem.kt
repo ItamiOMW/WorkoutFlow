@@ -38,7 +38,7 @@ import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import com.itami.workout_flow.core.domain.model.workout.DistanceUnit
 import com.itami.workout_flow.core.domain.model.workout.WeightUnit
-import com.itami.workout_flow.core.presentation.components.PulseLoadingAnimation
+import com.itami.workout_flow.core.presentation.components.ShimmerBox
 import com.itami.workout_flow.core.presentation.theme.WorkoutFlowTheme
 import com.itami.workout_flow.core.presentation.utils.getName
 import com.itami.workout_flow.core.presentation.utils.getShortName
@@ -243,7 +243,16 @@ private fun ExerciseItem(
             when (painterState) {
                 is AsyncImagePainter.State.Empty,
                 is AsyncImagePainter.State.Loading -> {
-                    PulseLoadingAnimation(modifier = Modifier.size(64.dp))
+                    ShimmerBox(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .clip(shape = WorkoutFlowTheme.shapes.small),
+                        shimmerColors = listOf(
+                            WorkoutFlowTheme.colors.surfaceColors.surfaceLow.copy(alpha = 1.0f),
+                            WorkoutFlowTheme.colors.surfaceColors.onSurfaceVariant.copy(alpha = 0.1f),
+                            WorkoutFlowTheme.colors.surfaceColors.surfaceLow.copy(alpha = 1.0f),
+                        )
+                    )
                 }
 
                 is AsyncImagePainter.State.Error,

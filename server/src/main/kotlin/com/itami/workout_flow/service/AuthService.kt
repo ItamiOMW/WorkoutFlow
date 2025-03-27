@@ -1,4 +1,4 @@
-package com.itami.workout_flow.service.auth
+package com.itami.workout_flow.service
 
 import com.google.firebase.auth.FirebaseToken
 import com.itami.workout_flow.data.mapper.toUpsertUser

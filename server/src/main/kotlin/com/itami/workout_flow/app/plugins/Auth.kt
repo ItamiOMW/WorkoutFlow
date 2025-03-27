@@ -2,7 +2,7 @@ package com.itami.workout_flow.app.plugins
 
 import com.itami.workout_flow.auth.firebase.FirebasePrincipal
 import com.itami.workout_flow.auth.firebase.firebase
-import com.itami.workout_flow.service.auth.AuthService
+import com.itami.workout_flow.service.AuthService
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.auth.Authentication

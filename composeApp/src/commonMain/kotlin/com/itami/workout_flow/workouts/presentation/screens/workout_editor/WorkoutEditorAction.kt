@@ -43,14 +43,9 @@ sealed interface WorkoutEditorAction {
         val supersetId: String,
     ) : WorkoutEditorAction
 
-    data class SupersetWorkoutExerciseNavResult(
-        val supersetId: String,
-        val exercise: Exercise,
-    ) : WorkoutEditorAction
-
     data object AddExercise : WorkoutEditorAction
 
-    data class WorkoutExerciseNavResult(
+    data class AddExerciseNavResult(
         val exercise: Exercise
     ) : WorkoutEditorAction
 

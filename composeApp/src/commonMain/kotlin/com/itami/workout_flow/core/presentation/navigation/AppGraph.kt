@@ -32,6 +32,16 @@ sealed interface AppGraph {
 
         @Serializable
         data class WorkoutEditorScreen(val workoutId: String? = null)
+
+        @Serializable
+        data class SearchExerciseScreen(
+            val launchMode: String = SearchExerciseLaunchMode.Search.name
+        ) {
+            enum class SearchExerciseLaunchMode {
+                Search,
+                Select,
+            }
+        }
     }
 
     @Serializable
