@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.itami.workout_flow.core.domain.repository.AppSettings
+import com.itami.workout_flow.core.domain.repository.ExerciseRepository
 import com.itami.workout_flow.core.domain.repository.WorkoutRepository
 import com.itami.workout_flow.model.Exercise
 import com.itami.workout_flow.workouts.presentation.mapper.toWorkoutExerciseComponentsUI
@@ -38,6 +39,7 @@ class WorkoutEditorViewModel(
     private val _state = MutableStateFlow(WorkoutEditorState())
     val state = _state.asStateFlow()
 
+    private var addExerciseToSupersetId: String? = null
     private var workoutId: String? = null
 
     init {
@@ -49,45 +51,31 @@ class WorkoutEditorViewModel(
     fun onAction(action: WorkoutEditorAction) {
         when (action) {
             is WorkoutEditorAction.ChangeVisibleToOthers -> {
-                _state.update {
-                    it.copy(isVisibleToOthers = action.isVisible)
-                }
+                _state.update { it.copy(isVisibleToOthers = action.isVisible) }
             }
 
             is WorkoutEditorAction.ChangeWorkoutDesc -> {
-                _state.update {
-                    it.copy(workoutDesc = action.newValue)
-                }
+                _state.update { it.copy(workoutDesc = action.newValue) }
             }
 
             is WorkoutEditorAction.ChangeWorkoutName -> {
-                _state.update {
-                    it.copy(workoutName = action.newValue)
-                }
+                _state.update { it.copy(workoutName = action.newValue) }
             }
 
             is WorkoutEditorAction.ChangeDuration -> {
-                _state.update {
-                    it.copy(durationMin = action.durationMin)
-                }
+                _state.update { it.copy(durationMin = action.durationMin) }
             }
 
             is WorkoutEditorAction.ChangeEquipment -> {
-                _state.update {
-                    it.copy(equipment = action.equipments)
-                }
+                _state.update { it.copy(equipment = action.equipments) }
             }
 
             is WorkoutEditorAction.ChangeMuscles -> {
-                _state.update {
-                    it.copy(muscles = action.muscles)
-                }
+                _state.update { it.copy(muscles = action.muscles) }
             }
 
             is WorkoutEditorAction.ChangeWorkoutTypes -> {
-                _state.update {
-                    it.copy(workoutTypes = action.types)
-                }
+                _state.update { it.copy(workoutTypes = action.types) }
             }
 
             is WorkoutEditorAction.ChangeWorkoutExerciseExpandedState -> {
@@ -108,13 +96,6 @@ class WorkoutEditorViewModel(
                 addSet(targetedWorkoutExerciseId = action.workoutExerciseId)
             }
 
-            is WorkoutEditorAction.SupersetWorkoutExerciseNavResult -> {
-                addExerciseToSuperset(
-                    supersetId = action.supersetId,
-                    exercise = action.exercise
-                )
-            }
-
             is WorkoutEditorAction.RemoveSet -> {
                 removeSet(
                     targetedWorkoutExerciseId = action.workoutExerciseId,
@@ -123,93 +104,80 @@ class WorkoutEditorViewModel(
             }
 
             is WorkoutEditorAction.RemoveWorkoutExercise -> {
-                removeWorkoutExercise(
-                    targetWorkoutExerciseId = action.workoutExerciseId
-                )
+                removeWorkoutExercise(targetWorkoutExerciseId = action.workoutExerciseId)
             }
 
             is WorkoutEditorAction.SaveWorkout -> {
-                // SAVE WORKOUT
+                // TODO SAVE WORKOUT
             }
 
             is WorkoutEditorAction.DeleteWorkout -> {
-                _state.update {
-                    it.copy(showDeleteWorkoutDialog = true)
-                }
+                _state.update { it.copy(showDeleteWorkoutDialog = true) }
             }
 
             is WorkoutEditorAction.ConfirmDeleteWorkout -> {
-                _state.update {
-                    it.copy(showDeleteWorkoutDialog = false)
-                }
-                // DELETE WORKOUT
+                _state.update { it.copy(showDeleteWorkoutDialog = false) }
+                // TODO DELETE WORKOUT
             }
 
             is WorkoutEditorAction.AddExercise -> {
+                addExerciseToSupersetId = null
                 sendUiEvent(WorkoutEditorEvent.NavigateToSearchExercise)
-            }
-
-            is WorkoutEditorAction.WorkoutExerciseNavResult -> {
-                addExercise(action.exercise)
             }
 
             is WorkoutEditorAction.AddSupersetExercise -> {
+                addExerciseToSupersetId = action.supersetId
                 sendUiEvent(WorkoutEditorEvent.NavigateToSearchExercise)
             }
 
-            is WorkoutEditorAction.NavigateBack -> {
-                _state.update {
-                    it.copy(showExitDialog = true)
+            is WorkoutEditorAction.AddExerciseNavResult -> {
+                val supersetId = addExerciseToSupersetId
+                if (supersetId == null) {
+                    addExercise(action.exercise)
+                } else {
+                    addExerciseToSuperset(
+                        supersetId = supersetId,
+                        exercise = action.exercise
+                    )
+                    addExerciseToSupersetId = null
                 }
             }
 
+            is WorkoutEditorAction.NavigateBack -> {
+                _state.update { it.copy(showExitDialog = true) }
+            }
+
             is WorkoutEditorAction.ConfirmNavigateBack -> {
-                _state.update {
-                    it.copy(showExitDialog = false)
-                }
+                _state.update { it.copy(showExitDialog = false) }
                 sendUiEvent(WorkoutEditorEvent.NavigateBack)
             }
 
             is WorkoutEditorAction.OpenEditDurationSheet -> {
-                _state.update {
-                    it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.DURATION)
-                }
+                _state.update { it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.DURATION) }
             }
 
             is WorkoutEditorAction.OpenEditEquipmentSheet -> {
-                _state.update {
-                    it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.EQUIPMENT)
-                }
+                _state.update { it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.EQUIPMENT) }
             }
 
             is WorkoutEditorAction.OpenEditMusclesSheet -> {
-                _state.update {
-                    it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.MUSCLES)
-                }
+                _state.update { it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.MUSCLES) }
             }
 
             is WorkoutEditorAction.OpenEditWorkoutTypesSheet -> {
-                _state.update {
-                    it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.WORKOUT_TYPE)
-                }
+                _state.update { it.copy(bottomSheetContent = WorkoutEditorState.BottomSheetContent.WORKOUT_TYPE) }
             }
 
             is WorkoutEditorAction.DismissNavigateBackDialog -> {
-                _state.update {
-                    it.copy(showExitDialog = false)
-                }
+                _state.update { it.copy(showExitDialog = false) }
             }
 
             is WorkoutEditorAction.DismissDeleteWorkoutDialog -> {
-                _state.update {
-                    it.copy(showDeleteWorkoutDialog = false)
-                }
+                _state.update { it.copy(showDeleteWorkoutDialog = false) }
             }
 
             is WorkoutEditorAction.DismissBottomSheet -> {
-                _state.update {
-                    it.copy(bottomSheetContent = null)
-                }
+                _state.update { it.copy(bottomSheetContent = null) }
             }
 
             is WorkoutEditorAction.DetachFromSuperset -> {
@@ -284,6 +252,7 @@ class WorkoutEditorViewModel(
                                         workoutExercise
                                     }
                                 }
+
                             component.copy(workoutExercises = workoutExercises)
                         }
 
@@ -341,6 +310,7 @@ class WorkoutEditorViewModel(
                             )
                     }
                 }
+
             currentState.copy(workoutExerciseComponents = updatedWorkoutExerciseComponents)
         }
     }
@@ -375,6 +345,7 @@ class WorkoutEditorViewModel(
                             )
                     }
                 }
+
             currentState.copy(workoutExerciseComponents = updatedWorkoutExerciseComponents)
         }
     }
@@ -414,8 +385,8 @@ class WorkoutEditorViewModel(
                     }
 
                     is WorkoutExerciseComponentUI.Superset -> {
-                        val remainingExercises =
-                            component.workoutExercises.filterNot { it.id == workoutExerciseId }
+                        val remainingExercises = component.workoutExercises
+                            .filterNot { it.id == workoutExerciseId }
 
                         if (remainingExercises.isNotEmpty()) {
                             updatedComponents.add(
@@ -464,9 +435,7 @@ class WorkoutEditorViewModel(
         }
     }
 
-    private fun addExercise(
-        exercise: Exercise,
-    ) {
+    private fun addExercise(exercise: Exercise) {
         _state.update { currentState ->
             val workoutExerciseComponents = currentState.workoutExerciseComponents
             val newWorkoutExerciseComponent = WorkoutExerciseComponentUI.Single(
@@ -484,10 +453,7 @@ class WorkoutEditorViewModel(
         }
     }
 
-    private fun addExerciseToSuperset(
-        supersetId: String,
-        exercise: Exercise,
-    ) {
+    private fun addExerciseToSuperset(supersetId: String, exercise: Exercise) {
         _state.update { currentState ->
             val workoutExerciseComponents = currentState.workoutExerciseComponents
                 .map { component ->
@@ -511,10 +477,6 @@ class WorkoutEditorViewModel(
 
             currentState.copy(workoutExerciseComponents = workoutExerciseComponents)
         }
-    }
-
-    private fun saveWorkout() {
-
     }
 
     private fun initializeWorkout() {
@@ -542,9 +504,7 @@ class WorkoutEditorViewModel(
     private fun observeDistanceUnit() {
         viewModelScope.launch {
             appSettings.distanceUnit.collectLatest { distanceUnit ->
-                _state.update {
-                    it.copy(distanceUnit = distanceUnit)
-                }
+                _state.update { it.copy(distanceUnit = distanceUnit) }
             }
         }
     }
@@ -552,9 +512,7 @@ class WorkoutEditorViewModel(
     private fun observeWeightUnit() {
         viewModelScope.launch {
             appSettings.weightUnit.collectLatest { weightUnit ->
-                _state.update {
-                    it.copy(weightUnit = weightUnit)
-                }
+                _state.update { it.copy(weightUnit = weightUnit) }
             }
         }
     }

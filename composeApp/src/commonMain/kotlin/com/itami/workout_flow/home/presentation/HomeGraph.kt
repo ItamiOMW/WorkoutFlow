@@ -58,7 +58,7 @@ fun NavGraphBuilder.homeGraph(
                     }
                 },
                 onNavigateToWorkoutDetails = { workoutId ->
-
+                    navController.navigate(AppGraph.Workouts.WorkoutDetailsScreen(workoutId))
                 },
                 onShowLocalSnackbar = onShowLocalSnackbar,
             )

@@ -26,6 +26,7 @@ import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.intLiteral
 import org.jetbrains.exposed.sql.lowerCase
 import org.jetbrains.exposed.sql.or
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.trim
 import java.time.OffsetDateTime
 
@@ -44,27 +45,13 @@ class WorkoutRepositoryImpl : WorkoutRepository {
         timeFilters: List<WorkoutTimeFilter>
     ): List<Workout> {
         return dbQuery {
-            val workoutIds = Workouts
+            Workouts
                 .join(Users, JoinType.INNER, Workouts.authorId, Users.id)
                 .join(WorkoutEquipments, JoinType.LEFT, Workouts.id, WorkoutEquipments.workoutId)
                 .join(WorkoutTypes, JoinType.LEFT, Workouts.id, WorkoutTypes.workoutId)
                 .join(WorkoutMuscles, JoinType.LEFT, Workouts.id, WorkoutMuscles.workoutId)
                 .join(WorkoutFavorites, JoinType.LEFT, Workouts.id, WorkoutFavorites.workoutId)
-                .select(
-                    Workouts.id,
-                    Workouts.createdAt,
-                    Users.id,
-                    WorkoutEquipments.equipment,
-                    WorkoutTypes.workoutType,
-                    WorkoutMuscles.muscle,
-                )
-                .groupBy(
-                    Workouts.id,
-                    Users.id,
-                    WorkoutEquipments.equipment,
-                    WorkoutTypes.workoutType,
-                    WorkoutMuscles.muscle,
-                )
+                .selectAll()
                 .apply {
                     andWhere { Workouts.createdAt.lessEq(createdBeforeCursor) }
 
@@ -123,21 +110,10 @@ class WorkoutRepositoryImpl : WorkoutRepository {
                         }
                     }
                 )
-                .limit(n = pageSize, offset = ((page - 1) * pageSize).toLong()).map {
-                    it[Workouts.id]
+                .limit(n = pageSize, offset = ((page - 1) * pageSize).toLong())
+                .map { resultRow ->
+                    WorkoutEntity.wrapRow(resultRow).toWorkout(userId = userId)
                 }
-
-            return@dbQuery WorkoutEntity
-                .forEntityIds(workoutIds)
-                .sortedWith(
-                    when (workoutsSort) {
-                        WorkoutsSort.Newest -> compareByDescending { it.createdAt }
-                        WorkoutsSort.Oldest -> compareBy { it.createdAt }
-                        WorkoutsSort.MostLiked -> compareByDescending { it.favorites.count { it.isFavorite } }
-                        WorkoutsSort.LeastLiked -> compareBy { it.favorites.count { it.isFavorite } }
-                    }
-                )
-                .map { it.toWorkout(userId) }
         }
     }
 
