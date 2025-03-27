@@ -76,6 +76,7 @@ class DefaultExerciseRepository(
             SELECT DISTINCT e.* FROM exercises e
             LEFT JOIN exercise_steps es ON es.exerciseId = e.id
             LEFT JOIN exercise_equipments ee ON ee.exerciseId = e.id
+            LEFT JOIN exercise_muscle_involvements emi ON emi.exerciseId = e.id
         """.trimIndent()
         )
 
@@ -88,7 +89,7 @@ class DefaultExerciseRepository(
         }
 
         if (muscles.isNotEmpty()) {
-            appendCondition("em.muscle IN (${muscles.joinToString(",") { "'${it.name}'" }})")
+            appendCondition("emi.muscle IN (${muscles.joinToString(",") { "'${it.name}'" }})")
         }
 
         if (equipments.isNotEmpty()) {

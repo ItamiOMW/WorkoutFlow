@@ -4,20 +4,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.cash.paging.PagingData
 import com.itami.workout_flow.core.presentation.theme.WorkoutFlowTheme
 import com.itami.workout_flow.model.Exercise
 import com.itami.workout_flow.workouts.presentation.screens.search_exercise.components.SearchExerciseExerciseList
+import com.itami.workout_flow.workouts.presentation.screens.search_exercise.components.SearchExerciseFilterSheetContent
 import com.itami.workout_flow.workouts.presentation.screens.search_exercise.components.SearchExerciseTopBar
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -54,9 +61,36 @@ private fun SearchExerciseScreen(
     exercisesPagingData: Flow<PagingData<Exercise>>,
     onAction: (action: SearchExerciseAction) -> Unit,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
     val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     val lazyListState = rememberLazyListState()
+
+    if (state.showExerciseFilterSheet) {
+        ModalBottomSheet(
+            containerColor = WorkoutFlowTheme.colors.surfaceColors.surfaceHigh,
+            contentColor = WorkoutFlowTheme.colors.surfaceColors.onSurface,
+            shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+            sheetState = sheetState,
+            onDismissRequest = { onAction(SearchExerciseAction.HideFilterSheet) }
+        ) {
+            SearchExerciseFilterSheetContent(
+                modifier = Modifier.fillMaxWidth(),
+                exercisesFilter = state.exercisesFilter,
+                onApplyClick = { exerciseFilter ->
+                    onAction(SearchExerciseAction.ExerciseFilterChange(exerciseFilter))
+                    coroutineScope.launch { sheetState.hide() }.invokeOnCompletion {
+                        if (!sheetState.isVisible) {
+                            onAction(SearchExerciseAction.HideFilterSheet)
+                        }
+                    }
+                }
+            )
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -76,13 +110,13 @@ private fun SearchExerciseScreen(
                     onAction(SearchExerciseAction.NavigateBack)
                 },
                 onOpenSearchClick = {
-                    onAction(SearchExerciseAction.OpenSearch)
+                    onAction(SearchExerciseAction.ShowSearchQuery)
                 },
                 onCloseSearchClick = {
-                    onAction(SearchExerciseAction.CloseSearch)
+                    onAction(SearchExerciseAction.HideSearchQuery)
                 },
                 onFilterClick = {
-                    onAction(SearchExerciseAction.OpenFilterSheet)
+                    onAction(SearchExerciseAction.ShowFilterSheet)
                 }
             )
         }
