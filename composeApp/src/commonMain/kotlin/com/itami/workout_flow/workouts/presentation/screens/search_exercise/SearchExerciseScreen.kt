@@ -4,13 +4,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.cash.paging.PagingData
 import com.itami.workout_flow.core.presentation.theme.WorkoutFlowTheme
@@ -76,13 +81,13 @@ private fun SearchExerciseScreen(
                     onAction(SearchExerciseAction.NavigateBack)
                 },
                 onOpenSearchClick = {
-                    onAction(SearchExerciseAction.OpenSearch)
+                    onAction(SearchExerciseAction.ShowSearchQuery)
                 },
                 onCloseSearchClick = {
-                    onAction(SearchExerciseAction.CloseSearch)
+                    onAction(SearchExerciseAction.HideSearchQuery)
                 },
                 onFilterClick = {
-                    onAction(SearchExerciseAction.OpenFilterSheet)
+                    onAction(SearchExerciseAction.ShowFilterSheet)
                 }
             )
         }

@@ -6,13 +6,13 @@ sealed interface SearchExerciseAction {
 
     data class SearchQueryChange(val newValue: String) : SearchExerciseAction
 
-    data object OpenSearch : SearchExerciseAction
+    data object ShowSearchQuery : SearchExerciseAction
 
-    data object CloseSearch : SearchExerciseAction
+    data object HideSearchQuery : SearchExerciseAction
 
-    data object OpenFilterSheet : SearchExerciseAction
+    data object ShowFilterSheet : SearchExerciseAction
 
-    data object CloseFilterSheet : SearchExerciseAction
+    data object HideFilterSheet : SearchExerciseAction
 
     data class ExerciseClick(val exercise: Exercise) : SearchExerciseAction
 

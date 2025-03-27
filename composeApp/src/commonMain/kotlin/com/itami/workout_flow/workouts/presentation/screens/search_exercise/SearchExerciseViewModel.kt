@@ -66,19 +66,19 @@ class SearchExerciseViewModel(
                 _state.update { it.copy(searchQuery = action.newValue) }
             }
 
-            SearchExerciseAction.OpenFilterSheet -> {
+            SearchExerciseAction.ShowFilterSheet -> {
                 _state.update { it.copy(showExerciseFilterSheet = true) }
             }
 
-            SearchExerciseAction.CloseFilterSheet -> {
+            SearchExerciseAction.HideFilterSheet -> {
                 _state.update { it.copy(showExerciseFilterSheet = false) }
             }
 
-            SearchExerciseAction.OpenSearch -> {
+            SearchExerciseAction.ShowSearchQuery -> {
                 _state.update { it.copy(showSearchQuery = true) }
             }
 
-            SearchExerciseAction.CloseSearch -> {
+            SearchExerciseAction.HideSearchQuery -> {
                 _state.update { it.copy(showSearchQuery = false, searchQuery = "") }
             }
 
