@@ -21,8 +21,10 @@ import app.cash.paging.PagingData
 import com.itami.workout_flow.core.presentation.theme.WorkoutFlowTheme
 import com.itami.workout_flow.model.Exercise
 import com.itami.workout_flow.workouts.presentation.screens.search_exercise.components.SearchExerciseExerciseList
+import com.itami.workout_flow.workouts.presentation.screens.search_exercise.components.SearchExerciseFilterSheetContent
 import com.itami.workout_flow.workouts.presentation.screens.search_exercise.components.SearchExerciseTopBar
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -59,9 +61,36 @@ private fun SearchExerciseScreen(
     exercisesPagingData: Flow<PagingData<Exercise>>,
     onAction: (action: SearchExerciseAction) -> Unit,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
     val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     val lazyListState = rememberLazyListState()
+
+    if (state.showExerciseFilterSheet) {
+        ModalBottomSheet(
+            containerColor = WorkoutFlowTheme.colors.surfaceColors.surfaceHigh,
+            contentColor = WorkoutFlowTheme.colors.surfaceColors.onSurface,
+            shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+            sheetState = sheetState,
+            onDismissRequest = { onAction(SearchExerciseAction.HideFilterSheet) }
+        ) {
+            SearchExerciseFilterSheetContent(
+                modifier = Modifier.fillMaxWidth(),
+                exercisesFilter = state.exercisesFilter,
+                onApplyClick = { exerciseFilter ->
+                    onAction(SearchExerciseAction.ExerciseFilterChange(exerciseFilter))
+                    coroutineScope.launch { sheetState.hide() }.invokeOnCompletion {
+                        if (!sheetState.isVisible) {
+                            onAction(SearchExerciseAction.HideFilterSheet)
+                        }
+                    }
+                }
+            )
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
