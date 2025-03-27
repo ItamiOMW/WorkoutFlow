@@ -1,18 +1,21 @@
 package com.itami.workout_flow.workouts.presentation.screens.search_exercise
 
 import com.itami.workout_flow.model.Exercise
+import com.itami.workout_flow.model.ExercisesFilter
 
 sealed interface SearchExerciseAction {
 
     data class SearchQueryChange(val newValue: String) : SearchExerciseAction
 
-    data object OpenSearch : SearchExerciseAction
+    data object ShowSearchQuery : SearchExerciseAction
 
-    data object CloseSearch : SearchExerciseAction
+    data object HideSearchQuery : SearchExerciseAction
 
-    data object OpenFilterSheet : SearchExerciseAction
+    data object ShowFilterSheet : SearchExerciseAction
 
-    data object CloseFilterSheet : SearchExerciseAction
+    data object HideFilterSheet : SearchExerciseAction
+
+    data class ExerciseFilterChange(val newExercisesFilter: ExercisesFilter) : SearchExerciseAction
 
     data class ExerciseClick(val exercise: Exercise) : SearchExerciseAction
 

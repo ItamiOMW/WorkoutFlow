@@ -10,6 +10,7 @@ import app.cash.paging.cachedIn
 import com.itami.workout_flow.core.domain.repository.ExerciseRepository
 import com.itami.workout_flow.core.presentation.navigation.AppGraph.Workouts.SearchExerciseScreen.SearchExerciseLaunchMode
 import com.itami.workout_flow.model.Exercise
+import io.ktor.utils.io.locks.synchronized
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -66,19 +67,23 @@ class SearchExerciseViewModel(
                 _state.update { it.copy(searchQuery = action.newValue) }
             }
 
-            SearchExerciseAction.OpenFilterSheet -> {
+            is SearchExerciseAction.ExerciseFilterChange -> {
+                _state.update { it.copy(exercisesFilter = action.newExercisesFilter) }
+            }
+
+            SearchExerciseAction.ShowFilterSheet -> {
                 _state.update { it.copy(showExerciseFilterSheet = true) }
             }
 
-            SearchExerciseAction.CloseFilterSheet -> {
+            SearchExerciseAction.HideFilterSheet -> {
                 _state.update { it.copy(showExerciseFilterSheet = false) }
             }
 
-            SearchExerciseAction.OpenSearch -> {
+            SearchExerciseAction.ShowSearchQuery -> {
                 _state.update { it.copy(showSearchQuery = true) }
             }
 
-            SearchExerciseAction.CloseSearch -> {
+            SearchExerciseAction.HideSearchQuery -> {
                 _state.update { it.copy(showSearchQuery = false, searchQuery = "") }
             }
 

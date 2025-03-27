@@ -121,6 +121,7 @@
     <string name="search_exercise_hint">Search exercise..</string>
     <string name="search_exercise">Search exercise</string>
     <string name="select_exercise">Select exercise</string>
+    <string name="exercise_types">Exercise types</string>
 
     <string name="less_than_30min">Less than 30 min</string>
     <string name="between_30_and_60min">Between 30 and 60 min</string>
